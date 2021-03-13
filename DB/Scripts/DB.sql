@@ -7,6 +7,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema licor_db
 -- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `licor_db` ;
 
 -- -----------------------------------------------------
 -- Schema licor_db
@@ -121,6 +122,23 @@ CREATE INDEX `fk_usuarios_idestado_idx` ON `licor_db`.`Usuarios` (`id_estado` AS
 
 
 -- -----------------------------------------------------
+-- Table `licor_db`.`Clientes`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `licor_db`.`Clientes` ;
+
+CREATE TABLE IF NOT EXISTS `licor_db`.`Clientes` (
+  `id_cliente` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(300) NOT NULL,
+  `nit` VARCHAR(45) NULL,
+  `direccion` VARCHAR(500) NULL,
+  `fecha_registro` TIMESTAMP NULL,
+  PRIMARY KEY (`id_cliente`))
+ENGINE = InnoDB;
+
+CREATE UNIQUE INDEX `nit_UNIQUE` ON `licor_db`.`Clientes` (`nit` ASC);
+
+
+-- -----------------------------------------------------
 -- Table `licor_db`.`Ventas`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `licor_db`.`Ventas` ;
@@ -132,6 +150,7 @@ CREATE TABLE IF NOT EXISTS `licor_db`.`Ventas` (
   `fecha` TIMESTAMP NOT NULL,
   `id_usuario` INT NULL,
   `id_estado` INT NULL,
+  `id_cliente` INT NULL,
   PRIMARY KEY (`id_venta`),
   CONSTRAINT `fk_ventas_idestado`
     FOREIGN KEY (`id_estado`)
@@ -142,12 +161,19 @@ CREATE TABLE IF NOT EXISTS `licor_db`.`Ventas` (
     FOREIGN KEY (`id_usuario`)
     REFERENCES `licor_db`.`Usuarios` (`id_usuario`)
     ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ventas_idcliente`
+    FOREIGN KEY (`id_cliente`)
+    REFERENCES `licor_db`.`Clientes` (`id_cliente`)
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 CREATE INDEX `fk_ventas_idestado_idx` ON `licor_db`.`Ventas` (`id_estado` ASC);
 
 CREATE INDEX `fk_ventas_idusuario_idx` ON `licor_db`.`Ventas` (`id_usuario` ASC);
+
+CREATE INDEX `fk_ventas_idcliente_idx` ON `licor_db`.`Ventas` (`id_cliente` ASC);
 
 
 -- -----------------------------------------------------

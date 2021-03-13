@@ -3,8 +3,18 @@ package com.aglayatech.licorstore.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "marcas_producto")
 public class MarcaProducto implements Serializable {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idMarcaProducto;
 	private String marca;
 	private Date fechaRegistro;
@@ -45,7 +55,13 @@ public class MarcaProducto implements Serializable {
 	public void setIdUsuario(Integer idUsuario) {
 		this.idUsuario = idUsuario;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "IMarcaProductoRepository [idMarcaProducto=" + idMarcaProducto + ", marca=" + marca + ", fechaRegistro="
+				+ fechaRegistro + ", idUsuario=" + idUsuario + "]";
+	}
+
 	private static final long serialVersionUID = 1L;
 
 }

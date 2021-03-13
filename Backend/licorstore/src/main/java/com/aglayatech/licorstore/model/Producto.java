@@ -3,21 +3,49 @@ package com.aglayatech.licorstore.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@Entity
+@Table(name = "productos")
 public class Producto implements Serializable {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idProducto;
 	private String codProducto;
 	private String nombre;
 	private Double precioCompra;
 	private Double precioVenta;
 	private float porcentajeGanancia;
+	
+	@Temporal(TemporalType.DATE)
 	private Date fechaVencimiento;
 	private int stock;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_marca_producto")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private MarcaProducto marcaProducto;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_tipo_producto")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private TipoProducto tipoProducto;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_estado")
+	@JsonIgnoreProperties({ "hiberanteLazyInitializer", "handler" })
 	private Estado estado;
 
 	public Producto() {
@@ -110,6 +138,14 @@ public class Producto implements Serializable {
 
 	public void setEstado(Estado estado) {
 		this.estado = estado;
+	}
+
+	@Override
+	public String toString() {
+		return "Producto [idProducto=" + idProducto + ", codProducto=" + codProducto + ", nombre=" + nombre
+				+ ", precioCompra=" + precioCompra + ", precioVenta=" + precioVenta + ", porcentajeGanancia="
+				+ porcentajeGanancia + ", fechaVencimiento=" + fechaVencimiento + ", stock=" + stock
+				+ ", marcaProducto=" + marcaProducto + ", tipoProducto=" + tipoProducto + ", estado=" + estado + "]";
 	}
 
 	private static final long serialVersionUID = 1L;
