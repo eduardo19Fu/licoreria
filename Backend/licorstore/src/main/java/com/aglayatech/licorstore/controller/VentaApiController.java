@@ -1,5 +1,5 @@
 package com.aglayatech.licorstore.controller;
 
-public class VentaController {
+public class VentaApiController {
 
 }

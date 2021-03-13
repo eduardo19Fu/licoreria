@@ -240,6 +240,23 @@ ENGINE = InnoDB;
 CREATE INDEX `fk_usuarios_perfil_idperfil_idx` ON `licor_db`.`Usuarios_Perfiles` (`id_perfil` ASC);
 
 
+-- -----------------------------------------------------
+-- Table `licor_db`.`Historico`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `licor_db`.`Historico` ;
+
+CREATE TABLE IF NOT EXISTS `licor_db`.`Historico` (
+  `id_registro` INT NOT NULL AUTO_INCREMENT,
+  `no_factura` INT NULL,
+  `cliente` VARCHAR(100) NULL,
+  `nit` VARCHAR(45) NULL,
+  `fecha_eliminacion` TIMESTAMP NULL,
+  `fecha_venta` TIMESTAMP NULL,
+  `usuario` VARCHAR(200) NULL,
+  PRIMARY KEY (`id_registro`))
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

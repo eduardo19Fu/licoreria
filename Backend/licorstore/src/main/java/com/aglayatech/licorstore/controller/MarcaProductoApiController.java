@@ -21,7 +21,7 @@ import com.aglayatech.licorstore.service.IMarcaProductoService;
 
 @RestController
 @RequestMapping(value = "/marcas")
-public class MarcaProductoController {
+public class MarcaProductoApiController {
 	
 	@Autowired
 	private IMarcaProductoService serviceMarca;

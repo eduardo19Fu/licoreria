@@ -21,7 +21,7 @@ import com.aglayatech.licorstore.service.ITipoProductoService;
 
 @RestController
 @RequestMapping(value = "/tipos-producto")
-public class TipoProductoController {
+public class TipoProductoApiController {
 	
 	@Autowired
 	private ITipoProductoService serviceTipo;
