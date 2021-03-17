@@ -11,6 +11,10 @@ import { TiposProductoComponent } from './components/tipos-producto/tipos-produc
 import { MarcasProductoComponent } from './components/marcas-producto/marcas-producto.component';
 import { ErrorComponent } from './components/error/error.component';
 import { VentasComponent } from './components/ventas/ventas.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { CreateProductComponent } from './components/productos/create-product/create-product.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,11 @@ import { VentasComponent } from './components/ventas/ventas.component';
     TiposProductoComponent,
     MarcasProductoComponent,
     ErrorComponent,
-    VentasComponent
+    VentasComponent,
+    HeaderComponent,
+    FooterComponent,
+    SidebarComponent,
+    CreateProductComponent
   ],
   imports: [
     BrowserModule,

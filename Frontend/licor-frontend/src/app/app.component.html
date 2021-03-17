@@ -1,2 +1,20 @@
-<h1>{{title}}</h1>
-<router-outlet></router-outlet>
+<div class="wrapper">
+    <!--MENU SUPERIOR-->    
+    <app-header></app-header>
+
+    <!--MENU LATERAL-->
+    <app-sidebar></app-sidebar>
+    <div class="content-wrapper">
+
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <router-outlet></router-outlet>
+            </div><!-- /.container-fluid -->
+        </section>
+        <!--Footer-->
+    </div>
+    <app-footer></app-footer>
+    
+</div>
