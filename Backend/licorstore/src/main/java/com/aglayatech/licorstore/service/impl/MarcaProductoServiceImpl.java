@@ -47,4 +47,9 @@ public class MarcaProductoServiceImpl implements IMarcaProductoService {
 		return marcaProductoRepo.save(marca);
 	}
 
+	@Override
+	public void deleteMarca(Integer idMarca) {
+		marcaProductoRepo.deleteById(idMarca);
+	}
+
 }

@@ -20,5 +20,8 @@ public interface IMarcaProductoService {
 
 	// Actualiza en la base de datos, la marca que coincida con el id del registro seleccionado por el usuario
 	public MarcaProducto updateMarca(MarcaProducto marca);
+	
+	// Eliminar registro de la base de datos
+	public void deleteMarca(Integer idMarca);
 
 }

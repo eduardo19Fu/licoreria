@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "marcas_producto")
@@ -17,6 +19,8 @@ public class MarcaProducto implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idMarcaProducto;
 	private String marca;
+	
+	@Temporal(TemporalType.DATE)
 	private Date fechaRegistro;
 	private Integer idUsuario = null;
 
