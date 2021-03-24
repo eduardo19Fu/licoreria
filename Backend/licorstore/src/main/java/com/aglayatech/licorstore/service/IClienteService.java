@@ -14,8 +14,6 @@ public interface IClienteService {
 	
 	public Cliente findByNit(String nit);
 	
-	public Cliente create(Cliente cliente);
+	public Cliente save(Cliente cliente);
 	
-	public Cliente update(Cliente cliente);
-
 }

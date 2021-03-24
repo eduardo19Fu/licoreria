@@ -1,8 +1,6 @@
 package com.aglayatech.licorstore.service.impl;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -20,16 +18,12 @@ public class ClienteServiceImpl implements IClienteService {
 	
 	@Override
 	public List<Cliente> findAll() {
-		return repoCliente.findAll(Sort.by(Direction.ASC, "nombre"));
+		return repoCliente.findAll(Sort.by(Direction.ASC, "idCliente"));
 	}
 	
 	@Override
 	public Cliente findById(Integer idcliente) {
-		Optional<Cliente> optional = repoCliente.findById(idcliente);
-		if(optional.isPresent())
-			return optional.get();
-		else
-			return null;
+		return repoCliente.findById(idcliente).orElse(null);
 	}
 
 	@Override
@@ -43,12 +37,7 @@ public class ClienteServiceImpl implements IClienteService {
 	}
 
 	@Override
-	public Cliente create(Cliente cliente) {
-		return repoCliente.save(cliente);
-	}
-
-	@Override
-	public Cliente update(Cliente cliente) {
+	public Cliente save(Cliente cliente) {
 		return repoCliente.save(cliente);
 	}
 

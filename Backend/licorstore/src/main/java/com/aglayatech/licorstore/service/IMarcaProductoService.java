@@ -16,10 +16,7 @@ public interface IMarcaProductoService {
 	public List<MarcaProducto> findByMarca(String marca);
 	
 	// Registra en la base de datos una marca nueva, ingresada por el usuario y devuelve un json con los valores ingresados
-	public MarcaProducto createMarca(MarcaProducto marca);
-
-	// Actualiza en la base de datos, la marca que coincida con el id del registro seleccionado por el usuario
-	public MarcaProducto updateMarca(MarcaProducto marca);
+	public MarcaProducto save(MarcaProducto marca);
 	
 	// Eliminar registro de la base de datos
 	public void deleteMarca(Integer idMarca);

@@ -12,8 +12,6 @@ public interface ITipoProductoService {
 	
 	public TipoProducto findById(Integer id);
 	
-	public TipoProducto create(TipoProducto tipo);
-	
-	public TipoProducto update(TipoProducto tipo);
+	public TipoProducto save(TipoProducto tipo);
 
 }

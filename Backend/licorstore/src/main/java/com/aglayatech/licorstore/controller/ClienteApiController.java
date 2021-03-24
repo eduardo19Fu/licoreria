@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,24 +20,25 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aglayatech.licorstore.model.Cliente;
 import com.aglayatech.licorstore.service.IClienteService;
 
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping(value = "/clientes")
+@RequestMapping(value = "/api")
 public class ClienteApiController {
 
 	@Autowired
 	private IClienteService serviceCliente;
 
-	@GetMapping(value = "/index")
+	@GetMapping(value = "/clientes")
 	public List<Cliente> index() {
 		return serviceCliente.findAll();
 	}
 
-	@GetMapping(value = "/list/{name}")
+	@GetMapping(value = "/clientes/{name}")
 	public List<Cliente> findByName(@PathVariable("name") String name) {
 		return serviceCliente.findByName(name);
 	}
 
-	@GetMapping(value = "/cliente/{id}")
+	@GetMapping(value = "/clientes/{id}")
 	public ResponseEntity<?> findById(@PathVariable("id") int id) {
 
 		Cliente cliente = null;
@@ -58,14 +60,14 @@ public class ClienteApiController {
 		return new ResponseEntity<Cliente>(cliente, HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/create")
+	@PostMapping(value = "/clientes")
 	public ResponseEntity<?> create(@RequestBody Cliente cliente) {
 		
 		Cliente newCliente = null;
 		Map<String, Object> response = new HashMap<>();
 		
 		try {
-			newCliente = serviceCliente.create(cliente);
+			newCliente = serviceCliente.save(cliente);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "¡Ha ocurrido un error en la base de datos!");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -82,9 +84,30 @@ public class ClienteApiController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
-	@PutMapping(value = "/update")
+	@SuppressWarnings("null")
+	@PutMapping(value = "/clientes")
 	public ResponseEntity<?> update(@RequestBody Cliente cliente) {
-		return null;
+		
+		Cliente clienteUpdated = null;
+		Map<String, Object> response = new HashMap<>();
+		
+		if(cliente == null) {
+			response.put("mensaje", "¡El cliente con ID: ".concat(cliente.getIdCliente().toString())
+					.concat(" no existe en la base de datos!"));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		
+		try {
+			clienteUpdated = serviceCliente.save(cliente);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "¡Ha ocurrido un error en la base de datos!");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		response.put("mensaje", "¡El cliente ha sido actualizado con éxito!");
+		response.put("cliente", clienteUpdated);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 
 }

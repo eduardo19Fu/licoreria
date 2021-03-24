@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,19 +20,20 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aglayatech.licorstore.model.TipoProducto;
 import com.aglayatech.licorstore.service.ITipoProductoService;
 
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping(value = "/tipos-producto")
+@RequestMapping(value = "/api")
 public class TipoProductoApiController {
 	
 	@Autowired
 	private ITipoProductoService serviceTipo;
 	
-	@GetMapping(value = "/index")
+	@GetMapping(value = "/tipos-producto")
 	public List<TipoProducto> index(){
 		return serviceTipo.findAll();
 	}
 	
-	@GetMapping(value = "/tipo/{id}")
+	@GetMapping(value = "/tipos-producto/{id}")
 	public ResponseEntity<?> findById(@PathVariable("id") int id){
 		
 		TipoProducto tipo = null;
@@ -53,14 +55,14 @@ public class TipoProductoApiController {
 		return new ResponseEntity<TipoProducto>(tipo, HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/create")
+	@PostMapping(value = "/tipos-producto")
 	public ResponseEntity<?> create(@RequestBody TipoProducto tipoProducto){
 		
 		TipoProducto nuevoTipo = null;
 		Map<String, Object> response = new HashMap<>();
 		
 		try {
-			nuevoTipo = serviceTipo.create(tipoProducto); // recibe un objeto de TipoProducto, como respuesta por el registro llevado a cabo por jpa
+			nuevoTipo = serviceTipo.save(tipoProducto); // recibe un objeto de TipoProducto, como respuesta por el registro llevado a cabo por jpa
 		} catch (DataAccessException e) {
 			response.put("mensaje", "¡Ha ocurrido un error en la base de datos!");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -78,7 +80,7 @@ public class TipoProductoApiController {
 	}
 	
 	@SuppressWarnings("null")
-	@PutMapping(value = "/update")
+	@PutMapping(value = "/tipos-producto")
 	public ResponseEntity<?> update(@RequestBody TipoProducto tipoProducto){
 		
 		TipoProducto tipoUpdated = null;
@@ -91,7 +93,7 @@ public class TipoProductoApiController {
 		}
 		
 		try {
-			tipoUpdated = serviceTipo.update(tipoProducto);
+			tipoUpdated = serviceTipo.save(tipoProducto);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "¡Ha ocurrido un error en la base de datos!");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));

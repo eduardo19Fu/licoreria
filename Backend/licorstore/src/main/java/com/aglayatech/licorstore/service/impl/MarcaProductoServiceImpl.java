@@ -1,8 +1,6 @@
 package com.aglayatech.licorstore.service.impl;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -25,11 +23,7 @@ public class MarcaProductoServiceImpl implements IMarcaProductoService {
 
 	@Override
 	public MarcaProducto findById(Integer idMarca) {
-		Optional<MarcaProducto> optional = marcaProductoRepo.findById(idMarca);
-		if(optional.isPresent())
-			return optional.get();
-		else
-			return null;
+		return marcaProductoRepo.findById(idMarca).orElse(null);
 	}
 
 	@Override
@@ -38,12 +32,7 @@ public class MarcaProductoServiceImpl implements IMarcaProductoService {
 	}
 
 	@Override
-	public MarcaProducto createMarca(MarcaProducto marca) {
-		return marcaProductoRepo.save(marca);
-	}
-
-	@Override
-	public MarcaProducto updateMarca(MarcaProducto marca) {
+	public MarcaProducto save(MarcaProducto marca) {
 		return marcaProductoRepo.save(marca);
 	}
 

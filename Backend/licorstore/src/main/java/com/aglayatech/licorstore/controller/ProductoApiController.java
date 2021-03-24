@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,19 +20,20 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aglayatech.licorstore.model.Producto;
 import com.aglayatech.licorstore.service.IProductoService;
 
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping(value = "/productos")
+@RequestMapping(value = "/api")
 public class ProductoApiController {
 	
 	@Autowired
 	private IProductoService serviceProducto;
 	
-	@GetMapping(value = "/index")
+	@GetMapping(value = "/productos")
 	public List<Producto> index(){
 		return serviceProducto.findAll();
 	}
 	
-	@GetMapping(value = "/producto/{id}")
+	@GetMapping(value = "/productos/{id}")
 	public ResponseEntity<?> findById(@PathVariable("id") int idproducto){
 		
 		Producto producto = null;
@@ -52,7 +55,7 @@ public class ProductoApiController {
 		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/create")
+	@PostMapping(value = "/productos")
 	public ResponseEntity<?> create(@RequestBody Producto producto){
 		
 		Producto newProducto = null;
@@ -74,6 +77,11 @@ public class ProductoApiController {
 		response.put("mensaje", "¡Producto registrado con éxito!");
 		response.put("producto", newProducto);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+	}
+	
+	@PutMapping(value = "/productos")
+	public ResponseEntity<?> update(@RequestBody Producto producto){
+		return null;
 	}
 
 }

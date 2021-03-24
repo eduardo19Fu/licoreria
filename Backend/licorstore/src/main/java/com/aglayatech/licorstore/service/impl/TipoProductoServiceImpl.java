@@ -1,8 +1,6 @@
 package com.aglayatech.licorstore.service.impl;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -20,7 +18,7 @@ public class TipoProductoServiceImpl implements ITipoProductoService {
 	
 	@Override
 	public List<TipoProducto> findAll() {
-		return repoTipo.findAll(Sort.by(Direction.ASC, "id_tipo_producto"));
+		return repoTipo.findAll(Sort.by(Direction.ASC, "idTipoProducto"));
 	}
 
 	@Override
@@ -30,20 +28,11 @@ public class TipoProductoServiceImpl implements ITipoProductoService {
 
 	@Override
 	public TipoProducto findById(Integer id) {
-		Optional<TipoProducto> optional = repoTipo.findById(id);
-		if(optional.isPresent())
-			return optional.get();
-		else
-			return null;
+		return repoTipo.findById(id).orElse(null);
 	}
 
 	@Override
-	public TipoProducto create(TipoProducto tipo) {
-		return repoTipo.save(tipo);
-	}
-
-	@Override
-	public TipoProducto update(TipoProducto tipo) {
+	public TipoProducto save(TipoProducto tipo) {
 		return repoTipo.save(tipo);
 	}
 

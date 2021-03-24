@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,20 +21,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aglayatech.licorstore.model.MarcaProducto;
 import com.aglayatech.licorstore.service.IMarcaProductoService;
 
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping(value = "/marcas")
+@RequestMapping(value = "/api")
 public class MarcaProductoApiController {
 	
 	@Autowired
 	private IMarcaProductoService serviceMarca;
 	
-	@GetMapping(value = "/index")
+	@GetMapping(value = "/marcas")
 	public List<MarcaProducto> index(){
 		List<MarcaProducto> list = serviceMarca.findAll();
 		return list;
 	}
 	
-	@GetMapping(value = "/marca/{id}")
+	@GetMapping(value = "/marcas/{id}")
 	public ResponseEntity<?> getById(@PathVariable("id") Integer id) {
 		
 		MarcaProducto marca = null;
@@ -55,13 +57,13 @@ public class MarcaProductoApiController {
 		return new ResponseEntity<MarcaProducto>(marca, HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/create")
+	@PostMapping(value = "/marcas")
 	public ResponseEntity<?> create(@RequestBody MarcaProducto marca) {
 		
 		Map<String, Object> response = new HashMap<>();
 		
 		try {
-			serviceMarca.createMarca(marca);
+			serviceMarca.save(marca);
 		} catch(DataAccessException ex) {
 			response.put("mensaje", "Ha ocurrido un error en la base de datos!");
 			response.put("error", ex.getMessage().concat(": ").concat(ex.getMostSpecificCause().getMessage()));
@@ -74,13 +76,13 @@ public class MarcaProductoApiController {
 	}
 	
 	// Controlador que permite actualizar el registro enviado por protocolo Http PUT
-	@PutMapping(value = "/update")
+	@PutMapping(value = "/marca")
 	public ResponseEntity<?> update(@RequestBody MarcaProducto marca){
 		
 		Map<String, Object> response = new HashMap<>();
 		
 		try {
-			serviceMarca.updateMarca(marca);
+			serviceMarca.save(marca);
 		} catch(DataAccessException e) {
 			response.put("mensaje", "Ha ocurrido un error en la base de datos!");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -97,7 +99,7 @@ public class MarcaProductoApiController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping(value = "/delete/{id}")
+	@DeleteMapping(value = "/marcas/{id}")
 	public MarcaProducto delete(@PathVariable("id") int id) {
 		MarcaProducto marca = serviceMarca.findById(id);
 		
