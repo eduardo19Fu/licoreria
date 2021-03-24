@@ -1,9 +1,10 @@
 export class Estado {
-    private idEstado: number;
-    private estado: string;
+    idEstado: number;
+    estado: string;
 
     constructor(){}
 
+    /*
     public getIdEstado(): number{
         return this.idEstado;
     }
@@ -19,4 +20,5 @@ export class Estado {
     public setEstado(estado: string){
         this.estado = estado;
     }
+    */
 }

@@ -1,11 +1,12 @@
 export class MarcaProducto {
-    private idMarcaProducto: number;
-    private marca: string;
-    private fechaRegistro: Date;
-    private idUsuario: number;
+    idMarcaProducto: number;
+    marca: string;
+    fechaRegistro: Date;
+    idUsuario: number;
 
     constructor(){}
 
+    /*
     public getIdMarcaProducto(): number{
         return this.idMarcaProducto;
     }
@@ -37,4 +38,5 @@ export class MarcaProducto {
     public setIdUsuario(idUsuario: number){
         this.idUsuario = idUsuario;
     }
+    */
 }

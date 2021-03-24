@@ -8,6 +8,7 @@ import { TiposProductoComponent } from './components/tipos-producto/tipos-produc
 import { MarcasProductoComponent } from './components/marcas-producto/marcas-producto.component';
 import { ErrorComponent } from './components/error/error.component';
 import { CreateProductComponent } from './components/productos/create-product/create-product.component';
+import { CreateMarcaComponent } from './components/marcas-producto/create-marca/create-marca.component';
 
 const appRoutes: Routes = [
     {path: '', component: HomeComponent},
@@ -17,6 +18,7 @@ const appRoutes: Routes = [
     {path: 'productos/create', component: CreateProductComponent},
     {path: 'tipos-producto', component: TiposProductoComponent},
     {path: 'marcas-producto', component: MarcasProductoComponent},
+    {path: 'marcas/create', component: CreateMarcaComponent},
     {path: '**', component: ErrorComponent}
 ];
 

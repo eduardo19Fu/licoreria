@@ -1,16 +1,19 @@
 export class Cliente {
 
-    private idCliente: number;
-    private nombre: string;
-    private nit: string;
-    private direccion: string;
+    idCliente: number;
+    nombre: string;
+    nit: string;
+    direccion: string;
+    fechaRegistro: Date;
 
     constructor() { }
 
+    /*
     public getIdCliente(): number {
         return this.idCliente;
     }
 
+    // tslint:disable-next-line: typedef
     public setIdCliente(idCliente: number) {
         this.idCliente = idCliente;
     }
@@ -19,6 +22,7 @@ export class Cliente {
         return this.nombre;
     }
 
+    // tslint:disable-next-line: typedef
     public setNombre(nombre: string) {
         this.nombre = nombre;
     }
@@ -27,6 +31,7 @@ export class Cliente {
         return this.nit;
     }
 
+    // tslint:disable-next-line: typedef
     public setNit(nit: string) {
         this.nit = nit;
     }
@@ -35,7 +40,9 @@ export class Cliente {
         return this.direccion;
     }
 
+    // tslint:disable-next-line: typedef
     public setDireccion(direccion: string) {
         this.direccion = direccion;
     }
+    */
 }

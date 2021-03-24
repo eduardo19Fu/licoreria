@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
@@ -15,6 +16,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { CreateProductComponent } from './components/productos/create-product/create-product.component';
+import { ListClientesComponent } from './components/clientes/list-clientes/list-clientes.component';
+import { CreateMarcaComponent } from './components/marcas-producto/create-marca/create-marca.component';
 
 @NgModule({
   declarations: [
@@ -29,10 +32,13 @@ import { CreateProductComponent } from './components/productos/create-product/cr
     HeaderComponent,
     FooterComponent,
     SidebarComponent,
-    CreateProductComponent
+    CreateProductComponent,
+    ListClientesComponent,
+    CreateMarcaComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule, // Importando el cliente http para realizar peticiones al backend
     routing,
     FormsModule
   ],
