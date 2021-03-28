@@ -36,4 +36,9 @@ public class TipoProductoServiceImpl implements ITipoProductoService {
 		return repoTipo.save(tipo);
 	}
 
+	@Override
+	public void delete(Integer idtipo) {
+		repoTipo.deleteById(idtipo);
+	}
+
 }

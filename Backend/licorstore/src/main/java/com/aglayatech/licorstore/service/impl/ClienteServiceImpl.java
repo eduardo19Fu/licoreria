@@ -41,4 +41,9 @@ public class ClienteServiceImpl implements IClienteService {
 		return repoCliente.save(cliente);
 	}
 
+	@Override
+	public void delete(Integer idcliente) {
+		repoCliente.deleteById(idcliente);
+	}
+
 }

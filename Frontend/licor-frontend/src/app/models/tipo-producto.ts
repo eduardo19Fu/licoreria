@@ -1,11 +1,11 @@
 export class TipoProducto {
-    private idTipoProducto: number;
-    private tipoProducto: string;
-    private fechaRegistro: Date;
-    private idUsuario: number;
+    idTipoProducto: number;
+    tipoProducto: string;
+    fechaRegistro: Date;
+    idUsuario: number;
 
     constructor(){}
-
+/*
     public getIdTipoProducto(): number{
         return this.idTipoProducto;
     }
@@ -41,4 +41,5 @@ export class TipoProducto {
     public setIdUsuario(idUsuario: number){
         this.idUsuario = idUsuario;
     }
+    */
 }

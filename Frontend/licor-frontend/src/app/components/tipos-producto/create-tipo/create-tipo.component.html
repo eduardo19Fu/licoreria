@@ -23,26 +23,26 @@
                 <div class="card-body">
 
                     <div class="form-group">
-                        <label for="marca">Marca de Producto</label>
-                        <input type="text" class="form-control" id="marca" name="marca"
-                            [(ngModel)]="marcaProducto.marca">
+                        <label for="marca">Tipo de Producto</label>
+                        <input type="text" class="form-control" name="tipoProducto"
+                            [(ngModel)]="tipoProducto.tipoProducto">
                     </div>
 
                 </div>
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                    <button type="submit" role="button" class="btn btn-primary" (click)="create()"
-                        *ngIf="!marcaProducto.idMarcaProducto else elseBlock">
+                    <button type="submit" role="button" class="btn btn-primary"
+                        *ngIf="!tipoProducto.idTipoProducto else elseblock" (click)="create()">
                         Guardar
                     </button>
 
-                    <ng-template #elseBlock>
+                    <ng-template #elseblock>
                         <button type="submit" role="button" class="btn btn-primary" (click)="update()">
                             Actualizar
                         </button>
                     </ng-template>
-                    
+
                 </div>
             </form>
         </div>

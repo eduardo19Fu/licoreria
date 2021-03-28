@@ -69,9 +69,12 @@ CREATE TABLE IF NOT EXISTS `licor_db`.`Productos` (
   `precio_compra` DECIMAL(10,2) NULL,
   `precio_venta` DECIMAL(10,2) NOT NULL,
   `porcentaje_ganancia` FLOAT NOT NULL,
+  `fecha_ingreso` DATE NULL,
   `fecha_vencimiento` DATE NULL,
   `id_estado` INT NULL,
   `stock` INT NOT NULL,
+  `imagen` VARCHAR(500) NULL,
+  `fecha_registro` TIMESTAMP NULL,
   PRIMARY KEY (`id_producto`),
   CONSTRAINT `fk_producto_idtipo`
     FOREIGN KEY (`id_tipo_producto`)
@@ -165,8 +168,8 @@ CREATE TABLE IF NOT EXISTS `licor_db`.`Ventas` (
   CONSTRAINT `fk_ventas_idcliente`
     FOREIGN KEY (`id_cliente`)
     REFERENCES `licor_db`.`Clientes` (`id_cliente`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 CREATE INDEX `fk_ventas_idestado_idx` ON `licor_db`.`Ventas` (`id_estado` ASC);

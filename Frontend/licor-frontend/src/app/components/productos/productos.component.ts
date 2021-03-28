@@ -5,7 +5,6 @@ import { ProductoService } from '../../services/producto.service';
 @Component({
   selector: 'app-productos',
   templateUrl: './productos.component.html',
-  styleUrls: ['./productos.component.css'],
   providers: [ProductoService]
 })
 export class ProductosComponent implements OnInit {
@@ -20,6 +19,11 @@ export class ProductosComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.getProductos();
+  }
+
+  getProductos(): void{
+    // tslint:disable-next-line: deprecation
     this.productoService.getProductos().subscribe(
       productos => this.productos = productos,
       error => { }

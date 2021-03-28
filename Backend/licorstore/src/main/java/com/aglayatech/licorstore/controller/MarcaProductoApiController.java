@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aglayatech.licorstore.model.MarcaProducto;
@@ -76,7 +77,7 @@ public class MarcaProductoApiController {
 	}
 	
 	// Controlador que permite actualizar el registro enviado por protocolo Http PUT
-	@PutMapping(value = "/marca")
+	@PutMapping(value = "/marcas")
 	public ResponseEntity<?> update(@RequestBody MarcaProducto marca){
 		
 		Map<String, Object> response = new HashMap<>();
@@ -100,11 +101,9 @@ public class MarcaProductoApiController {
 	}
 	
 	@DeleteMapping(value = "/marcas/{id}")
-	public MarcaProducto delete(@PathVariable("id") int id) {
-		MarcaProducto marca = serviceMarca.findById(id);
-		
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void delete(@PathVariable("id") int id) {
 		serviceMarca.deleteMarca(id);
-		return marca;
 	}
 
 }

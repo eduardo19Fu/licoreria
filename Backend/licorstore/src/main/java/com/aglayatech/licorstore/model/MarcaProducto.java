@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,12 +21,18 @@ public class MarcaProducto implements Serializable {
 	private Integer idMarcaProducto;
 	private String marca;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaRegistro;
+	
 	private Integer idUsuario = null;
 
 	public MarcaProducto() {
 		// Constructor;
+	}
+	
+	@PrePersist
+	public void configFechaRegistro() {
+		this.fechaRegistro = new Date();
 	}
 
 	public Integer getIdMarcaProducto() {

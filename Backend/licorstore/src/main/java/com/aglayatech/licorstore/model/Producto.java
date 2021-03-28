@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,14 +24,23 @@ public class Producto implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idProducto;
+
 	private String codProducto;
 	private String nombre;
 	private Double precioCompra;
 	private Double precioVenta;
 	private float porcentajeGanancia;
-	
+	private String imagen;
+
 	@Temporal(TemporalType.DATE)
 	private Date fechaVencimiento;
+
+	@Temporal(TemporalType.DATE)
+	private Date fechaIngreso;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaRegistro;
+
 	private int stock;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -45,11 +55,16 @@ public class Producto implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_estado")
-	@JsonIgnoreProperties({ "hiberanteLazyInitializer", "handler" })
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Estado estado;
 
 	public Producto() {
-		// super();
+		this.imagen = null;
+	}
+	
+	@PrePersist
+	public void configFechaRegistro() {
+		this.fechaRegistro = new Date();
 	}
 
 	public Integer getIdProducto() {
@@ -140,11 +155,36 @@ public class Producto implements Serializable {
 		this.estado = estado;
 	}
 
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
+	}
+
+	public Date getFechaIngreso() {
+		return fechaIngreso;
+	}
+
+	public void setFechaIngreso(Date fechaIngreso) {
+		this.fechaIngreso = fechaIngreso;
+	}
+
+	public Date getFechaRegistro() {
+		return fechaRegistro;
+	}
+
+	public void setFechaRegistro(Date fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
+
 	@Override
 	public String toString() {
 		return "Producto [idProducto=" + idProducto + ", codProducto=" + codProducto + ", nombre=" + nombre
 				+ ", precioCompra=" + precioCompra + ", precioVenta=" + precioVenta + ", porcentajeGanancia="
-				+ porcentajeGanancia + ", fechaVencimiento=" + fechaVencimiento + ", stock=" + stock
+				+ porcentajeGanancia + ", imagen=" + imagen + ", fechaVencimiento=" + fechaVencimiento
+				+ ", fechaIngreso=" + fechaIngreso + ", fechaRegistro=" + fechaRegistro + ", stock=" + stock
 				+ ", marcaProducto=" + marcaProducto + ", tipoProducto=" + tipoProducto + ", estado=" + estado + "]";
 	}
 

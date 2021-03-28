@@ -16,8 +16,9 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { CreateProductComponent } from './components/productos/create-product/create-product.component';
-import { ListClientesComponent } from './components/clientes/list-clientes/list-clientes.component';
 import { CreateMarcaComponent } from './components/marcas-producto/create-marca/create-marca.component';
+import { CreateTipoComponent } from './components/tipos-producto/create-tipo/create-tipo.component';
+import { CreateClienteComponent } from './components/clientes/create-cliente/create-cliente.component';
 
 @NgModule({
   declarations: [
@@ -33,8 +34,9 @@ import { CreateMarcaComponent } from './components/marcas-producto/create-marca/
     FooterComponent,
     SidebarComponent,
     CreateProductComponent,
-    ListClientesComponent,
-    CreateMarcaComponent
+    CreateMarcaComponent,
+    CreateTipoComponent,
+    CreateClienteComponent
   ],
   imports: [
     BrowserModule,

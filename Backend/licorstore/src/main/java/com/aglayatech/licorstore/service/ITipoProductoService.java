@@ -13,5 +13,7 @@ public interface ITipoProductoService {
 	public TipoProducto findById(Integer id);
 	
 	public TipoProducto save(TipoProducto tipo);
+	
+	public void delete(Integer idtipo);
 
 }

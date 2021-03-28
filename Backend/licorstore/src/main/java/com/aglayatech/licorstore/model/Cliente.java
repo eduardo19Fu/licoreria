@@ -31,7 +31,7 @@ public class Cliente implements Serializable {
 	}
 	
 	@PrePersist
-	public void putFecha() {
+	public void configFechaRegistro() {
 		fechaRegistro = new Date();
 	}
 

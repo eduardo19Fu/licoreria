@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { global } from './global';
 import { Observable } from 'rxjs';
 import { Cliente } from '../models/cliente';
@@ -10,6 +10,7 @@ import { Cliente } from '../models/cliente';
 export class ClienteService {
 
   private url: string;
+  private headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
     private http: HttpClient
@@ -18,6 +19,24 @@ export class ClienteService {
   }
 
   getClientes(): Observable<Cliente[]> {
-    return this.http.get<Cliente[]>(this.url + '/clientes');
+    return this.http.get<Cliente[]>(`${this.url}/clientes`);
+  }
+
+  create(cliente: Cliente): Observable<Cliente>{
+    const params = JSON.stringify(cliente);
+    return this.http.post<Cliente>(`${this.url}/clientes`, params, { headers: this.headers });
+  }
+
+  getCliente(id: number): Observable<Cliente>{
+    return this.http.get<Cliente>(`${this.url}/clientes/${id}`, { headers: this.headers });
+  }
+
+  update(cliente: Cliente): Observable<Cliente>{
+    const params = JSON.stringify(cliente);
+    return this.http.put<Cliente>(`${this.url}/clientes`, params, { headers: this.headers });
+  }
+
+  delete(id: number): Observable<Cliente>{
+    return this.http.delete<Cliente>(`${this.url}/clientes/${id}`, { headers: this.headers });
   }
 }

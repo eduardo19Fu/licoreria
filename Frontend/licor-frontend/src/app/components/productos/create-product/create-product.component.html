@@ -1,1 +1,116 @@
-<p>create-product works!</p>
+<div class="container">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">{{title}}</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Ingrese los datos</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form (ngSubmit)="create()">
+                <div class="card-body">
+
+                    <div class="form-group">
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="codigo">Código</label>
+                                <input type="text" class="form-control" name="codigo" [(ngModel)]="producto.codProducto"
+                                    placeholder="Código de Producto">
+                            </div>
+
+                            <div class="col">
+                                <label for="nombre">Nombre</label>
+                                <input type="text" class="form-control" name="nombre" [(ngModel)]="producto.nombre"
+                                    placeholder="Ingrese nombre del producto">
+                            </div>
+
+                            <div class="col">
+                                <label for="stock">Existencias</label>
+                                <input type="number" name="stock" class="form-control" [(ngModel)]="producto.stock"
+                                    placeholder="Ingrese la cantidad de existencias disponibles">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="precio-compra">Precio Compra</label>
+                                <input type="number" id="precio-compra" name="precio-compra" class="form-control"
+                                    [(ngModel)]="producto.precioCompra"
+                                    placeholder="Ingrese el precio de compra del producto">
+                            </div>
+
+                            <div class="col">
+                                <label for="precio-venta">Precio Venta</label>
+                                <input type="number" id="precio-venta" name="precio-venta" class="form-control"
+                                    [(ngModel)]="producto.precioVenta"
+                                    placeholder="Ingrese el precio de venta para el producto"
+                                    (blur)="calcularPorcentajeGanancia()">
+                            </div>
+
+                            <div class="col">
+                                <label for="porcentaje-ganancia">% Ganancia</label>
+                                <input type="number" id="porcentaje-ganancia" name="porcentaje-ganancia"
+                                    class="form-control" disabled>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="tipo-producto">Tipo</label>
+                                <select name="tipo-producto" class="form-control">
+
+                                </select>
+                            </div>
+
+                            <div class="col">
+                                <label for="marca">Marca</label>
+                                <select name="marca" class="form-control">
+
+                                </select>
+                            </div>
+
+                            <div class="col">
+                                <!-- Aquí va la imagen -->
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="fecha-ingreso">Fecha Ingreso</label>
+                                <input type="date" name="fecha-ingreso" class="form-control"
+                                    [(ngModel)]="producto.fechaIngreso">
+                            </div>
+
+                            <div class="col">
+                                <label for="fecha-vencimiento">Fecha Vencimiento</label>
+                                <input type="date" name="fecha-vencimiento" class="form-control"
+                                    [(ngModel)]="producto.fechaVencimiento">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                    <button type="submit" role="button" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
