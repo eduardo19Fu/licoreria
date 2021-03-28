@@ -7,6 +7,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- -----------------------------------------------------
 -- Schema licor_db
 -- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `licor_db` ;
 
 -- -----------------------------------------------------
 -- Schema licor_db
@@ -68,9 +69,12 @@ CREATE TABLE IF NOT EXISTS `licor_db`.`Productos` (
   `precio_compra` DECIMAL(10,2) NULL,
   `precio_venta` DECIMAL(10,2) NOT NULL,
   `porcentaje_ganancia` FLOAT NOT NULL,
+  `fecha_ingreso` DATE NULL,
   `fecha_vencimiento` DATE NULL,
   `id_estado` INT NULL,
   `stock` INT NOT NULL,
+  `imagen` VARCHAR(500) NULL,
+  `fecha_registro` TIMESTAMP NULL,
   PRIMARY KEY (`id_producto`),
   CONSTRAINT `fk_producto_idtipo`
     FOREIGN KEY (`id_tipo_producto`)
@@ -121,6 +125,23 @@ CREATE INDEX `fk_usuarios_idestado_idx` ON `licor_db`.`Usuarios` (`id_estado` AS
 
 
 -- -----------------------------------------------------
+-- Table `licor_db`.`Clientes`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `licor_db`.`Clientes` ;
+
+CREATE TABLE IF NOT EXISTS `licor_db`.`Clientes` (
+  `id_cliente` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(300) NOT NULL,
+  `nit` VARCHAR(45) NULL,
+  `direccion` VARCHAR(500) NULL,
+  `fecha_registro` TIMESTAMP NULL,
+  PRIMARY KEY (`id_cliente`))
+ENGINE = InnoDB;
+
+CREATE UNIQUE INDEX `nit_UNIQUE` ON `licor_db`.`Clientes` (`nit` ASC);
+
+
+-- -----------------------------------------------------
 -- Table `licor_db`.`Ventas`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `licor_db`.`Ventas` ;
@@ -132,6 +153,7 @@ CREATE TABLE IF NOT EXISTS `licor_db`.`Ventas` (
   `fecha` TIMESTAMP NOT NULL,
   `id_usuario` INT NULL,
   `id_estado` INT NULL,
+  `id_cliente` INT NULL,
   PRIMARY KEY (`id_venta`),
   CONSTRAINT `fk_ventas_idestado`
     FOREIGN KEY (`id_estado`)
@@ -142,12 +164,19 @@ CREATE TABLE IF NOT EXISTS `licor_db`.`Ventas` (
     FOREIGN KEY (`id_usuario`)
     REFERENCES `licor_db`.`Usuarios` (`id_usuario`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ventas_idcliente`
+    FOREIGN KEY (`id_cliente`)
+    REFERENCES `licor_db`.`Clientes` (`id_cliente`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
 CREATE INDEX `fk_ventas_idestado_idx` ON `licor_db`.`Ventas` (`id_estado` ASC);
 
 CREATE INDEX `fk_ventas_idusuario_idx` ON `licor_db`.`Ventas` (`id_usuario` ASC);
+
+CREATE INDEX `fk_ventas_idcliente_idx` ON `licor_db`.`Ventas` (`id_cliente` ASC);
 
 
 -- -----------------------------------------------------
@@ -212,6 +241,23 @@ CREATE TABLE IF NOT EXISTS `licor_db`.`Usuarios_Perfiles` (
 ENGINE = InnoDB;
 
 CREATE INDEX `fk_usuarios_perfil_idperfil_idx` ON `licor_db`.`Usuarios_Perfiles` (`id_perfil` ASC);
+
+
+-- -----------------------------------------------------
+-- Table `licor_db`.`Historico`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `licor_db`.`Historico` ;
+
+CREATE TABLE IF NOT EXISTS `licor_db`.`Historico` (
+  `id_registro` INT NOT NULL AUTO_INCREMENT,
+  `no_factura` INT NULL,
+  `cliente` VARCHAR(100) NULL,
+  `nit` VARCHAR(45) NULL,
+  `fecha_eliminacion` TIMESTAMP NULL,
+  `fecha_venta` TIMESTAMP NULL,
+  `usuario` VARCHAR(200) NULL,
+  PRIMARY KEY (`id_registro`))
+ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

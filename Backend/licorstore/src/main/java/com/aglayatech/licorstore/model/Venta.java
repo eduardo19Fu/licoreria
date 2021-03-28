@@ -3,12 +3,23 @@ package com.aglayatech.licorstore.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "ventas")
 public class Venta implements Serializable {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idVenta;
 	private String noFactura;
 	private Double total;
 	private Date fecha;
+	
 	private Estado estado;
 	private Integer idUsuario = null;
 	

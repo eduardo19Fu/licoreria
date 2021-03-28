@@ -3,21 +3,24 @@ import { MarcaProducto } from './marca-producto';
 import { TipoProducto } from './tipo-producto';
 
 export class Producto {
-    private idProducto: number;
-    private codProducto: string;
-    private nombre: string;
-    private precioCompra: number;
-    private precioVenta: number;
-    private porcentajeGanancia: number;
-    private fechaVencimiento: Date;
-    private stock: number;
+    idProducto: number;
+    codProducto: string;
+    nombre: string;
+    precioCompra: number;
+    precioVenta: number;
+    porcentajeGanancia: number;
+    fechaVencimiento: Date;
+    fechaIngreso: Date;
+    fechaRegistro: Date;
+    stock: number;
+    imagen: string;
 
-    private tipoProducto: TipoProducto;
-    private marcaProducto: MarcaProducto;
-    private estado: Estado;
+    tipoProducto: TipoProducto;
+    marcaProducto: MarcaProducto;
+    estado: Estado;
 
     constructor(){}
-
+/*
     public getIdProducto(): number{
         return this.idProducto;
     }
@@ -105,4 +108,5 @@ export class Producto {
     public setEstado(estado: Estado){
         this.estado = estado;
     }
+*/
 }
