@@ -12,8 +12,8 @@ public interface IProductoService {
 	
 	public Producto findById(Integer idproducto);
 	
-	public Producto create(Producto producto);
+	public Producto save(Producto producto);
 	
-	public Producto update(Producto producto);
+	public void delete(Integer idproducto);
 
 }

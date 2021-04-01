@@ -1,8 +1,6 @@
 package com.aglayatech.licorstore.service.impl;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -17,7 +15,7 @@ public class ProductoServiceImpl implements IProductoService {
 
 	@Autowired
 	private IProductoRepository repoProducto;
-	
+
 	@Override
 	public List<Producto> findAll() {
 		return repoProducto.findAll(Sort.by(Direction.ASC, "nombre"));
@@ -30,21 +28,17 @@ public class ProductoServiceImpl implements IProductoService {
 
 	@Override
 	public Producto findById(Integer idproducto) {
-		Optional<Producto> optional = repoProducto.findById(idproducto);
-		if(optional.isPresent())
-			return optional.get();
-		else
-			return null;
+		return repoProducto.findById(idproducto).orElse(null);
 	}
 
 	@Override
-	public Producto create(Producto producto) {
+	public Producto save(Producto producto) {
 		return repoProducto.save(producto);
 	}
 
 	@Override
-	public Producto update(Producto producto) {
-		return repoProducto.save(producto);
+	public void delete(Integer idproducto) {
+		repoProducto.deleteById(idproducto);
 	}
 
 }

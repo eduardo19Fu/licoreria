@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aglayatech.licorstore.model.TipoProducto;
@@ -60,24 +59,24 @@ public class TipoProductoApiController {
 	@PostMapping(value = "/tipos-producto")
 	public ResponseEntity<?> create(@RequestBody TipoProducto tipoProducto){
 		
-		TipoProducto nuevoTipo = null;
+		TipoProducto newTipo = null;
 		Map<String, Object> response = new HashMap<>();
 		
 		try {
-			nuevoTipo = serviceTipo.save(tipoProducto); // recibe un objeto de TipoProducto, como respuesta por el registro llevado a cabo por jpa
+			newTipo = serviceTipo.save(tipoProducto); // recibe un objeto de TipoProducto, como respuesta por el registro llevado a cabo por jpa
 		} catch (DataAccessException e) {
 			response.put("mensaje", "¡Ha ocurrido un error en la base de datos!");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return null;
 		}
 		
-		if(nuevoTipo == null) {
+		if(newTipo == null) {
 			response.put("mensaje", "¡No se pudo llevar a cabo el registro del Tipo de Producto!");
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		response.put("mensaje", "¡El registro se llevó a cabo con éxito!");
-		response.put("tipoProducto", nuevoTipo);
+		response.put("tipoProducto", newTipo);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
@@ -113,8 +112,21 @@ public class TipoProductoApiController {
 	}
 	
 	@DeleteMapping(value = "/tipos-producto/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable("id") Integer idtipo) {
-		serviceTipo.delete(idtipo);
+	public ResponseEntity<?> delete(@PathVariable("id") Integer idtipo) {
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		try {
+			serviceTipo.delete(idtipo);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "¡Ha ocurrido un error en la base de datos!");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		response.put("mensaje", "¡El registro ha sido eliminado con éxito!");
+		
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+		
 	}
 }

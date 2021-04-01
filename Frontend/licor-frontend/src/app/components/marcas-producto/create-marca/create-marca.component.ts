@@ -44,19 +44,9 @@ export class CreateMarcaComponent implements OnInit {
   create(): void {
     // tslint:disable-next-line: deprecation
     this.marcaService.create(this.marcaProducto).subscribe(
-      marca => {
+      response => {
         this.router.navigate(['/marcas-producto']);
-        swal.fire('Marca Guardada', `Marca ${this.marcaProducto.marca} creado con éxito`, 'success');
-      },
-      error => {
-        if (error) {
-          swal.fire({
-            icon: 'error',
-            title: 'Error al Guardar',
-            text: error,
-            footer: ''
-          });
-        }
+        swal.fire('Marca Guardada', `${response.mensaje}: ${response.marca.marca}`, 'success');
       }
     );
   }
@@ -64,19 +54,9 @@ export class CreateMarcaComponent implements OnInit {
   update(): void{
     // tslint:disable-next-line: deprecation
     this.marcaService.update(this.marcaProducto).subscribe(
-      marca => {
+      response => {
         this.router.navigate(['/marcas-producto']);
-        swal.fire('Marca Actualizada', `¡La marca ${this.marcaProducto.marca} fué actualizada con éxito!`, 'success');
-      },
-      error => {
-        if (error) {
-          swal.fire({
-            icon: 'error',
-            title: 'Ha ocurrido un error!',
-            text: error,
-            footer: ''
-          });
-        }
+        swal.fire('Marca Actualizada', `${response.mensaje}: ${response.marca.marca} fué actualizada con éxito!`, 'success');
       }
     );
   }

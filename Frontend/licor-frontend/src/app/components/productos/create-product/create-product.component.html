@@ -27,14 +27,19 @@
                         <div class="row">
                             <div class="col">
                                 <label for="codigo">Código</label>
-                                <input type="text" class="form-control" name="codigo" [(ngModel)]="producto.codProducto"
+                                <input type="text" class="form-control" name="codigo" [(ngModel)]="producto.codProducto" #codigo="ngModel"
                                     placeholder="Código de Producto">
                             </div>
 
                             <div class="col">
                                 <label for="nombre">Nombre</label>
-                                <input type="text" class="form-control" name="nombre" [(ngModel)]="producto.nombre"
+                                <input type="text" class="form-control" name="nombre" [(ngModel)]="producto.nombre" required #nombre="ngModel"
                                     placeholder="Ingrese nombre del producto">
+                                    <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
+                                        <span class="requerido" *ngIf="nombre.errors.required">
+                                            La marca no puede estar vacia
+                                        </span>
+                                    </div>
                             </div>
 
                             <div class="col">

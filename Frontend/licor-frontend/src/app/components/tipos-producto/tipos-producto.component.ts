@@ -3,6 +3,8 @@ import { TipoProducto } from '../../models/tipo-producto';
 import { TipoProductoService } from '../../services/tipo-producto.service';
 import swal from 'sweetalert2';
 
+declare var $: any;
+
 @Component({
   selector: 'app-tipos-producto',
   templateUrl: './tipos-producto.component.html',
@@ -29,9 +31,10 @@ export class TiposProductoComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTipos();
+    this.cargarDatatable();
   }
 
-  getTipos(): void{
+  getTipos(): void {
     // tslint:disable-next-line: deprecation
     this.tipoService.getTiposProducto().subscribe(
       tiposProducto => this.tipos = tiposProducto,
@@ -43,7 +46,7 @@ export class TiposProductoComponent implements OnInit {
     );
   }
 
-  delete(tipoProducto: TipoProducto): void{
+  delete(tipoProducto: TipoProducto): void {
     this.swalWithBootstrapButtons.fire({
       title: '¿Está seguro?',
       text: `¿Seguro que desea eliminar ${tipoProducto.tipoProducto}?`,
@@ -76,6 +79,19 @@ export class TiposProductoComponent implements OnInit {
           'error'
         );
       }
+    });
+  }
+
+  cargarDatatable(): void {
+    $(() => {
+      $('#tipos-table').DataTable({
+        paging: true,
+        lengthChange: false,
+        searching: true,
+        ordering: true,
+        info: true,
+        autoWidth: false,
+      });
     });
   }
 }

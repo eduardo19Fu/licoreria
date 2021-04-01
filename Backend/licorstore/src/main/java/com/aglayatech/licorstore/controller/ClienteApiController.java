@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aglayatech.licorstore.model.Cliente;
@@ -41,7 +40,7 @@ public class ClienteApiController {
 	}*/
 
 	@GetMapping(value = "/clientes/{id}")
-	public ResponseEntity<?> findById(@PathVariable("id") int id) {
+	public ResponseEntity<?> findById(@PathVariable("id") Integer id) {
 
 		Cliente cliente = null;
 		Map<String, Object> response = new HashMap<>();
@@ -55,7 +54,7 @@ public class ClienteApiController {
 		}
 
 		if (cliente == null) {
-			response.put("mensaje", "¡El cliente con id " + id + " no se encuentra registrado en la base de datos!");
+			response.put("mensaje", "¡El cliente con ID: ".concat(id.toString()).concat(" no se encuentra registrado en la base de datos!"));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
 
@@ -113,9 +112,22 @@ public class ClienteApiController {
 	}
 	
 	@DeleteMapping(value = "/clientes/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable("id") Integer idcliente) {
-		serviceCliente.delete(idcliente);
+	public ResponseEntity<?> delete(@PathVariable("id") Integer idcliente) {
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		try {
+			serviceCliente.delete(idcliente);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "¡Ha ocurrido un error en la base de datos!");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		response.put("mensaje", "¡El cliente ha sido eliminado con éxito!");
+		
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+		
 	}
 
 }

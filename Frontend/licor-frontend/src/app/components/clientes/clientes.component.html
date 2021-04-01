@@ -8,7 +8,7 @@
                 </h1>
             </div><!-- /.col -->
         </div><!-- /.row -->
-
+        <hr>
         <div class="row">
             <div class="col s6">
                 <a [routerLink]="['/clientes/create']" class="btn bg-gradient-success"><i class="fas fa-plus-square"></i>&nbsp; Nuevo</a>
@@ -24,7 +24,17 @@
     </div>
     <!-- /.card-header -->
     <div class="card-body">
-        <table id="example2" class="table table-bordered table-striped">
+
+        <div *ngIf="clientes?.length == 0" class="alert alert-info alert-dismissible">
+            <h5>
+                <i class="icon fas fa-info"></i>
+                Atención!
+            </h5>
+
+            No existe ningún cliente registrado en la base de datos!
+        </div>
+
+        <table id="example2" class="table table-bordered table-striped" *ngIf="clientes?.length > 0">
             <thead>
                 <tr>
                     <th>ID</th>

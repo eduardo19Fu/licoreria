@@ -41,22 +41,12 @@ export class CreateTipoComponent implements OnInit {
     });
   }
 
-  public create(): void{
+  create(): void{
     // tslint:disable-next-line: deprecation
     this.tipoService.create(this.tipoProducto).subscribe(
       response => {
         this.router.navigate(['/tipos-producto']);
-        swal.fire('Tipo Creado', `Tipo ${this.tipoProducto.tipoProducto} registrado con éxito!`, 'success');
-      },
-      error => {
-        if (error) {
-          swal.fire({
-            icon: 'error',
-            title: 'Ha ocurrido un error!',
-            text: error,
-            footer: ''
-          });
-        }
+        swal.fire('Tipo Creado', `${response.mensaje}: ${response.tipoProducto.tipoProducto}`, 'success');
       }
     );
   }
@@ -64,11 +54,10 @@ export class CreateTipoComponent implements OnInit {
   update(): void{
     // tslint:disable-next-line: deprecation
     this.tipoService.update(this.tipoProducto).subscribe(
-      tipoProducto => {
+      response => {
         this.router.navigate(['/tipos-producto']);
-        swal.fire('Tipo Actualizado', `¡El tipo de producto ${this.tipoProducto} ha sido actualizado con éxito!`, 'success');
-      },
-      error => {}
+        swal.fire('Tipo Actualizado', `${response.mensaje}: ${response.tipoProducto.tipoProducto}`, 'success');
+      }
     );
   }
 

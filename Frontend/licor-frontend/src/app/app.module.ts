@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -45,7 +45,8 @@ import { CreateClienteComponent } from './components/clientes/create-cliente/cre
     FormsModule
   ],
   providers: [
-    appRoutingProviders
+    appRoutingProviders,
+    {provide: LOCALE_ID, useValue: 'en-US' }
   ],
   bootstrap: [AppComponent]
 })

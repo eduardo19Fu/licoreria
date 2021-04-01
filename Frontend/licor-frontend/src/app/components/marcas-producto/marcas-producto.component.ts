@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { MarcaProducto } from '../../models/marca-producto';
 import { MarcaProductoService } from '../../services/marca-producto.service';
 import swal from 'sweetalert2';
+
+declare var $: any;
 
 @Component({
   selector: 'app-marcas-producto',
@@ -26,6 +28,20 @@ export class MarcasProductoComponent implements OnInit {
   ) {
     this.title = 'Listado de Marcas de Productos';
   }
+  /*ngAfterViewInit(): void {
+    $(document).ready(() => {
+      $(() => {
+        $('#marcas').DataTable({
+          paging: true,
+          lengthChange: false,
+          searching: true,
+          ordering: true,
+          info: false,
+          autoWidth: false,
+        });
+      });
+    });
+  }*/
 
   ngOnInit(): void {
     this.getMarcas();
@@ -34,17 +50,7 @@ export class MarcasProductoComponent implements OnInit {
   getMarcas(): void{
     // tslint:disable-next-line: deprecation
     this.marcaService.getMarcas().subscribe(
-      marcas => this.marcas = marcas,
-      error => {
-        if (error) {
-          swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: error,
-            footer: ''
-          });
-        }
-      }
+      marcas => this.marcas = marcas
     );
   }
 
@@ -84,4 +90,6 @@ export class MarcasProductoComponent implements OnInit {
     });
   }
 
+  cargarDatatable(): void {
+  }
 }

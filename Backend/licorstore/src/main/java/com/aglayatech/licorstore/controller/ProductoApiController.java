@@ -9,6 +9,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,7 +63,7 @@ public class ProductoApiController {
 		Map<String, Object> response = new HashMap<>();
 		
 		try {
-			newProducto = serviceProducto.create(producto);
+			newProducto = serviceProducto.save(producto);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "¡Ha ocurrido un error en la base de datos!");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -81,7 +82,44 @@ public class ProductoApiController {
 	
 	@PutMapping(value = "/productos")
 	public ResponseEntity<?> update(@RequestBody Producto producto){
-		return null;
+		
+		Producto productoUpdated = null;
+		Map<String, Object> response = new HashMap<>();
+		
+		if(producto == null) {
+			response.put("mensaje", "¡El producto no existe en la base de datos!");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		
+		try {
+			productoUpdated = serviceProducto.save(producto);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "¡Ha ocurrido un error en la base de datos!");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		response.put("mensaje", "¡El producto ha sido actualizado con éxito!");
+		response.put("producto", productoUpdated);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+	}
+	
+	@DeleteMapping(value = "/productos/{id}")
+	public ResponseEntity<?> delete(@PathVariable("id") Integer idproducto) {
+		
+		Map<String, Object> response = new HashMap<>();
+		
+		try {
+			serviceProducto.delete(idproducto);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "¡Ha ocurrido un error en la base de datos!");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		response.put("mensaje", "¡El producto ha sido eliminado con éxito!");
+		
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
 }
