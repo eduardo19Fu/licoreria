@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { global } from './global';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { Cliente } from '../models/cliente';
 import swal from 'sweetalert2';
 import { Router } from '@angular/router';
@@ -24,6 +24,17 @@ export class ClienteService {
 
   getClientes(): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(`${this.url}/clientes`);
+  }
+
+  getClientesPaginados(page: number): Observable<Cliente[]>{
+    return this.http.get(`${this.url}/clientes/page/${page}`, {headers: this.headers}).pipe(
+      map((response: any) => {
+        (response.content as Cliente[]).map(cliente => {
+          return cliente;
+        });
+        return response;
+      })
+    );
   }
 
   getCliente(id: number): Observable<Cliente>{

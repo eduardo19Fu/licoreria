@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TipoProducto } from '../../models/tipo-producto';
 import { TipoProductoService } from '../../services/tipo-producto.service';
+import { ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
-
-declare var $: any;
 
 @Component({
   selector: 'app-tipos-producto',
@@ -15,6 +14,8 @@ export class TiposProductoComponent implements OnInit {
   public title: string;
   public tipos: TipoProducto[];
 
+  paginador: any;
+
   swalWithBootstrapButtons = swal.mixin({
     customClass: {
       confirmButton: 'btn btn-success',
@@ -24,16 +25,26 @@ export class TiposProductoComponent implements OnInit {
   });
 
   constructor(
-    private tipoService: TipoProductoService
+    private tipoService: TipoProductoService,
+    private activatedRoute: ActivatedRoute
   ) {
     this.title = 'Listado de Tipos';
   }
 
   ngOnInit(): void {
-    this.getTipos();
-    this.cargarDatatable();
+    // tslint:disable-next-line: deprecation
+    this.activatedRoute.paramMap.subscribe(params => {
+      let page: number = +params.get('page');
+
+      if (!page){
+        page = 0;
+      }
+
+      this.getTiposPage(page);
+    });
   }
 
+  // listado de tipos normal
   getTipos(): void {
     // tslint:disable-next-line: deprecation
     this.tipoService.getTiposProducto().subscribe(
@@ -44,6 +55,15 @@ export class TiposProductoComponent implements OnInit {
         }
       }
     );
+  }
+
+  // listado de tipos paginados
+  getTiposPage(page: number): void{
+    // tslint:disable-next-line: deprecation
+    this.tipoService.getTiposPaginados(page).subscribe((response: any) => {
+      this.tipos = response.content as TipoProducto[];
+      this.paginador = response;
+    });
   }
 
   delete(tipoProducto: TipoProducto): void {
@@ -79,19 +99,6 @@ export class TiposProductoComponent implements OnInit {
           'error'
         );
       }
-    });
-  }
-
-  cargarDatatable(): void {
-    $(() => {
-      $('#tipos-table').DataTable({
-        paging: true,
-        lengthChange: false,
-        searching: true,
-        ordering: true,
-        info: true,
-        autoWidth: false,
-      });
     });
   }
 }

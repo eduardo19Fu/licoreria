@@ -2,6 +2,8 @@ package com.aglayatech.licorstore.service.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,11 @@ public class ProductoServiceImpl implements IProductoService {
 	@Override
 	public List<Producto> findAll() {
 		return repoProducto.findAll(Sort.by(Direction.ASC, "nombre"));
+	}
+
+	@Override
+	public Page<Producto> findAll(Pageable pageable) {
+		return repoProducto.findAll(pageable);
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import { MARCAS } from '../components/marcas-producto/marcas-producto.json';
 import { Observable, of, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { global } from './global';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import swal from 'sweetalert2';
 
 @Injectable({
@@ -37,6 +37,30 @@ export class MarcaProductoService {
     );
   }
 
+  getMarcasPage(page: number): Observable<any>{
+    return this.http.get(`${this.url}/marcas/page/${page}`, {headers: this.headers}).pipe(
+      tap((response: any) => {
+        console.log('MarcaService: Tap1');
+        (response.content as MarcaProducto[]).forEach(marca => {
+          console.log(marca.marca);
+        });
+      }),
+      map((response: any) => {
+        (response.content as MarcaProducto[]).map(marca => {
+          marca.marca = marca.marca.toUpperCase();
+          return marca;
+        });
+        return response;
+      }),
+      tap(response => {
+        console.log('MarcaService: tap2');
+        (response.content as MarcaProducto[]).forEach(marca => {
+          console.log(marca.marca);
+        });
+      })
+    );
+  }
+
   getMarca(id: number): Observable<MarcaProducto>{
     return this.http.get<MarcaProducto>(`${this.url}/marcas/${id}`, { headers: this.headers }).pipe(
       catchError(e => {
@@ -48,7 +72,7 @@ export class MarcaProductoService {
 
   create(marcaProducto: MarcaProducto): Observable<any>{
     const params = JSON.stringify(marcaProducto);
-    return this.http.post<any>(this.url + '/marcas', params, { headers: this.headers }).pipe(
+    return this.http.post<any>(`${this.url}/marcas`, params, { headers: this.headers }).pipe(
       catchError(e => {
         swal.fire(e.error.mensaje, e.error.error, 'error');
         return throwError(e);

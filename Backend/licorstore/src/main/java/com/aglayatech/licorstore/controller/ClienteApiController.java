@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,6 +34,11 @@ public class ClienteApiController {
 	@GetMapping(value = "/clientes")
 	public List<Cliente> index() {
 		return serviceCliente.findAll();
+	}
+	
+	@GetMapping(value = "/clientes/page/{page}")
+	public Page<Cliente> index(@PathVariable("page") Integer page) {
+		return serviceCliente.findAll(PageRequest.of(page, 5));
 	}
 
 	/*@GetMapping(value = "/clientes/{name}")

@@ -3,7 +3,7 @@ import { global } from '../services/global';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { TipoProducto } from '../models/tipo-producto';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import swal from 'sweetalert2';
 
 @Injectable({
@@ -21,7 +21,19 @@ export class TipoProductoService {
   }
 
   getTiposProducto(): Observable<TipoProducto[]> {
-    return this.http.get<TipoProducto[]>(this.url + '/tipos-producto');
+    return this.http.get<TipoProducto[]>(`${this.url}/tipos-producto`);
+  }
+
+  getTiposPaginados(page: number): Observable<TipoProducto[]>{
+    return this.http.get(`${this.url}/tipos-producto/page/${page}`, {headers: this.headers}).pipe(
+      map((response: any) => {
+        (response.content as TipoProducto[]).map(tipo => {
+          tipo.tipoProducto = tipo.tipoProducto.toUpperCase();
+          return tipo;
+        });
+        return response;
+      })
+    );
   }
 
   getTipoProducto(id: number): Observable<TipoProducto>{

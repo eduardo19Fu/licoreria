@@ -40,12 +40,11 @@
                     <th>ID</th>
                     <th>Codigo</th>
                     <th>Nombre</th>
-                    <th>P. Compra</th>
-                    <th>P. Venta</th>
-                    <th>% Ganancia</th>
+                    <th>Precio</th>
                     <th>Tipo</th>
                     <th>Marca</th>
                     <th>Estado</th>
+                    <th>Opciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,12 +52,25 @@
                     <td>{{producto.idProducto}}</td>
                     <td>{{producto.codProducto}}</td>
                     <td>{{producto.nombre}}</td>
-                    <td>{{producto.precioCompra}}</td>
                     <td>{{producto.precioVenta}}</td>
-                    <td>{{producto.porcentajeGanancia}}</td>
                     <td>{{producto.tipoProducto.tipoProducto}}</td>
                     <td>{{producto.marcaProducto.marca}}</td>
                     <td>{{producto.estado.estado}}</td>
+                    <td>
+                        <button class="btn bg-gradient-info" name="edit" type="button" 
+                            [routerLink]="['/productos/create', producto.idProducto]">
+                            
+                            <i class="fas fa-edit"></i>
+                        </button>&nbsp;
+                        <!-- Aquí va el botón de eliminar -->
+                        <button class="btn bg-gradient-danger" name="delete" type="button">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>&nbsp;
+                        
+                        <button class="btn bg-gradient-success" name="detail" type="button" tooltip="Detalle">
+                            <i class="fas fa-asterisk"></i>
+                        </button>
+                    </td>
                 </tr>
             </tbody>
             <tfoot>
@@ -66,15 +78,16 @@
                     <th>ID</th>
                     <th>Codigo</th>
                     <th>Nombre</th>
-                    <th>P. Compra</th>
-                    <th>P. Venta</th>
-                    <th>% Ganancia</th>
+                    <th>Precio</th>
                     <th>Tipo</th>
                     <th>Marca</th>
                     <th>Estado</th>
+                    <th>Opciones</th>
                 </tr>
             </tfoot>
         </table>
+        <br>
+        <paginator-producto *ngIf="paginador" [paginador]="paginador"></paginator-producto>
     </div>
     <!-- /.card-body -->
 </div>

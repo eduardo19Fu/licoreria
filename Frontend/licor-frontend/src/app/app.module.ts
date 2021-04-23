@@ -20,6 +20,15 @@ import { CreateMarcaComponent } from './components/marcas-producto/create-marca/
 import { CreateTipoComponent } from './components/tipos-producto/create-tipo/create-tipo.component';
 import { CreateClienteComponent } from './components/clientes/create-cliente/create-cliente.component';
 
+import { DataTablesModule } from 'angular-datatables';
+import { PaginatorComponent } from './components/paginator/marcas/paginator.component';
+import { TipoPaginatorComponent } from './components/paginator/tipos/tipo-paginator.component';
+import { ClientePaginatorComponent } from './components/paginator/clientes/cliente-paginator.component';
+import { ProductoPaginatorComponent } from './components/paginator/productos/producto-paginator.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,13 +45,21 @@ import { CreateClienteComponent } from './components/clientes/create-cliente/cre
     CreateProductComponent,
     CreateMarcaComponent,
     CreateTipoComponent,
-    CreateClienteComponent
+    CreateClienteComponent,
+    PaginatorComponent,
+    TipoPaginatorComponent,
+    ClientePaginatorComponent,
+    ProductoPaginatorComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule, // Importando el cliente http para realizar peticiones al backend
     routing,
-    FormsModule
+    FormsModule,
+    DataTablesModule,
+    NoopAnimationsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     appRoutingProviders,
