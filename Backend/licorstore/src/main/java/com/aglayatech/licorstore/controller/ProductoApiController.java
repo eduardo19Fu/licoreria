@@ -28,7 +28,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.aglayatech.licorstore.model.Estado;
 import com.aglayatech.licorstore.model.Producto;
+import com.aglayatech.licorstore.service.IEstadoService;
 import com.aglayatech.licorstore.service.IProductoService;
 import com.aglayatech.licorstore.service.IUploadFileService;
 
@@ -39,6 +41,9 @@ public class ProductoApiController {
 	
 	@Autowired
 	private IProductoService serviceProducto;
+	
+	@Autowired
+	private IEstadoService serviceEstado;
 	
 	@Autowired
 	private IUploadFileService serviceUpload;
@@ -93,6 +98,8 @@ public class ProductoApiController {
 		}
 		
 		try {
+			Estado estado = serviceEstado.findById(1);
+			producto.setEstado(estado);
 			newProducto = serviceProducto.save(producto);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "¡Ha ocurrido un error en la base de datos!");

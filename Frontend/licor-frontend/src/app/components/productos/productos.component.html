@@ -27,7 +27,7 @@
         <h3 class="card-title">Listado</h3>
     </div>
     <!-- /.card-header -->
-    <div class="card-body">
+    <div class="card-body table-responsive">
         <div *ngIf="productos?.length == 0" class="alert alert-info alert-dismissible">
             <h5>
                 <i class="icon fas fa-info"></i>
@@ -37,7 +37,7 @@
             No existe ningún producto registrado en la base de datos!
         </div>
 
-        <table id="example2" class="table table-bordered table-striped" *ngIf="productos?.length > 0">
+        <table id="example2" class="table table-bordered table-striped text-nowrap" *ngIf="productos?.length > 0">
             <thead>
                 <tr>
                     <th>#</th>

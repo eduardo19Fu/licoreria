@@ -24,11 +24,11 @@ export class MarcaProductoService {
 
   getMarcas(): Observable<MarcaProducto[]>{
     // return of(MARCAS);
-    return this.http.get<MarcaProducto[]>(this.url + '/marcas').pipe(
+    return this.http.get<MarcaProducto[]>(`${this.url}/marcas`).pipe(
       map(response => {
         const marcas = response as MarcaProducto[];
         return marcas.map(marca => {
-          const datePipe = new DatePipe('en-US');
+          // const datePipe = new DatePipe('en-US');
           // marca.fechaRegistro = datePipe.transform(marca.fechaRegistro, 'dd-MM-yyyy');
           // formatDate(marca.fechaRegistro, 'dd-MM-yyyy', 'en-US');
           return marca;

@@ -34,7 +34,20 @@ export class CreateProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cargarProducto();
+    // tslint:disable-next-line: deprecation
+    this.activatedRoute.params.subscribe(params => {
+      // tslint:disable-next-line: no-string-literal
+      const id = params['id'];
+
+      if (id){
+        // tslint:disable-next-line: deprecation
+        this.serviceProducto.getProducto(id).subscribe(
+          producto => this.producto = producto
+        );
+      }
+    });
+    this.cargarMarcas();
+    this.cargarTipos();
   }
 
   cargarProducto(): void{
@@ -50,6 +63,16 @@ export class CreateProductComponent implements OnInit {
         );
       }
     });
+  }
+
+  cargarMarcas(): void{
+    // tslint:disable-next-line: deprecation
+    this.serviceMarca.getMarcas().subscribe(marcas => this.marcas = marcas);
+  }
+
+  cargarTipos(): void{
+    // tslint:disable-next-line: deprecation
+    this.serviceTipo.getTiposProducto().subscribe(tipos =>  this.tipos = tipos);
   }
 
   create(): void{
@@ -70,6 +93,21 @@ export class CreateProductComponent implements OnInit {
         swal.fire('Producto Actualizado', `${response.mensaje}: ${response.producto.nombre}`, 'success');
       }
     );
+  }
+
+  // Comparar para reemplazar el valor en el select del formulario en caso de existir
+  compararMarca(o1: MarcaProducto, o2: MarcaProducto): boolean{
+    if (o1 === undefined && o2 === undefined){
+      return true;
+    }
+    return o1 === null || o2 === null || o1 === undefined || o2 === undefined ? false : o1.idMarcaProducto === o2.idMarcaProducto;
+  }
+
+  compararTipo(o1: TipoProducto, o2: TipoProducto): boolean{
+    if (o1 === undefined && o2 === undefined){
+      return true;
+    }
+    return o1 == null || o2 == null || o1 === undefined || o2 === undefined ? false : o1.idTipoProducto === o2.idTipoProducto;
   }
 
   calcularPorcentajeGanancia(): void{

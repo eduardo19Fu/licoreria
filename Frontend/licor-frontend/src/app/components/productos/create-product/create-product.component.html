@@ -97,19 +97,23 @@
                         <hr>
 
                         <div class="row">
-                            <div class="col">
-                                <label for="tipo-producto">Tipo</label>
-                                <select name="tipo-producto" class="form-control">
-
-                                </select>
-                            </div>
 
                             <div class="col">
                                 <label for="marca">Marca</label>
-                                <select name="marca" class="form-control">
-                                    <option value="Elija un valor">elija un valor</option>
+                                <select [compareWith]="compararMarca" name="marca" class="form-control" [(ngModel)]="producto.marcaProducto">
+                                    <option [ngValue]="undefined">--- Seleccionar Marca ----</option>
+                                    <option *ngFor="let marca of marcas" [ngValue]="marca">{{marca.marca}}</option>
                                 </select>
                             </div>
+
+                            <div class="col">
+                                <label for="tipo-producto">Tipo</label>
+                                <select [compareWith]="compararTipo" name="tipo-producto" class="form-control" [(ngModel)]="producto.tipoProducto">
+                                    <option [ngValue]="undefined">--- Seleccionar Tipo ----</option>
+                                    <option *ngFor="let tipo of tipos" [ngValue]="tipo">{{tipo.tipoProducto}}</option>
+                                </select>
+                            </div>
+                            
                         </div>
                         <br>
                         <hr>
