@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Producto } from '../../models/producto';
 import { ProductoService } from '../../services/producto.service';
 import { ActivatedRoute } from '@angular/router';
+import { ModalService } from '../../services/productos/modal.service';
 
 @Component({
   selector: 'app-productos',
@@ -13,9 +14,12 @@ export class ProductosComponent implements OnInit {
   public title: string;
   public productos: Producto[];
 
+  productoSeleccionado: Producto;
+
   paginador: any;
 
   constructor(
+    private modalService: ModalService,
     private productoService: ProductoService,
     private activatedRoute: ActivatedRoute
   ) {
@@ -32,6 +36,15 @@ export class ProductosComponent implements OnInit {
       }
 
       this.getProductosPaginados(page);
+    });
+
+    this.modalService.notificarUpload.subscribe(producto => {
+      this.productos = this.productos.map(productoOriginal => {
+        if (producto.idProducto == productoOriginal.idProducto){
+          productoOriginal.imagen = producto.imagen;
+        }
+        return productoOriginal;
+      });
     });
   }
 
@@ -51,5 +64,10 @@ export class ProductosComponent implements OnInit {
         this.paginador = response;
       }
     );
+  }
+
+  abrirModal(producto: Producto): void{
+    this.productoSeleccionado = producto;
+    this.modalService.abrirModal();
   }
 }

@@ -34,16 +34,14 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.js",
-              "node_modules/datatables.net/js/jquery.dataTables.js",
-              "node_modules/admin-lte/plugins/jquery/jquery.min.js",
               "node_modules/admin-lte/plugins/jquery-ui/jquery-ui.min.js",
               "node_modules/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js",
               "node_modules/admin-lte/plugins/bootstrap/js/bootstrap.bundle.js",
               "node_modules/admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.js",
+              "node_modules/admin-lte/plugins/bs-custom-file-input/bs-custom-file-input.min.js",
               "node_modules/admin-lte/dist/js/adminlte.js",
               "node_modules/admin-lte/dist/js/demo.js",
-              "node_modules/admin-lte/plugins/jquery-mousewheel/jquery.mousewheel.js",
-              "node_modules/admin-lte/plugins/bs-custom-file-input/bs-custom-file-input.min.js"
+              "node_modules/admin-lte/plugins/jquery-mousewheel/jquery.mousewheel.js"
             ]
           },
           "configurations": {

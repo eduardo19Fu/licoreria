@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -44,6 +46,8 @@ public class ProductoApiController {
 	
 	@Autowired
 	private IProductoService serviceProducto;
+	
+	private final Logger log = LoggerFactory.getLogger(ProductoApiController.class);
 	
 	@GetMapping(value = "/productos")
 	public List<Producto> index(){
@@ -174,6 +178,7 @@ public class ProductoApiController {
 		if(!file.isEmpty()) {
 			String nombreArchivo = UUID.randomUUID().toString().concat("_" + file.getOriginalFilename().replace(" ", ""));
 			Path rutaArchivo = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath();
+			log.info(rutaArchivo.toString());
 			
 			try {
 				Files.copy(file.getInputStream(), rutaArchivo);
@@ -211,6 +216,8 @@ public class ProductoApiController {
 	public ResponseEntity<Resource> verImagen(@PathVariable String nombreImagen){
 		
 		Path rutaArchivo = Paths.get("uploads").resolve(nombreImagen).toAbsolutePath();
+		log.info(rutaArchivo.toString());
+		
 		Resource recurso = null;
 		
 		try {
@@ -221,7 +228,16 @@ public class ProductoApiController {
 		}
 		
 		if(!recurso.exists() && !recurso.isReadable()) {
-			throw new RuntimeException("Error no se puede cargar la imagen: " + nombreImagen);
+			rutaArchivo = Paths.get("src/main/resources/static/images").resolve("no-image.jpg").toAbsolutePath();
+			
+			try {
+				recurso = new UrlResource(rutaArchivo.toUri());
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			log.error("Error no se puede cargar la imagen: " + nombreImagen);
 		}
 		
 		HttpHeaders cabecera = new HttpHeaders();

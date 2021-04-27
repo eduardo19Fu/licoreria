@@ -11,6 +11,7 @@ import { CreateProductComponent } from './components/productos/create-product/cr
 import { CreateMarcaComponent } from './components/marcas-producto/create-marca/create-marca.component';
 import { CreateTipoComponent } from './components/tipos-producto/create-tipo/create-tipo.component';
 import { CreateClienteComponent } from './components/clientes/create-cliente/create-cliente.component';
+import { DetailComponent } from './components/productos/detail/detail.component';
 
 const appRoutes: Routes = [
     {path: '', component: HomeComponent},

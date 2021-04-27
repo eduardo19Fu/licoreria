@@ -28,6 +28,7 @@ import { ProductoPaginatorComponent } from './components/paginator/productos/pro
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { DetailComponent } from './components/productos/detail/detail.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     PaginatorComponent,
     TipoPaginatorComponent,
     ClientePaginatorComponent,
-    ProductoPaginatorComponent
+    ProductoPaginatorComponent,
+    DetailComponent
   ],
   imports: [
     BrowserModule,

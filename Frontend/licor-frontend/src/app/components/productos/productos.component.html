@@ -1,3 +1,6 @@
+<!-- PRODUCTO MODAL -->
+<producto-detail *ngIf="productoSeleccionado" [producto]="productoSeleccionado"></producto-detail>
+
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
@@ -37,7 +40,7 @@
         <table id="example2" class="table table-bordered table-striped" *ngIf="productos?.length > 0">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>#</th>
                     <th>Codigo</th>
                     <th>Nombre</th>
                     <th>Precio</th>
@@ -49,7 +52,17 @@
             </thead>
             <tbody>
                 <tr *ngFor="let producto of productos">
-                    <td>{{producto.idProducto}}</td>
+                    <td>
+                        <img (click)="abrirModal(producto)" *ngIf="producto?.imagen"
+                            src="http://localhost:8281/api/uploads/img/{{producto.imagen}}" alt="{{producto.imagen}}"
+                            class="img-thumbnail rounded"
+                            style="width: 64px; cursor: pointer;">
+
+                            <img (click)="abrirModal(producto)" *ngIf="!producto?.imagen"
+                            src="http://localhost:8281/images/no-image.jpg" alt="{{producto.imagen}}"
+                            class="img-thumbnail rounded"
+                            style="width: 64px; cursor: pointer;">
+                    </td>
                     <td>{{producto.codProducto}}</td>
                     <td>{{producto.nombre}}</td>
                     <td>{{producto.precioVenta}}</td>
@@ -57,17 +70,18 @@
                     <td>{{producto.marcaProducto.marca}}</td>
                     <td>{{producto.estado.estado}}</td>
                     <td>
-                        <button class="btn bg-gradient-info" name="edit" type="button" 
+                        <button class="btn bg-gradient-info" name="edit" type="button"
                             [routerLink]="['/productos/create', producto.idProducto]">
-                            
+
                             <i class="fas fa-edit"></i>
                         </button>&nbsp;
                         <!-- Aquí va el botón de eliminar -->
                         <button class="btn bg-gradient-danger" name="delete" type="button">
                             <i class="fas fa-trash-alt"></i>
                         </button>&nbsp;
-                        
-                        <button class="btn bg-gradient-success" name="detail" type="button" tooltip="Detalle">
+
+                        <button class="btn bg-gradient-success" (click)="abrirModal(producto)" name="detail"
+                            type="button" tooltip="Detalle">
                             <i class="fas fa-asterisk"></i>
                         </button>
                     </td>
@@ -75,7 +89,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <th>ID</th>
+                    <th>#</th>
                     <th>Codigo</th>
                     <th>Nombre</th>
                     <th>Precio</th>

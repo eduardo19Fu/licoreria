@@ -5,9 +5,9 @@ import { MarcaProductoService } from '../../../services/marca-producto.service';
 import { TipoProductoService } from '../../../services/tipo-producto.service';
 import { TipoProducto } from 'src/app/models/tipo-producto';
 import { MarcaProducto } from '../../../models/marca-producto';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import swal from 'sweetalert2';
-import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-product',

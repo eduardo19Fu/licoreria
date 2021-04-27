@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { global } from './global';
 import { Observable, throwError } from 'rxjs';
 import { Producto } from '../models/producto';
@@ -62,5 +62,35 @@ export class ProductoService {
         return throwError(e);
       })
     );
+  }
+
+  // Código original de subida de imagenes para productos
+  /*uploadImage(archivo: File, id): Observable<Producto>{
+    let formData = new FormData();
+
+    formData.append('file', archivo); // primer parametro es el identificador del request en el backend
+    formData.append('id', id);
+
+    return this.http.post(`${this.url}/productos/upload`, formData).pipe(
+      map((response: any) => response.producto as Producto),
+      catchError(e => {
+        swal.fire(e.error.mensaje, e.error.error, 'error');
+        return throwError(e);
+      })
+    );
+  }*/
+
+  // Código modificado para agregar barra de progreso
+  uploadImage(archivo: File, id): Observable<HttpEvent<{}>> {
+    let formData = new FormData();
+
+    formData.append('file', archivo); // primer parametro es el identificador del request en el backend
+    formData.append('id', id);
+
+    const req = new HttpRequest('POST', `${this.url}/productos/upload`, formData, {
+      reportProgress: true
+    });
+
+    return this.http.request(req);
   }
 }
