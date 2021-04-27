@@ -59,7 +59,7 @@ public class Producto implements Serializable {
 	private Estado estado;
 
 	public Producto() {
-		this.imagen = null;
+		this.imagen = "no-image.jpg";
 	}
 	
 	@PrePersist

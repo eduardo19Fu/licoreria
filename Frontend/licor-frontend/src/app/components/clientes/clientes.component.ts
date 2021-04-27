@@ -2,17 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { Cliente } from 'src/app/models/cliente';
 import { ClienteService } from '../../services/cliente.service';
 import swal from 'sweetalert2';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-clientes',
   templateUrl: './clientes.component.html',
-  styleUrls: ['./clientes.component.css'],
   providers: [ClienteService]
 })
 export class ClientesComponent implements OnInit {
 
   public title: string;
   public clientes: Cliente[];
+
+  paginador: any;
 
   swalWithBootstrapButtons = swal.mixin({
     customClass: {
@@ -23,13 +25,23 @@ export class ClientesComponent implements OnInit {
   });
 
   constructor(
-    private clienteService: ClienteService
+    private clienteService: ClienteService,
+    private activatedRoute: ActivatedRoute
   ) {
     this.title = 'Listado de clientes';
   }
 
   ngOnInit(): void {
-    this.getClientes();
+    // tslint:disable-next-line: deprecation
+    this.activatedRoute.paramMap.subscribe(params => {
+      let page: number = +params.get('page');
+
+      if (!page){
+        page = 0;
+      }
+
+      this.getClientesPaginados(page);
+    });
   }
 
   getClientes(): void {
@@ -38,6 +50,14 @@ export class ClientesComponent implements OnInit {
       clientes => this.clientes = clientes,
       error => { }
     );
+  }
+
+  getClientesPaginados(page: number): void{
+    // tslint:disable-next-line: deprecation
+    this.clienteService.getClientesPaginados(page).subscribe((response: any) => {
+      this.clientes = response.content as Cliente[];
+      this.paginador = response;
+    });
   }
 
   delete(cliente: Cliente): void {

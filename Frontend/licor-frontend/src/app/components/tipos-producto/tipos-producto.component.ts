@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TipoProducto } from '../../models/tipo-producto';
 import { TipoProductoService } from '../../services/tipo-producto.service';
+import { ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 
 @Component({
@@ -13,6 +14,8 @@ export class TiposProductoComponent implements OnInit {
   public title: string;
   public tipos: TipoProducto[];
 
+  paginador: any;
+
   swalWithBootstrapButtons = swal.mixin({
     customClass: {
       confirmButton: 'btn btn-success',
@@ -22,16 +25,27 @@ export class TiposProductoComponent implements OnInit {
   });
 
   constructor(
-    private tipoService: TipoProductoService
+    private tipoService: TipoProductoService,
+    private activatedRoute: ActivatedRoute
   ) {
     this.title = 'Listado de Tipos';
   }
 
   ngOnInit(): void {
-    this.getTipos();
+    // tslint:disable-next-line: deprecation
+    this.activatedRoute.paramMap.subscribe(params => {
+      let page: number = +params.get('page');
+
+      if (!page){
+        page = 0;
+      }
+
+      this.getTiposPage(page);
+    });
   }
 
-  getTipos(): void{
+  // listado de tipos normal
+  getTipos(): void {
     // tslint:disable-next-line: deprecation
     this.tipoService.getTiposProducto().subscribe(
       tiposProducto => this.tipos = tiposProducto,
@@ -43,7 +57,16 @@ export class TiposProductoComponent implements OnInit {
     );
   }
 
-  delete(tipoProducto: TipoProducto): void{
+  // listado de tipos paginados
+  getTiposPage(page: number): void{
+    // tslint:disable-next-line: deprecation
+    this.tipoService.getTiposPaginados(page).subscribe((response: any) => {
+      this.tipos = response.content as TipoProducto[];
+      this.paginador = response;
+    });
+  }
+
+  delete(tipoProducto: TipoProducto): void {
     this.swalWithBootstrapButtons.fire({
       title: '¿Está seguro?',
       text: `¿Seguro que desea eliminar ${tipoProducto.tipoProducto}?`,

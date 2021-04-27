@@ -8,11 +8,11 @@
 
 
         </div><!-- /.row -->
-
+        <hr>
         <div class="row">
             <div class="col s6">
-                <a [routerLink]="['/marcas-producto/create']" class="btn bg-gradient-success"><i
-                        class="fas fa-plus-square"></i>&nbsp; Nuevo</a>
+                <a [routerLink]="['/marcas-producto/create']" class="btn bg-gradient-success">
+                    <i class="fas fa-plus-square"></i>&nbsp; Nuevo</a>
             </div>
         </div>
     </div><!-- /.container-fluid -->
@@ -24,8 +24,18 @@
         <h3 class="card-title">Listado</h3>
     </div>
     <!-- /.card-header -->
-    <div class="card-body">
-        <table id="example1" class="table table-bordered table-striped">
+    <div class="card-body table-responsive">
+
+        <div *ngIf="marcas?.length == 0" class="alert alert-info alert-dismissible">
+            <h5>
+                <i class="icon fas fa-info"></i>
+                Atención!
+            </h5>
+
+            No existe ninguna marca registrado en la base de datos!
+        </div>
+
+        <table id="marcas" class="table table-bordered table-striped text-nowrap" *ngIf="marcas?.length > 0">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -39,7 +49,7 @@
                 <tr *ngFor="let marca of marcas">
                     <td>{{marca.idMarcaProducto}}</td>
                     <td>{{marca.marca}}</td>
-                    <td>{{marca.fechaRegistro}}</td>
+                    <td>{{marca.fechaRegistro | date: 'dd/MM/yyyy - hh:mm'}}</td>
                     <td>{{marca.idUsuario}}</td>
                     <td>
                         <button class="btn bg-gradient-info" type="button" name="edit"
@@ -64,6 +74,8 @@
                 </tr>
             </tfoot>
         </table>
+        <br>
+        <paginator-nav *ngIf="paginador" [paginador]="paginador"></paginator-nav>
     </div>
     <!-- /.card-body -->
 </div>
