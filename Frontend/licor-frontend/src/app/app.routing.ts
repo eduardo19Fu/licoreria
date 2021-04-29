@@ -12,9 +12,11 @@ import { CreateMarcaComponent } from './components/marcas-producto/create-marca/
 import { CreateTipoComponent } from './components/tipos-producto/create-tipo/create-tipo.component';
 import { CreateClienteComponent } from './components/clientes/create-cliente/create-cliente.component';
 import { DetailComponent } from './components/productos/detail/detail.component';
+import { LoginComponent } from './components/login/login.component';
 
 const appRoutes: Routes = [
-    {path: '', component: HomeComponent},
+    {path: '', component: LoginComponent},
+    {path: 'login', component: LoginComponent},
     {path: 'home', component: HomeComponent},
     {path: 'clientes', component: ClientesComponent},
     {path: 'clientes/create', component: CreateClienteComponent},

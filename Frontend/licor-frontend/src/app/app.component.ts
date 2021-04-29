@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ProductoService } from './services/producto.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,4 +10,8 @@ import { ProductoService } from './services/producto.service';
 })
 export class AppComponent {
   title = 'Home';
+
+  constructor(
+    public router: Router
+  ){}
 }

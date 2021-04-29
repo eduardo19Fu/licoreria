@@ -29,6 +29,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DetailComponent } from './components/productos/detail/detail.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { DetailComponent } from './components/productos/detail/detail.component'
     TipoPaginatorComponent,
     ClientePaginatorComponent,
     ProductoPaginatorComponent,
-    DetailComponent
+    DetailComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
