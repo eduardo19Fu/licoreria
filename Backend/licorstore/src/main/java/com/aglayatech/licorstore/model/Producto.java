@@ -14,6 +14,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -43,11 +44,13 @@ public class Producto implements Serializable {
 
 	private int stock;
 
+	@NotNull(message = "Marca no puede estar vacío.")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_marca_producto")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private MarcaProducto marcaProducto;
 
+	@NotNull(message = "Tipo no puede estar vacío.")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_tipo_producto")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })

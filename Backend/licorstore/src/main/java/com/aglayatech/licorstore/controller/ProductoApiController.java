@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -58,6 +59,7 @@ public class ProductoApiController {
 		return serviceProducto.findAll(PageRequest.of(page, 5));
 	}
 	
+	@Secured(value = {"ROLE_COBRADOR","ROLE_ADMIN"})
 	@GetMapping(value = "/productos/{id}")
 	public ResponseEntity<?> findById(@PathVariable("id") int idproducto){
 		
@@ -80,6 +82,7 @@ public class ProductoApiController {
 		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
 	}
 	
+	@Secured(value = {"ROLE_ADMIN"})
 	@PostMapping(value = "/productos")
 	public ResponseEntity<?> create(@RequestBody Producto producto, BindingResult result){
 		
@@ -117,6 +120,7 @@ public class ProductoApiController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
+	@Secured(value = {"ROLE_ADMIN"})
 	@PutMapping(value = "/productos")
 	public ResponseEntity<?> update(@RequestBody Producto producto, BindingResult result){
 		
@@ -151,6 +155,7 @@ public class ProductoApiController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
+	@Secured(value = {"ROLE_ADMIN"})
 	@DeleteMapping(value = "/productos/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Integer idproducto) {
 		
@@ -176,6 +181,7 @@ public class ProductoApiController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 	
+	@Secured(value = {"ROLE_COBRADOR","ROLE_ADMIN"})
 	@PostMapping(value = "/productos/upload")
 	public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file, @RequestParam("id") Integer id){
 		

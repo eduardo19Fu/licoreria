@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -46,6 +47,7 @@ public class MarcaProductoApiController {
 		return serviceMarca.findAll(PageRequest.of(page, 5));
 	}
 
+	@Secured(value = {"ROLE_COBRADOR","ROLE_ADMIN"})
 	@GetMapping(value = "/marcas/{id}")
 	public ResponseEntity<?> getById(@PathVariable("id") Integer id) {
 
@@ -68,6 +70,7 @@ public class MarcaProductoApiController {
 		return new ResponseEntity<MarcaProducto>(marca, HttpStatus.OK);
 	}
 
+	@Secured(value = {"ROLE_ADMIN"})
 	@PostMapping(value = "/marcas")
 	public ResponseEntity<?> create(@Valid @RequestBody MarcaProducto marca, BindingResult result) {
 
@@ -108,6 +111,7 @@ public class MarcaProductoApiController {
 	}
 
 	// Controlador que permite actualizar el registro enviado por protocolo Http PUT
+	@Secured(value = {"ROLE_ADMIN"})
 	@PutMapping(value = "/marcas")
 	public ResponseEntity<?> update(@Valid @RequestBody MarcaProducto marca, BindingResult result) {
 
@@ -149,6 +153,7 @@ public class MarcaProductoApiController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 
+	@Secured(value = {"ROLE_ADMIN"})
 	@DeleteMapping(value = "/marcas/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") int id) {
 
