@@ -17,7 +17,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "usuarios")
@@ -33,17 +32,17 @@ public class Usuario implements Serializable {
 	private String apellido;
 	private boolean enabled;
 
-	@NotNull(message = "Fecha registro no puede estar vacío.")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaRegistro;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "id_usuario"), inverseJoinColumns = @JoinColumn(name = "id_role"))
+	@JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<Role> roles;
 
 	@PrePersist
 	void configurarFechaRegistro() {
 		this.fechaRegistro = new Date();
+		this.enabled = true;
 	}
 
 	public Integer getIdUsuario() {

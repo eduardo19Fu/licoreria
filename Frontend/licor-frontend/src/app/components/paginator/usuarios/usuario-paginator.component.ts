@@ -1,11 +1,11 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, OnChanges } from '@angular/core';
 
 @Component({
   // tslint:disable-next-line: component-selector
-  selector: 'paginator-cliente',
-  templateUrl: './cliente-paginator.component.html'
+  selector: 'paginator-usuario',
+  templateUrl: './usuario-paginator.component.html'
 })
-export class ClientePaginatorComponent implements OnInit, OnChanges {
+export class UsuarioPaginatorComponent implements OnInit, OnChanges {
 
   @Input() paginador: any;
 
@@ -41,5 +41,6 @@ export class ClientePaginatorComponent implements OnInit, OnChanges {
       this.paginas = new Array(this.paginador.totalPages).fill(0).map((valor, indice) => indice + 1);
     }
   }
+
 
 }

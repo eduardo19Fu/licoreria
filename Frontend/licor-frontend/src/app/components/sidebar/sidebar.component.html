@@ -14,8 +14,8 @@
             <div class="image">
                 <img src="assets/img/user1-128x128.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
-            <div class="info">
-                <a href="#" class="d-block">Usuario</a>
+            <div *ngIf="usuario != null" class="info">
+                <a href="#" class="d-block">{{usuario.primerNombre + ' ' + usuario.apellido}}</a>
             </div>
         </div>
 
@@ -54,6 +54,22 @@
                 </li>
 
                 <li class="nav-header">Ventas</li>
+
+                <li *ngIf="authService.hasRole('ROLE_ADMIN')" class="nav-header">Usuarios</li>
+                <li *ngIf="authService.hasRole('ROLE_ADMIN')" class="nav-item">
+                    <a [routerLink]="['/usuarios']" [routerLinkActive]="['active']" class="nav-link">
+                        <i class="fas fa-users nav-icon"></i>
+                        <p>Usuarios</p>
+                    </a>
+                </li>
+
+                <li class="nav-header">Sesión</li>
+                <li class="nav-item">
+                    <a [routerLink]="['/login']" [routerLinkActive]="['active']" href="#" class="nav-link">
+                        <i class="fas fa-window-close nav-icon"></i>
+                        <p>Cerrar Sesión</p>
+                    </a>
+                </li>
             
             </ul>
         </nav>

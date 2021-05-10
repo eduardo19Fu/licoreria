@@ -59,7 +59,7 @@ public class ProductoApiController {
 		return serviceProducto.findAll(PageRequest.of(page, 5));
 	}
 	
-	@Secured(value = {"ROLE_COBRADOR","ROLE_ADMIN"})
+	@Secured({"ROLE_ADMIN", "ROLE_COBRADOR"})
 	@GetMapping(value = "/productos/{id}")
 	public ResponseEntity<?> findById(@PathVariable("id") int idproducto){
 		

@@ -11,8 +11,7 @@
         <hr>
         <div class="row">
             <div class="col s6">
-                <a *ngIf="auth.hasRole('ROLE_ADMIN') || auth.hasRole('ROLE_COBRADOR')"
-                    [routerLink]="['/clientes/create']" class="btn bg-gradient-success"><i
+                <a [routerLink]="['/usuarios/create']" class="btn bg-gradient-success"><i
                         class="fas fa-plus-square"></i>&nbsp; Nuevo</a>
             </div>
         </div>
@@ -27,7 +26,7 @@
     <!-- /.card-header -->
     <div class="card-body table-responsive">
 
-        <div *ngIf="clientes?.length == 0" class="alert alert-info alert-dismissible">
+        <div *ngIf="usuarios?.length == 0" class="alert alert-info alert-dismissible">
             <h5>
                 <i class="icon fas fa-info"></i>
                 Atención!
@@ -36,34 +35,31 @@
             No existe ningún cliente registrado en la base de datos!
         </div>
 
-        <table id="example2" class="table table-bordered table-striped text-nowrap" *ngIf="clientes?.length > 0">
+        <table id="example2" class="table table-bordered table-striped text-nowrap" *ngIf="usuarios?.length > 0">
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Usuario</th>
                     <th>Nombre</th>
-                    <th>NIT</th>
-                    <th>Dirección</th>
+                    <th>Apellido</th>
                     <th>Fecha Registro</th>
-                    <th *ngIf="auth.hasRole('ROLE_ADMIN') || auth.hasRole('ROLE_COBRADOR')">Opciones</th>
+                    <th>Opciones</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let cliente of clientes">
-                    <td>{{cliente.idCliente}}</td>
-                    <td>{{cliente.nombre}}</td>
-                    <td>{{cliente.nit}}</td>
-                    <td>{{cliente.direccion}}</td>
-                    <td>{{cliente.fechaRegistro | date: 'dd/MM/yyyy - hh:mm'}}</td>
-                    <td *ngIf="auth.hasRole('ROLE_ADMIN') || auth.hasRole('ROLE_COBRADOR')">
-
+                <tr *ngFor="let usuario of usuarios">
+                    <td>{{usuario.idUsuario}}</td>
+                    <td>{{usuario.usuario}}</td>
+                    <td>{{usuario.primerNombre + ' ' + (usuario.segundoNombre == null ? '': usuario.segundoNombre)}}</td>
+                    <td>{{usuario.apellido}}</td>
+                    <td>{{usuario.fechaRegistro | date: 'dd/MM/yyyy - hh:mm'}}</td>
+                    <td>
                         <button class="btn bg-gradient-info" name="edit" type="button"
-                            [routerLink]="['/clientes/create', cliente.idCliente]">
+                            [routerLink]="['/usuarios/create', usuario.idUsuario]">
                             <i class="fas fa-edit"></i>
                         </button>&nbsp;
-
                         <!-- Aquí va el botón de eliminar -->
-                        <button *ngIf="auth.hasRole('ROLE_ADMIN')" class="btn bg-gradient-danger" name="delete"
-                            type="button" (click)="delete(cliente)">
+                        <button class="btn bg-gradient-danger" name="delete" type="button" (click)="delete(usuario)">
                             <i class="fas fa-trash-alt"></i>
                         </button>
                     </td>
@@ -72,15 +68,16 @@
             <tfoot>
                 <tr>
                     <th>ID</th>
+                    <th>Usuario</th>
                     <th>Nombre</th>
-                    <th>NIT</th>
-                    <th>Dirección</th>
+                    <th>Apellido</th>
                     <th>Fecha Registro</th>
-                    <th *ngIf="auth.hasRole('ROLE_ADMIN') || auth.hasRole('ROLE_COBRADOR')">Opciones</th>
+                    <th>Opciones</th>
                 </tr>
             </tfoot>
         </table>&nbsp;
-        <paginator-cliente *ngIf="paginador" [paginador]="paginador"></paginator-cliente>
+        
+        <paginator-usuario *ngIf="paginador" [paginador]="paginador"></paginator-usuario>
     </div>
     <!-- /.card-body -->
 </div>

@@ -6,6 +6,10 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -15,6 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.aglayatech.licorstore.model.Role;
 import com.aglayatech.licorstore.model.Usuario;
 import com.aglayatech.licorstore.repository.IUsuarioRepository;
 import com.aglayatech.licorstore.service.IUsuarioService;
@@ -44,12 +49,43 @@ public class UsuarioServiceImpl implements UserDetailsService, IUsuarioService {
 				.peek(authority -> logger.info("Role: " + authority.getAuthority()))
 				.collect(Collectors.toList());
 		
+		System.out.println(usuario.getRoles());
 		return new User(usuario.getUsuario(), usuario.getPassword(), usuario.getEnabled(), true, true, true, authorities);
 	}
 
 	@Override
 	public Usuario findByUsuario(String usuario) {
 		return repoUsuario.findByUsuario(usuario);
+	}
+
+	@Override
+	public List<Usuario> findAll() {
+		return repoUsuario.findAll(Sort.by(Direction.ASC, "idUsuario"));
+	}
+
+	@Override
+	public Page<Usuario> findAll(Pageable pageable) {
+		return repoUsuario.findAll(pageable);
+	}
+
+	@Override
+	public Usuario findById(Integer idusaurio) {
+		return repoUsuario.findById(idusaurio).orElse(null);
+	}
+
+	@Override
+	public Usuario save(Usuario usuario) {
+		return repoUsuario.save(usuario);
+	}
+
+	@Override
+	public List<Role> findRoles() {
+		return repoUsuario.findRoles();
+	}
+
+	@Override
+	public void delete(Integer id) {
+		repoUsuario.deleteById(id);
 	}
 
 }

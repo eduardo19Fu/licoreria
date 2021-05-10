@@ -22,7 +22,8 @@
                                     <li class="list-group-item">{{producto.marcaProducto.marca}}</li>
                                 </ul>
 
-                                <div class="input-group mb-3">
+                                <div *ngIf="auth.hasRole('ROLE_ADMIN') || auth.hasRole('ROLE_INVENTARIO')"
+                                    class="input-group mb-3">
                                     <div class="custom-file">
                                         <input (change)="seleccionarImagen($event)" type="file"
                                             class="custom-file-input" id="exampleInputFile">
@@ -53,7 +54,7 @@
                 </div>
                 <div class="modal-footer">
                     <button (click)="cerrarModal()" type="button" class="btn btn-secondary"
-                        data-dismiss="modal">Close</button>
+                        data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>

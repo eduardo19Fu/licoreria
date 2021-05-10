@@ -1,7 +1,7 @@
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routing';
@@ -30,6 +30,11 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DetailComponent } from './components/productos/detail/detail.component';
 import { LoginComponent } from './components/login/login.component';
+import { UsuariosComponent } from './components/usuarios/usuarios.component';
+import { CreateUsuarioComponent } from './components/usuarios/create-usuario/create-usuario.component';
+import { UsuarioPaginatorComponent } from './components/paginator/usuarios/usuario-paginator.component';
+import { TokenInterceptor } from './components/usuarios/interceptors/token.interceptor';
+import { AuthInterceptor } from './components/usuarios/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -53,7 +58,10 @@ import { LoginComponent } from './components/login/login.component';
     ClientePaginatorComponent,
     ProductoPaginatorComponent,
     DetailComponent,
-    LoginComponent
+    LoginComponent,
+    UsuariosComponent,
+    CreateUsuarioComponent,
+    UsuarioPaginatorComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,7 +75,9 @@ import { LoginComponent } from './components/login/login.component';
   ],
   providers: [
     appRoutingProviders,
-    {provide: LOCALE_ID, useValue: 'en-US' }
+    { provide: LOCALE_ID, useValue: 'en-US' },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

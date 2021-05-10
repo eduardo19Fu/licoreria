@@ -4,7 +4,9 @@ import { global } from './global';
 import { Observable, throwError } from 'rxjs';
 import { Producto } from '../models/producto';
 import { catchError, map } from 'rxjs/operators';
+
 import swal from 'sweetalert2';
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,6 @@ import swal from 'sweetalert2';
 export class ProductoService {
 
   private url: string;
-  private headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
     private http: HttpClient
@@ -20,12 +21,12 @@ export class ProductoService {
     this.url = global.url;
   }
 
-  getProductos(): Observable<Producto[]>{
-    return this.http.get<Producto[]>(this.url + '/productos', { headers: this.headers });
+  getProductos(): Observable<Producto[]> {
+    return this.http.get<Producto[]>(this.url + '/productos');
   }
 
-  getProductosPaginados(page: number): Observable<any>{
-    return this.http.get(`${this.url}/productos/page/${page}`, {headers: this.headers}).pipe(
+  getProductosPaginados(page: number): Observable<any> {
+    return this.http.get(`${this.url}/productos/page/${page}`).pipe(
       map((response: any) => {
         (response.content as Producto[]).map(producto => {
           return producto;
@@ -35,8 +36,8 @@ export class ProductoService {
     );
   }
 
-  getProducto(id: number): Observable<Producto>{
-    return this.http.get<Producto>(`${this.url}/productos/${id}`, {headers: this.headers}).pipe(
+  getProducto(id: number): Observable<Producto> {
+    return this.http.get<Producto>(`${this.url}/productos/${id}`).pipe(
       catchError(e => {
         swal.fire('Error al consultar el producto', e.error.mensaje, 'error');
         return throwError(e);
@@ -44,9 +45,8 @@ export class ProductoService {
     );
   }
 
-  create(producto: Producto): Observable<any>{
-    const params = JSON.stringify(producto);
-    return this.http.post<any>(`${this.url}/productos`, params, {headers: this.headers}).pipe(
+  create(producto: Producto): Observable<any> {
+    return this.http.post<any>(`${this.url}/productos`, producto).pipe(
       catchError(e => {
         swal.fire(e.error.mensaje, e.error.error, 'error');
         return throwError(e);
@@ -54,15 +54,29 @@ export class ProductoService {
     );
   }
 
-  update(producto: Producto): Observable<any>{
-    const params = JSON.stringify(producto);
-    return this.http.put<any>(`${this.url}/productos`, params, {headers: this.headers}).pipe(
+  update(producto: Producto): Observable<any> {
+    return this.http.put<any>(`${this.url}/productos`, producto).pipe(
       catchError(e => {
         swal.fire(e.error.mensaje, e.error.error, 'error');
         return throwError(e);
       })
     );
   }
+
+  // Código modificado para agregar barra de progreso
+  uploadImage(archivo: File, id): Observable<HttpEvent<{}>> {
+    const formData = new FormData();
+
+    formData.append('file', archivo); // primer parametro es el identificador del request en el backend
+    formData.append('id', id);
+
+    const req = new HttpRequest('POST', `${this.url}/productos/upload`, formData, {
+      reportProgress: true
+    });
+
+    return this.http.request(req);
+  }
+
 
   // Código original de subida de imagenes para productos
   /*uploadImage(archivo: File, id): Observable<Producto>{
@@ -79,18 +93,4 @@ export class ProductoService {
       })
     );
   }*/
-
-  // Código modificado para agregar barra de progreso
-  uploadImage(archivo: File, id): Observable<HttpEvent<{}>> {
-    let formData = new FormData();
-
-    formData.append('file', archivo); // primer parametro es el identificador del request en el backend
-    formData.append('id', id);
-
-    const req = new HttpRequest('POST', `${this.url}/productos/upload`, formData, {
-      reportProgress: true
-    });
-
-    return this.http.request(req);
-  }
 }
