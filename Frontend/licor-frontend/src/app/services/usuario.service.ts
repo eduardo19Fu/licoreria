@@ -29,6 +29,11 @@ export class UsuarioService {
     return this.http.get<any>(`${this.url}/usuarios/page/${page}`).pipe(
       map((response: any) => {
         (response.content as Usuario[]).map(usuario => {
+          usuario.primerNombre = usuario.primerNombre.toUpperCase();
+          usuario.apellido = usuario.apellido.toUpperCase();
+          if (usuario.segundoNombre != null){
+            usuario.segundoNombre = usuario.segundoNombre.toUpperCase();
+          }
           return usuario;
         });
         return response;

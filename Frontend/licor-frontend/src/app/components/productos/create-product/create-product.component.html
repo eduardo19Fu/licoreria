@@ -19,7 +19,7 @@
             </div>
             <!-- /.card-header -->
             <!-- form start -->
-            <form (ngSubmit)="create()">
+            <form #productoForm="ngForm">
                 <div class="card-body">
 
                     <div class="form-group">
@@ -89,8 +89,8 @@
 
                             <div class="col">
                                 <label for="porcentaje-ganancia">% Ganancia</label>
-                                <input type="number" id="porcentaje-ganancia" name="porcentaje-ganancia"
-                                    class="form-control" disabled>
+                                <input [(ngModel)]="producto.porcentajeGanancia" type="number" id="porcentaje-ganancia" name="porcentaje-ganancia"
+                                    class="form-control" readonly>
                             </div>
                         </div>
                         <br>
@@ -145,7 +145,16 @@
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                    <button type="submit" role="button" class="btn btn-primary">Guardar</button>
+                    <button type="submit" role="button" class="btn btn-primary"
+                        *ngIf="!producto.idProducto else elseblock" (click)="create()">
+                        Guardar
+                    </button>
+
+                    <ng-template #elseblock>
+                        <button type="submit" role="button" class="btn btn-primary" (click)="update()">
+                            Actualizar
+                        </button>
+                    </ng-template>
                 </div>
             </form>
         </div>

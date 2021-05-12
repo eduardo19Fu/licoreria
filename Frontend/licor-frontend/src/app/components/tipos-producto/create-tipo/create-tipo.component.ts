@@ -28,7 +28,6 @@ export class CreateTipoComponent implements OnInit {
   }
 
   cargarTipoProducto(): void{
-    // tslint:disable-next-line: deprecation
     this.activatedRoute.params.subscribe(params => {
       // tslint:disable-next-line: no-string-literal
       const id = params['id'];

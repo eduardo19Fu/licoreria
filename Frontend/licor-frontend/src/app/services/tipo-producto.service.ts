@@ -21,7 +21,15 @@ export class TipoProductoService {
   }
 
   getTiposProducto(): Observable<TipoProducto[]> {
-    return this.http.get<TipoProducto[]>(`${this.url}/tipos-producto`);
+    return this.http.get<TipoProducto[]>(`${this.url}/tipos-producto`).pipe(
+      map((response: any) => {
+        (response as TipoProducto[]).map(tipo => {
+          tipo.tipoProducto = tipo.tipoProducto.toUpperCase();
+          return tipo;
+        });
+        return response;
+      })
+    );
   }
 
   getTiposPaginados(page: number): Observable<TipoProducto[]> {

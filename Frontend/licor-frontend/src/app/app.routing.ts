@@ -45,7 +45,7 @@ const appRoutes: Routes = [
     {path: 'usuarios', component: UsuariosComponent, canActivate: [AuthGuard]},
     {path: 'usuarios/page/:page', component: UsuariosComponent, canActivate: [AuthGuard]},
     {path: 'usuarios/create', component: CreateUsuarioComponent, canActivate: [AuthGuard]},
-    {path: 'usuarios/create/:id', component: CreateUsuarioComponent, canActivate: [AuthGuard]},
+    {path: 'usuarios/create/:id', component: CreateUsuarioComponent, canActivate: [AuthGuard, RoleGuard], data: {role: ['ROLE_ADMIN']}},
     {path: '**', component: ErrorComponent, canActivate: [AuthGuard]}
 ];
 

@@ -72,7 +72,8 @@
                     <th *ngIf="auth.hasRole('ROLE_ADMIN') || auth.hasRole('ROLE_INVENTARIO')">Opciones</th>
                 </tr>
             </tfoot>
-        </table>
+        </table>&nbsp;
+
         <paginator-tipo *ngIf="paginador" [paginador]="paginador"></paginator-tipo>
     </div>
     <!-- /.card-body -->
