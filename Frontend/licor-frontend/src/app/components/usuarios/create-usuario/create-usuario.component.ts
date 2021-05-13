@@ -15,7 +15,7 @@ import swal from 'sweetalert2';
 export class CreateUsuarioComponent implements OnInit {
 
   title: string;
-  usuario: Usuario;
+  public usuario: Usuario;
   role: Role;
   roles: Role[];
   filas: Role[] = [];
@@ -46,9 +46,11 @@ export class CreateUsuarioComponent implements OnInit {
   }
 
   create(): void {
-    this.filas.forEach(fila => {
+    /*this.filas.forEach(fila => {
       this.usuario.roles.push(fila.role);
-    });
+    });*/
+
+    console.log(this.usuario);
 
     this.usuarioService.create(this.usuario).subscribe(
       response => {

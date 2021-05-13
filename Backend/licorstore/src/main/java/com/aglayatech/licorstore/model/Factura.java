@@ -125,9 +125,16 @@ public class Factura implements Serializable {
 	public void setItems(List<DetalleFactura> items) {
 		this.items = items;
 	}
-	
-	public Double calcularGranTotal() {
+
 		
+	public Double calcularTotal() {
+		Double total = 0.00;
+		
+		for(DetalleFactura item : items) {
+			total += item.getSubTotal();
+		}
+		
+		return total;
 	}
 
 	private static final long serialVersionUID = 1L;
