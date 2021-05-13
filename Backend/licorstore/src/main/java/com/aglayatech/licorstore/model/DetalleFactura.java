@@ -3,10 +3,15 @@ package com.aglayatech.licorstore.model;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "facturas_detalle")
@@ -18,9 +23,10 @@ public class DetalleFactura implements Serializable {
 	private Integer cantidad;
 	private Double subTotal;
 
-	private Producto idProducto;
-
-	private Factura idVenta;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_producto")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	private Producto producto;
 
 	public DetalleFactura() {
 		// constructor
@@ -50,24 +56,16 @@ public class DetalleFactura implements Serializable {
 		this.subTotal = subTotal;
 	}
 
-	public Producto getIdProducto() {
-		return idProducto;
+	public Producto getProducto() {
+		return producto;
 	}
 
-	public void setIdProducto(Producto idProducto) {
-		this.idProducto = idProducto;
-	}
-
-	public Factura getIdVenta() {
-		return idVenta;
-	}
-
-	public void setIdVenta(Factura idVenta) {
-		this.idVenta = idVenta;
+	public void setProducto(Producto producto) {
+		this.producto = producto;
 	}
 
 	public Double calcularImporte() {
-		return this.cantidad.doubleValue();
+		return this.cantidad.doubleValue() * producto.getPrecioVenta();
 	}
 
 	private static final long serialVersionUID = 1L;
