@@ -38,13 +38,13 @@ public class Factura implements Serializable {
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Estado estado;
 
-	/*@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_usuario")
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	private Usuario usuario;*/
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_usuario")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	private Usuario usuario;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_cliente")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Cliente cliente;
 
@@ -102,13 +102,13 @@ public class Factura implements Serializable {
 		this.estado = estado;
 	}
 
-	/*public Usuario getUsuario() {
+	public Usuario getUsuario() {
 		return usuario;
 	}
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}*/
+	}
 
 	public Cliente getCliente() {
 		return cliente;
@@ -124,6 +124,10 @@ public class Factura implements Serializable {
 
 	public void setItems(List<DetalleFactura> items) {
 		this.items = items;
+	}
+	
+	public Double calcularGranTotal() {
+		
 	}
 
 	private static final long serialVersionUID = 1L;
