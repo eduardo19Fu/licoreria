@@ -91,6 +91,7 @@ public class UsuarioApiController {
 		}
 		
 		try {
+			System.out.println(usuario);
 			usuario.setPassword(passwordEnconder.encode(usuario.getPassword()));
 			newUsuario = serviceUsuario.save(usuario);
 		} catch (DataAccessException e) {

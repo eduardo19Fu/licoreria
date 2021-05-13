@@ -44,7 +44,7 @@ export class UsuarioService {
   getUsuario(id: number): Observable<Usuario> {
     return this.http.get<Usuario>(`${this.url}/usuarios/${id}`).pipe(
       catchError(e => {
-        swal.fire('Error al consultar el usuario', e.error.mensaje, 'error');
+        swal.fire(e.error.mensaje, e.error.error, 'error');
         return throwError(e);
       })
     );

@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,6 +42,25 @@ public class RoleApiController {
 		return this.serviceRole.findAll(PageRequest.of(page, 5));
 	}
 	
+	@Secured(value = {"ROLE_ADMIN"})
+	@GetMapping(value = "/roles/name/{role}")
+	public ResponseEntity<?> buscarPorNombre(@PathVariable("role") String role){
+		
+		Role foundRole = null;
+		Map<String, Object> response = new HashMap<>();
+		
+		try {
+			foundRole = serviceRole.findByName(role);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "¡Ha ocurrido un error en la base de datos!");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<Role>(foundRole, HttpStatus.OK);
+	}
+	
+	@Secured(value = {"ROLE_ADMIN"})
 	@GetMapping(value = "/roles/{id}")
 	public ResponseEntity<?> getById(@PathVariable("id") Integer idrole){
 		
@@ -63,6 +83,7 @@ public class RoleApiController {
 		return new ResponseEntity<Role>(role, HttpStatus.OK);
 	}
 	
+	@Secured(value = {"ROLE_ADMIN"})
 	@PostMapping(value = "/roles")
 	public ResponseEntity<?> create(@RequestBody Role role, BindingResult result){
 		

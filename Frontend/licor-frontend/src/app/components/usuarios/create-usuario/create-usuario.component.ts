@@ -15,7 +15,7 @@ import swal from 'sweetalert2';
 export class CreateUsuarioComponent implements OnInit {
 
   title: string;
-  public usuario: Usuario;
+  usuario: Usuario;
   role: Role;
   roles: Role[];
   filas: Role[] = [];
@@ -35,7 +35,7 @@ export class CreateUsuarioComponent implements OnInit {
   }
 
   cargarUsuario(): void {
-    this.activatedRoute.paramMap.subscribe(params => {
+    this.activatedRoute.params.subscribe(params => {
       // tslint:disable-next-line: no-string-literal
       const id = params['id'];
       if (id) {
@@ -46,18 +46,24 @@ export class CreateUsuarioComponent implements OnInit {
   }
 
   create(): void {
-    /*this.filas.forEach(fila => {
+
+    this.usuario.primerNombre = ((document.getElementById('primerNombre') as HTMLInputElement).value) as string;
+    this.usuario.segundoNombre = ((document.getElementById('segundoNombre') as HTMLInputElement).value) as string;
+    this.usuario.usuario = ((document.getElementById('usuario') as HTMLInputElement).value) as string;
+    this.usuario.password = ((document.getElementById('password') as HTMLInputElement).value) as string;
+
+    this.filas.forEach(fila => {
       this.usuario.roles.push(fila.role);
-    });*/
+    });
 
     console.log(this.usuario);
 
-    this.usuarioService.create(this.usuario).subscribe(
+    /*this.usuarioService.create(this.usuario).subscribe(
       response => {
         this.router.navigate(['/usuarios']);
         swal.fire('Usuario creado', `El usuario ${this.usuario.usuario} fue creado con éxito`, 'success');
       }
-    );
+    );*/
   }
 
   update(): void {

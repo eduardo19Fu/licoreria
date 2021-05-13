@@ -47,7 +47,7 @@ public class ClienteApiController {
 		return serviceCliente.findByName(name);
 	}*/
 
-	@Secured(value = {"ROLE_COBRADOR","ROLE_ADMIN"})
+	// @Secured(value = {"ROLE_COBRADOR","ROLE_ADMIN"})
 	@GetMapping(value = "/clientes/{id}")
 	public ResponseEntity<?> findById(@PathVariable("id") Integer id) {
 

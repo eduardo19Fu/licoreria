@@ -27,7 +27,7 @@ public class Factura implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idFactura;
-	private String noFactura;
+	private Long noFactura;
 	private Double total;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -45,7 +45,7 @@ public class Factura implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_cliente")
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@JsonIgnoreProperties({"cliente", "hibernateLazyInitializer", "handler" })
 	private Cliente cliente;
 
 	@OneToMany(fetch = FetchType.LAZY)
@@ -70,11 +70,11 @@ public class Factura implements Serializable {
 		this.idFactura = idFactura;
 	}
 
-	public String getNoFactura() {
+	public Long getNoFactura() {
 		return noFactura;
 	}
 
-	public void setNoFactura(String noFactura) {
+	public void setNoFactura(Long noFactura) {
 		this.noFactura = noFactura;
 	}
 
@@ -126,14 +126,13 @@ public class Factura implements Serializable {
 		this.items = items;
 	}
 
-		
 	public Double calcularTotal() {
 		Double total = 0.00;
-		
-		for(DetalleFactura item : items) {
+
+		for (DetalleFactura item : items) {
 			total += item.getSubTotal();
 		}
-		
+
 		return total;
 	}
 
