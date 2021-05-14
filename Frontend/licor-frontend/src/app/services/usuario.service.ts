@@ -7,6 +7,7 @@ import { catchError, map } from 'rxjs/operators';
 import { Role } from '../models/role';
 
 import swal from 'sweetalert2';
+import { UsuarioAuxiliar } from '../models/auxiliar/usuario-auxiliar';
 
 @Injectable({
   providedIn: 'root'
@@ -41,8 +42,8 @@ export class UsuarioService {
     );
   }
 
-  getUsuario(id: number): Observable<Usuario> {
-    return this.http.get<Usuario>(`${this.url}/usuarios/${id}`).pipe(
+  getUsuario(id: number): Observable<UsuarioAuxiliar> {
+    return this.http.get<UsuarioAuxiliar>(`${this.url}/usuarios/${id}`).pipe(
       catchError(e => {
         swal.fire(e.error.mensaje, e.error.error, 'error');
         return throwError(e);
@@ -50,7 +51,7 @@ export class UsuarioService {
     );
   }
 
-  create(usuario: Usuario): Observable<any> {
+  create(usuario: UsuarioAuxiliar): Observable<any> {
     return this.http.post<any>(`${this.url}/usuarios`, usuario).pipe(
       catchError(e => {
         swal.fire(e.error.mensaje, e.error.error, 'error');
@@ -59,7 +60,7 @@ export class UsuarioService {
     );
   }
 
-  update(usuario: Usuario): Observable<any> {
+  update(usuario: UsuarioAuxiliar): Observable<any> {
     return this.http.put<any>(`${this.url}/usuarios`, usuario).pipe(
       catchError(e => {
         swal.fire(e.error.mensaje, e.error.error, 'error');

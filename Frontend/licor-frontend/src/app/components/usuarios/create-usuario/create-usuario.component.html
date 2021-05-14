@@ -24,7 +24,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="primerNombre">Primer Nombre</label>
-                                <input type="text" name="primerNombre" id="primerNombre" [(ngModel)]="usuario.primerNombre"
+                                <input type="text" name="primerNombre" id="primerNombre" [(ngModel)]="usuarioAuxiliar.primerNombre"
                                     class="form-control" placeholder="Ingrese el primer nombre" required
                                     #primerNombre="ngModel">
 
@@ -39,7 +39,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="segundoNombre">Segundo Nombre</label>
-                                <input type="text" name="segundoNombre" id="segundoNombre" [(ngModel)]="usuario.segundoNombre"
+                                <input type="text" name="segundoNombre" id="segundoNombre" [(ngModel)]="usuarioAuxiliar.segundoNombre"
                                     class="form-control" placeholder="Ingrese el segundo nombre del usuario">
                             </div>
                         </div>
@@ -49,8 +49,8 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="apellido">Apellidos</label>
-                                <input type="text" name="apellido" id="apellido" [(ngModel)]="usuario.apellido" class="form-control"
-                                    placeholder="IngresE los apellidos del usuario" required #apellido="ngModel">
+                                <input type="text" name="apellido" id="apellido" [(ngModel)]="usuarioAuxiliar.apellido" class="form-control"
+                                    placeholder="Ingrese los apellidos del usuario" required #apellido="ngModel">
 
                                 <div *ngIf="apellido.invalid && (apellido.touched || apellido.dirty)">
                                     <span class="requerido">
@@ -65,7 +65,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="usuario">Usuario</label>
-                                <input type="text" name="usuario" id="usuario" [(ngModel)]="usuario.usuario" class="form-control"
+                                <input type="text" name="usuario" id="usuario" [(ngModel)]="usuarioAuxiliar.usuario" class="form-control"
                                     placeholder="Ingrese un usuario" required #usuario="ngModel">
 
                                 <div *ngIf="usuario.invalid && (usuario.touched || usuario.dirty)">
@@ -78,7 +78,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="password">Contraseña</label>
-                                <input type="password" name="password" id="password" [(ngModel)]="usuario.password"
+                                <input type="password" name="password" id="password" [(ngModel)]="usuarioAuxiliar.password"
                                     class="form-control" required #password="ngModel"
                                     placeholder="Ingrese una contraseña">
 
@@ -103,8 +103,18 @@
                         </div>
                     </div>
 
-                    <button type="submit" role="button" class="btn bg-gradient-primary btn-lg" (click)="create()"
-                        [disabled]="filas.length == 0 || !usuarioForm.form.valid">Crear Usuario</button>
+                    <button *ngIf="!usuarioAuxiliar.idUsuario else elseblock" type="submit" role="button" class="btn bg-gradient-primary btn-lg" 
+                        (click)="create()" [disabled]="filas.length == 0 || !usuarioForm.form.valid">
+                        Crear Usuario
+                    </button>
+
+                    <ng-template #elseblock>
+                        <button class="btn bg-gradient-warning btn-lg" role="button" (click)="update()"
+                            [disabled]="filas.length == 0 || !usuarioForm.form.valid">
+                            Actualizar
+                        </button>
+                    </ng-template>
+                    
                 </form>
             </div>
         </div>

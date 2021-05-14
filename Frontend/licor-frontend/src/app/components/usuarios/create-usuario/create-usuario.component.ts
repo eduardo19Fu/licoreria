@@ -5,6 +5,7 @@ import { UsuarioService } from '../../../services/usuario.service';
 import { Role } from 'src/app/models/role';
 
 import swal from 'sweetalert2';
+import { UsuarioAuxiliar } from '../../../models/auxiliar/usuario-auxiliar';
 
 @Component({
   selector: 'app-create-usuario',
@@ -20,6 +21,8 @@ export class CreateUsuarioComponent implements OnInit {
   roles: Role[];
   filas: Role[] = [];
 
+  public usuarioAuxiliar: UsuarioAuxiliar;
+
   constructor(
     private router: Router,
     private usuarioService: UsuarioService,
@@ -27,6 +30,7 @@ export class CreateUsuarioComponent implements OnInit {
   ) {
     this.title = 'Crear Usuario';
     this.usuario = new Usuario();
+    this.usuarioAuxiliar = new UsuarioAuxiliar();
   }
 
   ngOnInit(): void {
@@ -39,38 +43,32 @@ export class CreateUsuarioComponent implements OnInit {
       // tslint:disable-next-line: no-string-literal
       const id = params['id'];
       if (id) {
-        this.usuarioService.getUsuario(id).subscribe(usuario => this.usuario = usuario);
-        console.log(this.usuario);
+        this.usuarioService.getUsuario(id).subscribe(usuario => {
+          this.usuarioAuxiliar = usuario;
+          this.filas = this.usuarioAuxiliar.roles;
+        });
       }
     });
   }
 
   create(): void {
+    this.usuarioAuxiliar.roles = this.filas;
 
-    this.usuario.primerNombre = ((document.getElementById('primerNombre') as HTMLInputElement).value) as string;
-    this.usuario.segundoNombre = ((document.getElementById('segundoNombre') as HTMLInputElement).value) as string;
-    this.usuario.usuario = ((document.getElementById('usuario') as HTMLInputElement).value) as string;
-    this.usuario.password = ((document.getElementById('password') as HTMLInputElement).value) as string;
+    console.log(this.usuarioAuxiliar);
 
-    this.filas.forEach(fila => {
-      this.usuario.roles.push(fila.role);
-    });
-
-    console.log(this.usuario);
-
-    /*this.usuarioService.create(this.usuario).subscribe(
+    this.usuarioService.create(this.usuarioAuxiliar).subscribe(
       response => {
         this.router.navigate(['/usuarios']);
-        swal.fire('Usuario creado', `El usuario ${this.usuario.usuario} fue creado con éxito`, 'success');
+        swal.fire('Usuario creado', `El usuario ${this.usuarioAuxiliar.usuario} fue creado con éxito`, 'success');
       }
-    );*/
+    );
   }
 
   update(): void {
-    this.usuarioService.update(this.usuario).subscribe(
+    this.usuarioService.update(this.usuarioAuxiliar).subscribe(
       response => {
         this.router.navigate(['/usuarios']);
-        swal.fire('Usuario Actualizado', `El usuario ${this.usuario} fue actualizado con éxito`, 'success');
+        swal.fire('Usuario Actualizado', `El usuario ${this.usuarioAuxiliar.usuario} fue actualizado con éxito`, 'success');
       }
     );
   }
