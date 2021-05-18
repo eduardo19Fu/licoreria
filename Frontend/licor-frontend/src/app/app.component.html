@@ -1,4 +1,6 @@
-<div class="wrapper">
+<router-outlet *ngIf="router.url === '/' || router.url === '/login'" ></router-outlet>
+
+<div *ngIf="router.url !== '/login' && router.url !== '/'" class="wrapper">
     <!--MENU SUPERIOR-->    
     <app-header></app-header>
 

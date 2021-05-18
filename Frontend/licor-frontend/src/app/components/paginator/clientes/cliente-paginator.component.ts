@@ -21,7 +21,7 @@ export class ClientePaginatorComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    let paginadorActualizado = null; 
+    let paginadorActualizado = null;
 
     // tslint:disable-next-line: no-string-literal
     paginadorActualizado = changes['paginador'];

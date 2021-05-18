@@ -5,6 +5,8 @@ import { ClienteService } from '../../services/cliente.service';
 import { Cliente } from 'src/app/models/cliente';
 import { MarcaProductoService } from '../../services/marca-producto.service';
 import { MarcaProducto } from '../../models/marca-producto';
+import { UsuarioService } from '../../services/usuario.service';
+import { Usuario } from 'src/app/models/usuario';
 
 @Component({
   selector: 'app-home',
@@ -18,15 +20,18 @@ export class HomeComponent implements OnInit {
   public totalProductos: number;
   public totalClientes: number;
   public totalMarcas: number;
+  public totalUsuarios: number;
 
-  public productos: Producto[];
-  public clientes: Cliente[];
-  public marcas: MarcaProducto[];
+  productos: Producto[];
+  clientes: Cliente[];
+  marcas: MarcaProducto[];
+  usuarios: Usuario[];
 
   constructor(
     private serviceProducto: ProductoService,
     private serviceCliente: ClienteService,
-    private serviceMarca: MarcaProductoService
+    private serviceMarca: MarcaProductoService,
+    private serviceUsuario: UsuarioService
   ) {
     this.title = 'Inicio';
    }
@@ -35,35 +40,22 @@ export class HomeComponent implements OnInit {
     this.getProductos();
     this.getClientes();
     this.getMarcas();
+    this.getUsuarios();
   }
 
   getProductos(): void{
-    // tslint:disable-next-line: deprecation
-    this.serviceProducto.getProductos().subscribe(
-      productos => {
-        this.productos = productos;
-        this.totalProductos = this.productos.length;
-      }
-    );
+    this.serviceProducto.getProductos().subscribe(productos => this.totalProductos = productos.length);
   }
 
   getClientes(): void{
-    // tslint:disable-next-line: deprecation
-    this.serviceCliente.getClientes().subscribe(
-      clientes => {
-        this.clientes = clientes;
-        this.totalClientes = this.clientes.length;
-      }
-    );
+    this.serviceCliente.getClientes().subscribe(clientes => this.totalClientes = clientes.length);
   }
 
   getMarcas(): void{
-    // tslint:disable-next-line: deprecation
-    this.serviceMarca.getMarcas().subscribe(
-      marcas => {
-        this.marcas = marcas;
-        this.totalMarcas = this.marcas.length;
-      }
-    );
+    this.serviceMarca.getMarcas().subscribe(marcas => this.totalMarcas = marcas.length);
+  }
+
+  getUsuarios(): void{
+    this.serviceUsuario.getUsuarios().subscribe(usuarios => this.totalUsuarios = usuarios.length);
   }
 }

@@ -5,6 +5,7 @@ import { HttpEventType } from '@angular/common/http';
 import { ModalService } from '../../../services/productos/modal.service';
 
 import swal from 'sweetalert2';
+import { AuthService } from '../../../services/auth.service';
 
 
 @Component({
@@ -24,7 +25,8 @@ export class DetailComponent implements OnInit {
 
   constructor(
     public modalService: ModalService,
-    private serviceProducto: ProductoService
+    private serviceProducto: ProductoService,
+    public auth: AuthService
   ) {
     this.title = 'Detalle del Producto';
     this.progreso = 0;

@@ -3,6 +3,7 @@ import { TipoProducto } from '../../models/tipo-producto';
 import { TipoProductoService } from '../../services/tipo-producto.service';
 import { ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-tipos-producto',
@@ -26,7 +27,8 @@ export class TiposProductoComponent implements OnInit {
 
   constructor(
     private tipoService: TipoProductoService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public auth: AuthService
   ) {
     this.title = 'Listado de Tipos';
   }

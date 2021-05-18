@@ -4,6 +4,7 @@ import { MarcaProductoService } from '../../services/marca-producto.service';
 import swal from 'sweetalert2';
 import { Subject } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-marcas-producto',
@@ -31,7 +32,8 @@ export class MarcasProductoComponent implements OnInit, OnDestroy {
 
   constructor(
     private marcaService: MarcaProductoService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public auth: AuthService
   ) {
     this.title = 'Listado de Marcas de Productos';
   }

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { global } from '../services/global';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { TipoProducto } from '../models/tipo-producto';
 import { catchError, map } from 'rxjs/operators';
+
 import swal from 'sweetalert2';
 
 @Injectable({
@@ -12,7 +13,6 @@ import swal from 'sweetalert2';
 export class TipoProductoService {
 
   private url: string;
-  private headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
     private http: HttpClient
@@ -24,8 +24,8 @@ export class TipoProductoService {
     return this.http.get<TipoProducto[]>(`${this.url}/tipos-producto`);
   }
 
-  getTiposPaginados(page: number): Observable<TipoProducto[]>{
-    return this.http.get(`${this.url}/tipos-producto/page/${page}`, {headers: this.headers}).pipe(
+  getTiposPaginados(page: number): Observable<TipoProducto[]> {
+    return this.http.get(`${this.url}/tipos-producto/page/${page}`).pipe(
       map((response: any) => {
         (response.content as TipoProducto[]).map(tipo => {
           tipo.tipoProducto = tipo.tipoProducto.toUpperCase();
@@ -36,8 +36,8 @@ export class TipoProductoService {
     );
   }
 
-  getTipoProducto(id: number): Observable<TipoProducto>{
-    return this.http.get<TipoProducto>(`${this.url}/tipos-producto/${id}`, {headers: this.headers}).pipe(
+  getTipoProducto(id: number): Observable<TipoProducto> {
+    return this.http.get<TipoProducto>(`${this.url}/tipos-producto/${id}`).pipe(
       catchError(e => {
         swal.fire('Error al consultar el tipo deseado', e.error.mensaje, 'error');
         return throwError(e);
@@ -45,9 +45,8 @@ export class TipoProductoService {
     );
   }
 
-  create(tipoProducto: TipoProducto): Observable<any>{
-    const params = JSON.stringify(tipoProducto);
-    return this.http.post<any>(`${this.url}/tipos-producto`, params, { headers: this.headers }).pipe(
+  create(tipoProducto: TipoProducto): Observable<any> {
+    return this.http.post<any>(`${this.url}/tipos-producto`, tipoProducto).pipe(
       catchError(e => {
         swal.fire(e.error.mensaje, e.error.error, 'error');
         return throwError(e);
@@ -55,9 +54,8 @@ export class TipoProductoService {
     );
   }
 
-  update(tipoProducto: TipoProducto): Observable<any>{
-    const params = JSON.stringify(tipoProducto);
-    return this.http.put<any>(`${this.url}/tipos-producto`, params, {headers: this.headers}).pipe(
+  update(tipoProducto: TipoProducto): Observable<any> {
+    return this.http.put<any>(`${this.url}/tipos-producto`, tipoProducto).pipe(
       catchError(e => {
         swal.fire(e.error.mensaje, e.error.error, 'error');
         return throwError(e);
@@ -65,8 +63,8 @@ export class TipoProductoService {
     );
   }
 
-  delete(id: number): Observable<TipoProducto>{
-    return this.http.delete<TipoProducto>(`${this.url}/tipos-producto/${id}`, {headers: this.headers}).pipe(
+  delete(id: number): Observable<TipoProducto> {
+    return this.http.delete<TipoProducto>(`${this.url}/tipos-producto/${id}`).pipe(
       catchError(e => {
         swal.fire(e.error.mensaje, e.error.error, 'error');
         return throwError(e);

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +47,7 @@ public class ClienteApiController {
 		return serviceCliente.findByName(name);
 	}*/
 
+	@Secured(value = {"ROLE_COBRADOR","ROLE_ADMIN"})
 	@GetMapping(value = "/clientes/{id}")
 	public ResponseEntity<?> findById(@PathVariable("id") Integer id) {
 
@@ -68,6 +70,7 @@ public class ClienteApiController {
 		return new ResponseEntity<Cliente>(cliente, HttpStatus.OK);
 	}
 
+	@Secured(value = {"ROLE_COBRADOR","ROLE_ADMIN"})
 	@PostMapping(value = "/clientes")
 	public ResponseEntity<?> create(@RequestBody Cliente cliente) {
 		
@@ -92,6 +95,7 @@ public class ClienteApiController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
+	@Secured(value = {"ROLE_ADMIN"})
 	@SuppressWarnings("null")
 	@PutMapping(value = "/clientes")
 	public ResponseEntity<?> update(@RequestBody Cliente cliente) {
@@ -118,6 +122,7 @@ public class ClienteApiController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
+	@Secured(value = {"ROLE_ADMIN"})
 	@DeleteMapping(value = "/clientes/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Integer idcliente) {
 		

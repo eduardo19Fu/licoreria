@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,6 +42,7 @@ public class TipoProductoApiController {
 		return serviceTipo.findAll(PageRequest.of(page, 5));
 	}
 	
+	@Secured(value = {"ROLE_COBRADOR","ROLE_ADMIN"})
 	@GetMapping(value = "/tipos-producto/{id}")
 	public ResponseEntity<?> findById(@PathVariable("id") int id){
 		
@@ -63,6 +65,7 @@ public class TipoProductoApiController {
 		return new ResponseEntity<TipoProducto>(tipo, HttpStatus.OK);
 	}
 	
+	@Secured(value = {"ROLE_ADMIN"})
 	@PostMapping(value = "/tipos-producto")
 	public ResponseEntity<?> create(@RequestBody TipoProducto tipoProducto){
 		
@@ -88,6 +91,7 @@ public class TipoProductoApiController {
 	}
 	
 	@SuppressWarnings("null")
+	@Secured(value = {"ROLE_ADMIN"})
 	@PutMapping(value = "/tipos-producto")
 	public ResponseEntity<?> update(@RequestBody TipoProducto tipoProducto){
 		
@@ -118,6 +122,7 @@ public class TipoProductoApiController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
+	@Secured(value = {"ROLE_ADMIN"})
 	@DeleteMapping(value = "/tipos-producto/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Integer idtipo) {
 		

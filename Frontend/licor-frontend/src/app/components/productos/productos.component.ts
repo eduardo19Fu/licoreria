@@ -3,6 +3,7 @@ import { Producto } from '../../models/producto';
 import { ProductoService } from '../../services/producto.service';
 import { ActivatedRoute } from '@angular/router';
 import { ModalService } from '../../services/productos/modal.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-productos',
@@ -21,7 +22,8 @@ export class ProductosComponent implements OnInit {
   constructor(
     private modalService: ModalService,
     private productoService: ProductoService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public auth: AuthService
   ) {
     this.title = 'Listado de Productos';
    }
@@ -40,7 +42,7 @@ export class ProductosComponent implements OnInit {
 
     this.modalService.notificarUpload.subscribe(producto => {
       this.productos = this.productos.map(productoOriginal => {
-        if (producto.idProducto == productoOriginal.idProducto){
+        if (producto.idProducto === productoOriginal.idProducto){
           productoOriginal.imagen = producto.imagen;
         }
         return productoOriginal;

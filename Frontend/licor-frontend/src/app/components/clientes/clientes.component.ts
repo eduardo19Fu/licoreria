@@ -3,6 +3,7 @@ import { Cliente } from 'src/app/models/cliente';
 import { ClienteService } from '../../services/cliente.service';
 import swal from 'sweetalert2';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-clientes',
@@ -26,7 +27,8 @@ export class ClientesComponent implements OnInit {
 
   constructor(
     private clienteService: ClienteService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public auth: AuthService
   ) {
     this.title = 'Listado de clientes';
   }

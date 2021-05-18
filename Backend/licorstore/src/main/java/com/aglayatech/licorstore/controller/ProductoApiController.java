@@ -1,28 +1,21 @@
 package com.aglayatech.licorstore.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,8 +29,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.aglayatech.licorstore.model.Estado;
 import com.aglayatech.licorstore.model.Producto;
+import com.aglayatech.licorstore.service.IEstadoService;
 import com.aglayatech.licorstore.service.IProductoService;
+import com.aglayatech.licorstore.service.IUploadFileService;
 
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
@@ -47,7 +43,11 @@ public class ProductoApiController {
 	@Autowired
 	private IProductoService serviceProducto;
 	
-	private final Logger log = LoggerFactory.getLogger(ProductoApiController.class);
+	@Autowired
+	private IEstadoService serviceEstado;
+	
+	@Autowired
+	private IUploadFileService serviceUpload;
 	
 	@GetMapping(value = "/productos")
 	public List<Producto> index(){
@@ -59,6 +59,7 @@ public class ProductoApiController {
 		return serviceProducto.findAll(PageRequest.of(page, 5));
 	}
 	
+	@Secured({"ROLE_ADMIN", "ROLE_COBRADOR"})
 	@GetMapping(value = "/productos/{id}")
 	public ResponseEntity<?> findById(@PathVariable("id") int idproducto){
 		
@@ -81,6 +82,7 @@ public class ProductoApiController {
 		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
 	}
 	
+	@Secured(value = {"ROLE_ADMIN"})
 	@PostMapping(value = "/productos")
 	public ResponseEntity<?> create(@RequestBody Producto producto, BindingResult result){
 		
@@ -99,6 +101,8 @@ public class ProductoApiController {
 		}
 		
 		try {
+			Estado estado = serviceEstado.findById(1);
+			producto.setEstado(estado);
 			newProducto = serviceProducto.save(producto);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "¡Ha ocurrido un error en la base de datos!");
@@ -116,6 +120,7 @@ public class ProductoApiController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
+	@Secured(value = {"ROLE_ADMIN"})
 	@PutMapping(value = "/productos")
 	public ResponseEntity<?> update(@RequestBody Producto producto, BindingResult result){
 		
@@ -150,13 +155,21 @@ public class ProductoApiController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
+	@Secured(value = {"ROLE_ADMIN"})
 	@DeleteMapping(value = "/productos/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Integer idproducto) {
 		
 		Map<String, Object> response = new HashMap<>();
 		
 		try {
+			Producto producto = serviceProducto.findById(idproducto);
+			String nombreImagenAnterior = producto.getImagen();
+			
+			// Eliminar foto antigua cuando se sube nueva foto
+			serviceUpload.eliminar(nombreImagenAnterior);
+			
 			serviceProducto.delete(idproducto);
+			
 		} catch (DataAccessException e) {
 			response.put("mensaje", "¡Ha ocurrido un error en la base de datos!");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -168,6 +181,7 @@ public class ProductoApiController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 	
+	@Secured(value = {"ROLE_COBRADOR","ROLE_ADMIN"})
 	@PostMapping(value = "/productos/upload")
 	public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file, @RequestParam("id") Integer id){
 		
@@ -176,12 +190,11 @@ public class ProductoApiController {
 		
 		// Subir foto a base de datos y archivo a servidor 
 		if(!file.isEmpty()) {
-			String nombreArchivo = UUID.randomUUID().toString().concat("_" + file.getOriginalFilename().replace(" ", ""));
-			Path rutaArchivo = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath();
-			log.info(rutaArchivo.toString());
+			
+			String nombreArchivo = null;
 			
 			try {
-				Files.copy(file.getInputStream(), rutaArchivo);
+				nombreArchivo = serviceUpload.copiar(file);
 			} catch (IOException e) {
 				response.put("mensaje", "¡Error al subir la imagen!");
 				response.put("error", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
@@ -191,14 +204,7 @@ public class ProductoApiController {
 			String nombreImagenAnterior = producto.getImagen();
 			
 			// Eliminar foto antigua cuando se sube nueva foto
-			if(nombreImagenAnterior != null && nombreImagenAnterior.length() > 0) {
-				Path rutaImagenAnterior = Paths.get("uploads").resolve(nombreImagenAnterior).toAbsolutePath();
-				File archivoImagenAnterior = rutaImagenAnterior.toFile();
-				
-				if(archivoImagenAnterior.exists() && archivoImagenAnterior.canRead()) {
-					archivoImagenAnterior.delete();
-				}
-			}
+			serviceUpload.eliminar(nombreImagenAnterior);
 			
 			producto.setImagen(nombreArchivo);
 			
@@ -215,29 +221,12 @@ public class ProductoApiController {
 	@GetMapping(value = "/uploads/img/{nombreImagen:.+}")
 	public ResponseEntity<Resource> verImagen(@PathVariable String nombreImagen){
 		
-		Path rutaArchivo = Paths.get("uploads").resolve(nombreImagen).toAbsolutePath();
-		log.info(rutaArchivo.toString());
-		
 		Resource recurso = null;
 		
 		try {
-			recurso = new UrlResource(rutaArchivo.toUri());
+			recurso = serviceUpload.cargar(nombreImagen);
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
-		if(!recurso.exists() && !recurso.isReadable()) {
-			rutaArchivo = Paths.get("src/main/resources/static/images").resolve("no-image.jpg").toAbsolutePath();
-			
-			try {
-				recurso = new UrlResource(rutaArchivo.toUri());
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			log.error("Error no se puede cargar la imagen: " + nombreImagen);
 		}
 		
 		HttpHeaders cabecera = new HttpHeaders();

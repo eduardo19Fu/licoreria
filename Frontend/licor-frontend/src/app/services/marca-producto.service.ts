@@ -7,6 +7,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { global } from './global';
 import { catchError, map, tap } from 'rxjs/operators';
 import swal from 'sweetalert2';
+import { Router } from '@angular/router';
+import { AppUnauthorizated } from '../app.unauthorizated';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,21 +17,22 @@ import swal from 'sweetalert2';
 export class MarcaProductoService {
 
   private url: string;
-  private headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthService
   ) {
     this.url = global.url;
   }
 
-  getMarcas(): Observable<MarcaProducto[]>{
+  getMarcas(): Observable<MarcaProducto[]> {
     // return of(MARCAS);
-    return this.http.get<MarcaProducto[]>(this.url + '/marcas').pipe(
+    return this.http.get<MarcaProducto[]>(`${this.url}/marcas`).pipe(
       map(response => {
         const marcas = response as MarcaProducto[];
         return marcas.map(marca => {
-          const datePipe = new DatePipe('en-US');
+          // const datePipe = new DatePipe('en-US');
           // marca.fechaRegistro = datePipe.transform(marca.fechaRegistro, 'dd-MM-yyyy');
           // formatDate(marca.fechaRegistro, 'dd-MM-yyyy', 'en-US');
           return marca;
@@ -37,32 +41,19 @@ export class MarcaProductoService {
     );
   }
 
-  getMarcasPage(page: number): Observable<any>{
-    return this.http.get(`${this.url}/marcas/page/${page}`, {headers: this.headers}).pipe(
-      tap((response: any) => {
-        console.log('MarcaService: Tap1');
-        (response.content as MarcaProducto[]).forEach(marca => {
-          console.log(marca.marca);
-        });
-      }),
+  getMarcasPage(page: number): Observable<any> {
+    return this.http.get(`${this.url}/marcas/page/${page}`).pipe(
       map((response: any) => {
         (response.content as MarcaProducto[]).map(marca => {
-          marca.marca = marca.marca.toUpperCase();
           return marca;
         });
         return response;
-      }),
-      tap(response => {
-        console.log('MarcaService: tap2');
-        (response.content as MarcaProducto[]).forEach(marca => {
-          console.log(marca.marca);
-        });
       })
     );
   }
 
-  getMarca(id: number): Observable<MarcaProducto>{
-    return this.http.get<MarcaProducto>(`${this.url}/marcas/${id}`, { headers: this.headers }).pipe(
+  getMarca(id: number): Observable<MarcaProducto> {
+    return this.http.get<MarcaProducto>(`${this.url}/marcas/${id}`).pipe(
       catchError(e => {
         swal.fire('Error al consultar la marca', e.error.mensaje, 'error');
         return throwError(e);
@@ -70,9 +61,8 @@ export class MarcaProductoService {
     );
   }
 
-  create(marcaProducto: MarcaProducto): Observable<any>{
-    const params = JSON.stringify(marcaProducto);
-    return this.http.post<any>(`${this.url}/marcas`, params, { headers: this.headers }).pipe(
+  create(marcaProducto: MarcaProducto): Observable<any> {
+    return this.http.post<any>(`${this.url}/marcas`, marcaProducto).pipe(
       catchError(e => {
         swal.fire(e.error.mensaje, e.error.error, 'error');
         return throwError(e);
@@ -80,9 +70,8 @@ export class MarcaProductoService {
     );
   }
 
-  update(marcaProducto: MarcaProducto): Observable<any>{
-    const params = JSON.stringify(marcaProducto);
-    return this.http.put<any>(`${this.url}/marcas`, params, {headers: this.headers}).pipe(
+  update(marcaProducto: MarcaProducto): Observable<any> {
+    return this.http.put<any>(`${this.url}/marcas`, marcaProducto).pipe(
       catchError(e => {
         swal.fire(e.error.mensaje, e.error.error, 'error');
         return throwError(e);
@@ -90,8 +79,8 @@ export class MarcaProductoService {
     );
   }
 
-  delete(id: number): Observable<MarcaProducto>{
-    return this.http.delete<MarcaProducto>(`${this.url}/marcas/${id}`, {headers: this.headers}).pipe(
+  delete(id: number): Observable<MarcaProducto> {
+    return this.http.delete<MarcaProducto>(`${this.url}/marcas/${id}`).pipe(
       catchError(e => {
         swal.fire(e.error.mensaje, e.error.error, 'error');
         return throwError(e);
