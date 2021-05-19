@@ -7,6 +7,7 @@ import { MarcaProductoService } from '../../services/marca-producto.service';
 import { MarcaProducto } from '../../models/marca-producto';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from 'src/app/models/usuario';
+import { FacturaService } from '../../services/facturas/factura.service';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +22,7 @@ export class HomeComponent implements OnInit {
   public totalClientes: number;
   public totalMarcas: number;
   public totalUsuarios: number;
+  public totalFacturas: number;
 
   productos: Producto[];
   clientes: Cliente[];
@@ -31,7 +33,8 @@ export class HomeComponent implements OnInit {
     private serviceProducto: ProductoService,
     private serviceCliente: ClienteService,
     private serviceMarca: MarcaProductoService,
-    private serviceUsuario: UsuarioService
+    private serviceUsuario: UsuarioService,
+    private serviceFactura: FacturaService
   ) {
     this.title = 'Inicio';
    }
@@ -41,6 +44,7 @@ export class HomeComponent implements OnInit {
     this.getClientes();
     this.getMarcas();
     this.getUsuarios();
+    this.getFacturas();
   }
 
   getProductos(): void{
@@ -57,5 +61,9 @@ export class HomeComponent implements OnInit {
 
   getUsuarios(): void{
     this.serviceUsuario.getUsuarios().subscribe(usuarios => this.totalUsuarios = usuarios.length);
+  }
+
+  getFacturas(): void{
+    this.serviceFactura.getFacturas().subscribe(facturas => this.totalFacturas = facturas.length);
   }
 }

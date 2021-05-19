@@ -1,7 +1,7 @@
 import { Cliente } from './cliente';
 import { Estado } from './estado';
-import { Usuario } from './usuario';
 import { DetalleFactura } from './detalle-factura';
+import { UsuarioAuxiliar } from './auxiliar/usuario-auxiliar';
 
 export class Factura {
     idFactura: number;
@@ -10,7 +10,7 @@ export class Factura {
     fecha: Date;
 
     estado: Estado;
-    usuario: Usuario;
+    usuario: UsuarioAuxiliar;
     cliente: Cliente;
     itemsFactura: DetalleFactura[] = [];
 }

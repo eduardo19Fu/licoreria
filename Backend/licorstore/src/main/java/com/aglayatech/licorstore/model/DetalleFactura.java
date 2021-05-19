@@ -65,7 +65,7 @@ public class DetalleFactura implements Serializable {
 	}
 
 	public Double calcularImporte() {
-		return this.cantidad.doubleValue() * producto.getPrecioVenta();
+		return this.cantidad.doubleValue() * this.producto.getPrecioVenta();
 	}
 
 	private static final long serialVersionUID = 1L;

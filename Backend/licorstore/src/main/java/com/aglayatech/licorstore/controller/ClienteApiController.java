@@ -42,7 +42,7 @@ public class ClienteApiController {
 		return serviceCliente.findAll(PageRequest.of(page, 5));
 	}
 
-	/*@GetMapping(value = "/clientes/{name}")
+	/*@GetMapping(value = "/clientes/nombre/{name}")
 	public List<Cliente> findByName(@PathVariable("name") String name) {
 		return serviceCliente.findByName(name);
 	}*/

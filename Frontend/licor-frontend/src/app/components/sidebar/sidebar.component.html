@@ -51,6 +51,12 @@
                 </li>
 
                 <li class="nav-header">Ventas</li>
+                <li class="nav-item">
+                    <a [routerLink]="['/facturas']" [routerLinkActive]="['active']" class="nav-link">
+                        <i class="fas fa-money-bill nav-icon"></i>
+                        <p>Facturas</p>
+                    </a>
+                </li>
 
                 <li *ngIf="authService.hasRole('ROLE_ADMIN')" class="nav-header">Usuarios</li>
                 <li *ngIf="authService.hasRole('ROLE_ADMIN')" class="nav-item">
