@@ -1,3 +1,6 @@
+<!-- VENTANA MODAL DEL DETALLE DEL USUARIO -->
+<app-detail-usuario *ngIf="usuarioSeleccionado" [usuario]="usuarioSeleccionado"></app-detail-usuario>
+
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
@@ -58,6 +61,11 @@
                             [routerLink]="['/usuarios/create', usuario.idUsuario]">
                             <i class="fas fa-edit"></i>
                         </button>&nbsp;
+
+                        <button class="btn bg-gradient-success" type="button" (click)="abrirDetalle(usuario)">
+                            <i class="fas fa-asterisk"></i>
+                        </button>&nbsp;
+
                         <!-- Aquí va el botón de eliminar -->
                         <button class="btn bg-gradient-danger" name="delete" type="button" (click)="delete(usuario)">
                             <i class="fas fa-trash-alt"></i>

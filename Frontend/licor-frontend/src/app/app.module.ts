@@ -38,6 +38,7 @@ import { FacturasComponent } from './components/facturas/facturas.component';
 import { CreateFacturaComponent } from './components/facturas/create-factura/create-factura.component';
 import { FacturaPaginatorComponent } from './components/paginator/facturas/factura-paginator.component';
 import { DetailFacturaComponent } from './components/facturas/detail/detail-factura.component';
+import { DetailUsuarioComponent } from './components/usuarios/detail-usuario/detail-usuario.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { DetailFacturaComponent } from './components/facturas/detail/detail-fact
     FacturasComponent,
     CreateFacturaComponent,
     FacturaPaginatorComponent,
-    DetailFacturaComponent
+    DetailFacturaComponent,
+    DetailUsuarioComponent
   ],
   imports: [
     BrowserModule,

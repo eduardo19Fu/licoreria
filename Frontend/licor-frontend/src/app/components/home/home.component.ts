@@ -5,7 +5,7 @@ import { ClienteService } from '../../services/cliente.service';
 import { Cliente } from 'src/app/models/cliente';
 import { MarcaProductoService } from '../../services/marca-producto.service';
 import { MarcaProducto } from '../../models/marca-producto';
-import { UsuarioService } from '../../services/usuario.service';
+import { UsuarioService } from '../../services/usuarios/usuario.service';
 import { Usuario } from 'src/app/models/usuario';
 import { FacturaService } from '../../services/facturas/factura.service';
 

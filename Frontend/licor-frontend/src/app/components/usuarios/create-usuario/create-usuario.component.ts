@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Usuario } from 'src/app/models/usuario';
-import { UsuarioService } from '../../../services/usuario.service';
+import { UsuarioService } from '../../../services/usuarios/usuario.service';
 import { Role } from 'src/app/models/role';
 
 import swal from 'sweetalert2';

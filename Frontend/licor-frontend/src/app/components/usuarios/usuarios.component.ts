@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { UsuarioService } from '../../services/usuario.service';
+import { UsuarioService } from '../../services/usuarios/usuario.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Usuario } from '../../models/usuario';
 
 import swal from 'sweetalert2';
 import { AuthService } from '../../services/auth.service';
+import { DetailUsuarioService } from '../../services/usuarios/detail-usuario.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -16,6 +17,7 @@ export class UsuariosComponent implements OnInit {
 
   title: string;
   usuarios: Usuario[];
+  usuarioSeleccionado: Usuario;
 
   paginador: any;
 
@@ -28,6 +30,7 @@ export class UsuariosComponent implements OnInit {
   });
 
   constructor(
+    private detailUsuarioService: DetailUsuarioService,
     private usuarioService: UsuarioService,
     private activatedRoute: ActivatedRoute,
     private authService: AuthService
@@ -98,6 +101,11 @@ export class UsuariosComponent implements OnInit {
         );
       }
     });
+  }
+
+  abrirDetalle(usuario: Usuario): void{
+    this.usuarioSeleccionado = usuario;
+    this.detailUsuarioService.abrirModal();
   }
 
 }

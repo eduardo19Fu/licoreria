@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Usuario } from '../models/usuario';
-import { global } from './global';
+import { Usuario } from '../../models/usuario';
+import { global } from '../global';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Role } from '../models/role';
+import { Role } from '../../models/role';
 
 import swal from 'sweetalert2';
-import { UsuarioAuxiliar } from '../models/auxiliar/usuario-auxiliar';
+import { UsuarioAuxiliar } from '../../models/auxiliar/usuario-auxiliar';
 
 @Injectable({
   providedIn: 'root'
