@@ -61,7 +61,7 @@ export class UsuarioService {
   }
 
   update(usuario: UsuarioAuxiliar): Observable<any> {
-    return this.http.put<any>(`${this.url}/usuarios`, usuario).pipe(
+    return this.http.put<any>(`${this.url}/usuarios/${usuario.idUsuario}`, usuario).pipe(
       catchError(e => {
         swal.fire(e.error.mensaje, e.error.error, 'error');
         return throwError(e);
