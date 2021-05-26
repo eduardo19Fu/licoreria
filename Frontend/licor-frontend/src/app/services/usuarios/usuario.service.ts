@@ -42,6 +42,10 @@ export class UsuarioService {
     );
   }
 
+  getCajeros(): Observable<Usuario[]>{
+    return this.http.get<Usuario[]>(`${this.url}/usuarios/cajero`);
+  }
+
   getUsuario(id: number): Observable<UsuarioAuxiliar> {
     return this.http.get<UsuarioAuxiliar>(`${this.url}/usuarios/${id}`).pipe(
       catchError(e => {

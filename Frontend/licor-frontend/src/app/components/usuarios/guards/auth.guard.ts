@@ -3,6 +3,8 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Rout
 import { Observable } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
 
+import swal from 'sweetalert2';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,6 +23,7 @@ export class AuthGuard implements CanActivate {
         if (this.isTokenExpirado()){
           this.authService.logout();
           this.router.navigate(['/login']);
+          swal.fire('Sesión Finalizada', 'El tiempo de la sesión iniciada ha caducado, por favor vuelva a iniciar sesión.', 'warning');
           return false;
         }
 

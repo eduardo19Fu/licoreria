@@ -28,6 +28,8 @@ public class Factura implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idFactura;
 	private Long noFactura;
+	private Long correlativo;
+	private String serie;
 	private Double total;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -76,6 +78,22 @@ public class Factura implements Serializable {
 
 	public void setNoFactura(Long noFactura) {
 		this.noFactura = noFactura;
+	}
+
+	public Long getCorrelativo() {
+		return correlativo;
+	}
+
+	public void setCorrelativo(Long correlativo) {
+		this.correlativo = correlativo;
+	}
+
+	public String getSerie() {
+		return serie;
+	}
+
+	public void setSerie(String serie) {
+		this.serie = serie;
 	}
 
 	public Double getTotal() {

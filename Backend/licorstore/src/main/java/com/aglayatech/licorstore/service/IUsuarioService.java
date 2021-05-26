@@ -22,6 +22,8 @@ public interface IUsuarioService {
 	
 	public void delete(Integer id);
 	
+	public List<Usuario> cajeros();
+	
 	// método encargado de recolectar los roles de la BD
 	public List<Role> findRoles();
 

@@ -12,10 +12,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "usuarios")
@@ -37,6 +40,11 @@ public class Usuario implements Serializable {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<Role> roles;
+
+	/*@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_usuario")
+	@JsonIgnoreProperties({"usuario", "hibernateLazyInitializer", "handler" })
+	private List<Correlativo> correlativos;*/
 
 	@PrePersist
 	void configurarFechaRegistro() {
@@ -115,6 +123,14 @@ public class Usuario implements Serializable {
 	public void setFechaRegistro(Date fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
 	}
+
+	/*public List<Correlativo> getCorrelativos() {
+		return correlativos;
+	}
+
+	public void setCorrelativos(List<Correlativo> correlativos) {
+		this.correlativos = correlativos;
+	}*/
 
 	@Override
 	public String toString() {

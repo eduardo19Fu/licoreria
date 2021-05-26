@@ -34,6 +34,11 @@ public class ProductoServiceImpl implements IProductoService {
 	}
 
 	@Override
+	public Producto findByCodigo(String codigo) {
+		return repoProducto.findByCodigo(codigo).orElse(null);
+	}
+
+	@Override
 	public Producto findById(Integer idproducto) {
 		return repoProducto.findById(idproducto).orElse(null);
 	}

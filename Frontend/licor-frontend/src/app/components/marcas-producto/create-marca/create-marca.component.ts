@@ -3,6 +3,9 @@ import { MarcaProducto } from '../../../models/marca-producto';
 import { MarcaProductoService } from '../../../services/marca-producto.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
+import { UsuarioService } from '../../../services/usuarios/usuario.service';
+import { AuthService } from '../../../services/auth.service';
+import { UsuarioAuxiliar } from '../../../models/auxiliar/usuario-auxiliar';
 
 @Component({
   selector: 'app-create-marca',
@@ -14,10 +17,14 @@ export class CreateMarcaComponent implements OnInit {
   public title: string;
   public marcaProducto: MarcaProducto;
 
+  usuario: UsuarioAuxiliar;
+
   constructor(
     private marcaService: MarcaProductoService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private usuarioService: UsuarioService,
+    private authService: AuthService
   ) {
     this.title = 'Registrar nueva marca';
     this.marcaProducto = new MarcaProducto();
@@ -42,11 +49,17 @@ export class CreateMarcaComponent implements OnInit {
   }
 
   create(): void {
-    // tslint:disable-next-line: deprecation
-    this.marcaService.create(this.marcaProducto).subscribe(
-      response => {
-        this.router.navigate(['/marcas-producto']);
-        swal.fire('Marca Guardada', `${response.mensaje}: ${response.marca.marca}`, 'success');
+    this.usuarioService.getUsuario(this.authService.usuario.idUsuario).subscribe(
+      usuario => {
+
+        this.marcaProducto.usuario = usuario;
+
+        this.marcaService.create(this.marcaProducto).subscribe(
+          response => {
+            this.router.navigate(['/marcas-producto']);
+            swal.fire('Marca Guardada', `${response.mensaje}: ${response.marca.marca}`, 'success');
+          }
+        );
       }
     );
   }

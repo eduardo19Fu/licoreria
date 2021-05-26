@@ -46,6 +46,15 @@ export class ProductoService {
     );
   }
 
+  getProductoByCode(codigo: string): Observable<Producto> {
+    return this.http.get<Producto>(`${this.url}/productos/codigo/${codigo}`).pipe(
+      catchError(e => {
+        swal.fire('Error al consultar el producto', e.error, 'error');
+        return throwError(e);
+      })
+    );
+  }
+
   create(producto: Producto): Observable<any> {
     return this.http.post<any>(`${this.url}/productos`, producto).pipe(
       catchError(e => {

@@ -10,6 +10,7 @@ import swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { AppUnauthorizated } from '../app.unauthorizated';
 import { AuthService } from './auth.service';
+import { UsuarioAuxiliar } from '../models/auxiliar/usuario-auxiliar';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,8 @@ import { AuthService } from './auth.service';
 export class MarcaProductoService {
 
   private url: string;
+
+  usuarioAuxiliar: UsuarioAuxiliar;
 
   constructor(
     private http: HttpClient,

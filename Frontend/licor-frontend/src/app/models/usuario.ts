@@ -1,3 +1,4 @@
+import { Correlativo } from './correlativo';
 export class Usuario {
 
     idUsuario: number;
@@ -9,4 +10,6 @@ export class Usuario {
     enabled: boolean;
     fechaRegistro: Date;
     roles: string[] = [];
+
+    correlativos: Correlativo[] = [];
 }

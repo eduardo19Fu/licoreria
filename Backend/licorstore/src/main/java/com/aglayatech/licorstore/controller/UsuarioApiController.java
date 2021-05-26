@@ -45,6 +45,11 @@ public class UsuarioApiController {
 		return this.serviceUsuario.findAll();
 	}
 	
+	@GetMapping(value = "/usuarios/cajero")
+	public List<Usuario> findCajeros(){
+		return this.serviceUsuario.cajeros();
+	}
+	
 	@GetMapping(value = "/usuarios/page/{page}")
 	public Page<Usuario> index(@PathVariable("page") Integer page){
 		return this.serviceUsuario.findAll(PageRequest.of(page, 5));

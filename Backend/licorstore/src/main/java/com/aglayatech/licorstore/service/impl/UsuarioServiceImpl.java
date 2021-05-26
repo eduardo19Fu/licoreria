@@ -87,4 +87,9 @@ public class UsuarioServiceImpl implements UserDetailsService, IUsuarioService {
 		repoUsuario.deleteById(id);
 	}
 
+	@Override
+	public List<Usuario> cajeros() {
+		return repoUsuario.findByRole();
+	}
+
 }

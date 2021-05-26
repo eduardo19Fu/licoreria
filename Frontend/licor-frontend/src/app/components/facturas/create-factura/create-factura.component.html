@@ -1,1 +1,120 @@
-<p>create-factura works!</p>
+<app-modal-create *ngIf="nitIngresado" [nit]="nitIngresado" (clienteCreado)="cargarCliente($event)"></app-modal-create>
+
+
+<div class="container">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">{{title}}</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <div class="col-md-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Ingrese los datos</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form>
+                <div class="card-body">
+                    <h4>Cliente</h4>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" id="buscar" name="buscar" placeholder="Búsqueda de Cliente por NIT"
+                                class="form-control" autofocus>
+                        </div>
+                        <div class="col">
+                            <input type="submit" role="button" class="btn bg-fuchsia" (click)="buscarCliente()"
+                                value="Buscar">
+                        </div>
+                    </div>
+                    &nbsp;
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="nit">NIT:</label>
+                                <input type="text" class="form-control" name="nit" value="{{cliente.nit}}"
+                                    [disabled]="cliente.nit != null">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="nombre">Nombre:</label>
+                                <input type="text" class="form-control" name="nombre" value="{{cliente.nombre}}"
+                                    [disabled]="cliente.nombre != null">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="direccion">Dirección:</label>
+                                <input type="text" class="form-control" name="direccion" value="{{cliente.direccion}}"
+                                   [disabled]="cliente.direccion != null">
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <h4>Factura</h4>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="usuario">Vendedor</label>
+                                <input class="form-control" type="text" name="usuario"
+                                    value="{{usuario.primerNombre + ' ' + usuario.apellido}}" [disabled]="usuario">
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="correlativo">Correlativo</label>
+                                <input type="text" class="form-control" name="correlativo" [disabled]="correlativo.correlativoActual"
+                                    [value]="correlativo.correlativoActual" [(ngModel)]="factura.correlativo">
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="serie">Serie</label>
+                                <input class="form-control" type="text" name="serie" [value]="correlativo.serie"
+                                    [disabled]="correlativo.serie" [(ngModel)]="factura.serie">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>Number</mat-label>
+                                <input type="text"
+                                       placeholder="Pick one"
+                                       aria-label="Number"
+                                       matInput
+                                       [formControl]="autocompleteControl"
+                                       [matAutocomplete]="auto">
+                                <mat-autocomplete #auto="matAutocomplete">
+                                  <mat-option *ngFor="let option of productosFiltrados | async" [value]="option">
+                                    {{option}}
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <input type="submit" role="button" class="btn btn-primary" value="Guardar">
+                </div>
+            </form>
+        </div>
+        <!-- /.card -->
+    </div>
+</div>

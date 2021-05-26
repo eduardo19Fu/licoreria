@@ -17,6 +17,9 @@ import { CreateUsuarioComponent } from './components/usuarios/create-usuario/cre
 import { AuthGuard } from './components/usuarios/guards/auth.guard';
 import { RoleGuard } from './components/usuarios/guards/role.guard';
 import { FacturasComponent } from './components/facturas/facturas.component';
+import { CreateFacturaComponent } from './components/facturas/create-factura/create-factura.component';
+import { CorrelativosComponent } from './components/correlativos/correlativos.component';
+import { CreateCorrelativoComponent } from './components/correlativos/create-correlativo/create-correlativo.component';
 
 const GUARDS = {
     GUARD1: 'ROLE_ADMIN',
@@ -49,6 +52,13 @@ const appRoutes: Routes = [
     {path: 'usuarios/create/:id', component: CreateUsuarioComponent, canActivate: [AuthGuard, RoleGuard], data: {role: ['ROLE_ADMIN']}},
     {path: 'facturas', component: FacturasComponent},
     {path: 'facturas/page/:page', component: FacturasComponent},
+    {path: 'facturas/create', component: CreateFacturaComponent, canActivate: [AuthGuard, RoleGuard], data: {role: ['ROLE_ADMIN', 'ROLE_COBRADOR']}},
+    {path: 'facturas/create/:id', component: CreateFacturaComponent},
+    {path: 'correlativos', component: CorrelativosComponent, canActivate: [AuthGuard, RoleGuard], data: {role: ['ROLE_ADMIN']}},
+    {path: 'correlativos/page/:page', component: CorrelativosComponent, canActivate: [AuthGuard, RoleGuard], data: {role: ['ROLE_ADMIN']}},
+    {path: 'correlativos/create', component: CreateCorrelativoComponent, canActivate: [AuthGuard, RoleGuard], data: {role: ['ROLE_ADMIN']}},
+    // tslint:disable-next-line: max-line-length
+    {path: 'correlativos/create/:id', component: CreateCorrelativoComponent, canActivate: [AuthGuard, RoleGuard], data: {role: ['ROLE_ADMIN']}},
     {path: '**', component: ErrorComponent}
 ];
 

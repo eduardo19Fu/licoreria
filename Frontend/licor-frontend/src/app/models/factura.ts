@@ -8,6 +8,8 @@ export class Factura {
     noFactura: number;
     total: number;
     fecha: Date;
+    correlativo: number;
+    serie: string;
 
     estado: Estado;
     usuario: UsuarioAuxiliar;
