@@ -3,9 +3,9 @@ import { Producto } from 'src/app/models/producto';
 import { ProductoService } from '../../../services/producto.service';
 import { HttpEventType } from '@angular/common/http';
 import { ModalService } from '../../../services/productos/modal.service';
+import { AuthService } from '../../../services/auth.service';
 
 import swal from 'sweetalert2';
-import { AuthService } from '../../../services/auth.service';
 
 
 @Component({

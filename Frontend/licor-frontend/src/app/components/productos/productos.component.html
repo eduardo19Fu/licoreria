@@ -65,8 +65,8 @@
                     <td>{{producto.codProducto}}</td>
                     <td>{{producto.nombre}}</td>
                     <td>{{producto.precioVenta}}</td>
-                    <td>{{producto.tipoProducto.tipoProducto}}</td>
-                    <td>{{producto.marcaProducto.marca}}</td>
+                    <td>{{producto.tipoProducto.tipoProducto.toUpperCase()}}</td>
+                    <td>{{producto.marcaProducto.marca.toUpperCase()}}</td>
                     <td>{{producto.estado.estado}}</td>
                     <td>
                         <button *ngIf="auth.hasRole('ROLE_ADMIN') || auth.hasRole('ROLE_INVENTARIO')"

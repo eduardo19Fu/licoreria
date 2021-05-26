@@ -65,6 +65,7 @@ export class AuthService {
     this._usuario.apellido = payload.apellido;
     this._usuario.usuario = payload.user_name;
     this._usuario.roles = payload.authorities;
+
     sessionStorage.setItem('usuario', JSON.stringify(this._usuario));
   }
 

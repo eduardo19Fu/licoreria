@@ -16,6 +16,7 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { CreateUsuarioComponent } from './components/usuarios/create-usuario/create-usuario.component';
 import { AuthGuard } from './components/usuarios/guards/auth.guard';
 import { RoleGuard } from './components/usuarios/guards/role.guard';
+import { FacturasComponent } from './components/facturas/facturas.component';
 
 const GUARDS = {
     GUARD1: 'ROLE_ADMIN',
@@ -45,8 +46,10 @@ const appRoutes: Routes = [
     {path: 'usuarios', component: UsuariosComponent, canActivate: [AuthGuard]},
     {path: 'usuarios/page/:page', component: UsuariosComponent, canActivate: [AuthGuard]},
     {path: 'usuarios/create', component: CreateUsuarioComponent, canActivate: [AuthGuard]},
-    {path: 'usuarios/create/:id', component: CreateUsuarioComponent, canActivate: [AuthGuard]},
-    {path: '**', component: ErrorComponent, canActivate: [AuthGuard]}
+    {path: 'usuarios/create/:id', component: CreateUsuarioComponent, canActivate: [AuthGuard, RoleGuard], data: {role: ['ROLE_ADMIN']}},
+    {path: 'facturas', component: FacturasComponent},
+    {path: 'facturas/page/:page', component: FacturasComponent},
+    {path: '**', component: ErrorComponent}
 ];
 
 export const appRoutingProviders: any[] = [];

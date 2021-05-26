@@ -76,7 +76,7 @@ export class CreateProductComponent implements OnInit {
   }
 
   create(): void{
-    // tslint:disable-next-line: deprecation
+    this.producto.porcentajeGanancia = Number.parseFloat((document.getElementById('porcentaje-ganancia') as HTMLInputElement).value);
     this.serviceProducto.create(this.producto).subscribe(
       response => {
         this.router.navigate(['/productos']);
@@ -86,7 +86,7 @@ export class CreateProductComponent implements OnInit {
   }
 
   update(): void{
-    // tslint:disable-next-line: deprecation
+    this.producto.porcentajeGanancia = Number.parseFloat((document.getElementById('porcentaje-ganancia') as HTMLInputElement).value);
     this.serviceProducto.update(this.producto).subscribe(
       response => {
         this.router.navigate(['/productos']);

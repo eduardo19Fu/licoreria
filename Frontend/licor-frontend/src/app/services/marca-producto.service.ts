@@ -32,6 +32,7 @@ export class MarcaProductoService {
       map(response => {
         const marcas = response as MarcaProducto[];
         return marcas.map(marca => {
+          marca.marca = marca.marca.toUpperCase();
           // const datePipe = new DatePipe('en-US');
           // marca.fechaRegistro = datePipe.transform(marca.fechaRegistro, 'dd-MM-yyyy');
           // formatDate(marca.fechaRegistro, 'dd-MM-yyyy', 'en-US');
@@ -45,6 +46,7 @@ export class MarcaProductoService {
     return this.http.get(`${this.url}/marcas/page/${page}`).pipe(
       map((response: any) => {
         (response.content as MarcaProducto[]).map(marca => {
+          marca.marca = marca.marca.toUpperCase();
           return marca;
         });
         return response;

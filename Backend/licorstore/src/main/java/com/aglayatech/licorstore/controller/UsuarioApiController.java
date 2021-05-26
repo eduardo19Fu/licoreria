@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.aglayatech.licorstore.model.Role;
 import com.aglayatech.licorstore.model.Usuario;
 import com.aglayatech.licorstore.service.IUsuarioService;
 
@@ -92,6 +91,7 @@ public class UsuarioApiController {
 		}
 		
 		try {
+			System.out.println(usuario);
 			usuario.setPassword(passwordEnconder.encode(usuario.getPassword()));
 			newUsuario = serviceUsuario.save(usuario);
 		} catch (DataAccessException e) {
@@ -158,11 +158,5 @@ public class UsuarioApiController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 	
-	// Controlador encargado de devolver el listado de roles disponibles en la BD
-	@Secured(value = {"ROLE_ADMIN"})
-	@GetMapping(value = "/roles")
-	public List<Role> listarRoles(){
-		return serviceUsuario.findRoles();
-	}
 
 }

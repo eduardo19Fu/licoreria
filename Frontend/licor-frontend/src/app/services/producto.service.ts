@@ -29,6 +29,7 @@ export class ProductoService {
     return this.http.get(`${this.url}/productos/page/${page}`).pipe(
       map((response: any) => {
         (response.content as Producto[]).map(producto => {
+          producto.nombre = producto.nombre.toUpperCase();
           return producto;
         });
         return response;

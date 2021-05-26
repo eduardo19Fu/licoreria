@@ -42,12 +42,12 @@ public class ClienteApiController {
 		return serviceCliente.findAll(PageRequest.of(page, 5));
 	}
 
-	/*@GetMapping(value = "/clientes/{name}")
+	@GetMapping(value = "/clientes/nombre/{name}")
 	public List<Cliente> findByName(@PathVariable("name") String name) {
 		return serviceCliente.findByName(name);
-	}*/
+	}
 
-	@Secured(value = {"ROLE_COBRADOR","ROLE_ADMIN"})
+	// @Secured(value = {"ROLE_COBRADOR","ROLE_ADMIN"})
 	@GetMapping(value = "/clientes/{id}")
 	public ResponseEntity<?> findById(@PathVariable("id") Integer id) {
 

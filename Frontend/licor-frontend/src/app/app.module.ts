@@ -11,7 +11,6 @@ import { ProductosComponent } from './components/productos/productos.component';
 import { TiposProductoComponent } from './components/tipos-producto/tipos-producto.component';
 import { MarcasProductoComponent } from './components/marcas-producto/marcas-producto.component';
 import { ErrorComponent } from './components/error/error.component';
-import { VentasComponent } from './components/ventas/ventas.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
@@ -35,6 +34,11 @@ import { CreateUsuarioComponent } from './components/usuarios/create-usuario/cre
 import { UsuarioPaginatorComponent } from './components/paginator/usuarios/usuario-paginator.component';
 import { TokenInterceptor } from './components/usuarios/interceptors/token.interceptor';
 import { AuthInterceptor } from './components/usuarios/interceptors/auth.interceptor';
+import { FacturasComponent } from './components/facturas/facturas.component';
+import { CreateFacturaComponent } from './components/facturas/create-factura/create-factura.component';
+import { FacturaPaginatorComponent } from './components/paginator/facturas/factura-paginator.component';
+import { DetailFacturaComponent } from './components/facturas/detail/detail-factura.component';
+import { DetailUsuarioComponent } from './components/usuarios/detail-usuario/detail-usuario.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +49,6 @@ import { AuthInterceptor } from './components/usuarios/interceptors/auth.interce
     TiposProductoComponent,
     MarcasProductoComponent,
     ErrorComponent,
-    VentasComponent,
     HeaderComponent,
     FooterComponent,
     SidebarComponent,
@@ -62,6 +65,11 @@ import { AuthInterceptor } from './components/usuarios/interceptors/auth.interce
     UsuariosComponent,
     CreateUsuarioComponent,
     UsuarioPaginatorComponent,
+    FacturasComponent,
+    CreateFacturaComponent,
+    FacturaPaginatorComponent,
+    DetailFacturaComponent,
+    DetailUsuarioComponent
   ],
   imports: [
     BrowserModule,

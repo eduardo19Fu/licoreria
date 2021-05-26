@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -35,7 +34,7 @@ public class Usuario implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaRegistro;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private List<Role> roles;
 
