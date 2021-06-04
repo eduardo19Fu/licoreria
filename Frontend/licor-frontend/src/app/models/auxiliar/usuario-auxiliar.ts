@@ -1,4 +1,5 @@
 import { Role } from '../role';
+import { Correlativo } from '../correlativo';
 
 export class UsuarioAuxiliar {
 
@@ -12,4 +13,5 @@ export class UsuarioAuxiliar {
     fechaRegistro: Date;
 
     roles: Role[] = [];
+    correlativos: Correlativo[] = [];
 }

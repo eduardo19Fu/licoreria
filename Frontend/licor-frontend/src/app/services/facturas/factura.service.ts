@@ -38,7 +38,25 @@ export class FacturaService {
   }
 
   getFactura(id: number): Observable<Factura>{
-    return this.http.get<Factura>(`${this.url}/facturas/${id}`).pipe(
+    return this.http.get<Factura>(`${this.url}/facturas/factura/${id}`).pipe(
+      catchError(e => {
+        swal.fire(e.error.mensaje, e.error.error, 'error');
+        return throwError(e);
+      })
+    );
+  }
+
+  cancel(id: number): Observable<any>{
+    return this.http.delete<any>(`${this.url}/facturas/cancel/${id}`).pipe(
+      catchError(e => {
+        swal.fire(e.error.mensaje, e.error.error, 'error');
+        return throwError(e);
+      })
+    );
+  }
+
+  create(factura: Factura): Observable<any>{
+    return this.http.post<any>(`${this.url}/facturas`, factura).pipe(
       catchError(e => {
         swal.fire(e.error.mensaje, e.error.error, 'error');
         return throwError(e);

@@ -42,6 +42,10 @@ export class UsuarioService {
     );
   }
 
+  getCajeros(): Observable<Usuario[]>{
+    return this.http.get<Usuario[]>(`${this.url}/usuarios/cajero`);
+  }
+
   getUsuario(id: number): Observable<UsuarioAuxiliar> {
     return this.http.get<UsuarioAuxiliar>(`${this.url}/usuarios/${id}`).pipe(
       catchError(e => {
@@ -61,7 +65,7 @@ export class UsuarioService {
   }
 
   update(usuario: UsuarioAuxiliar): Observable<any> {
-    return this.http.put<any>(`${this.url}/usuarios`, usuario).pipe(
+    return this.http.put<any>(`${this.url}/usuarios/${usuario.idUsuario}`, usuario).pipe(
       catchError(e => {
         swal.fire(e.error.mensaje, e.error.error, 'error');
         return throwError(e);

@@ -38,11 +38,16 @@ public class UsuarioApiController {
 	private IUsuarioService serviceUsuario;
 	
 	@Autowired
-	private BCryptPasswordEncoder passwordEnconder;
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	@GetMapping(value = "/usuarios")
 	public List<Usuario> index(){
 		return this.serviceUsuario.findAll();
+	}
+	
+	@GetMapping(value = "/usuarios/cajero")
+	public List<Usuario> findCajeros(){
+		return this.serviceUsuario.cajeros();
 	}
 	
 	@GetMapping(value = "/usuarios/page/{page}")
@@ -91,8 +96,7 @@ public class UsuarioApiController {
 		}
 		
 		try {
-			System.out.println(usuario);
-			usuario.setPassword(passwordEnconder.encode(usuario.getPassword()));
+			usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
 			newUsuario = serviceUsuario.save(usuario);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error ocurrido en la base de datos!");
@@ -106,10 +110,18 @@ public class UsuarioApiController {
 	}
 	
 	@Secured(value = {"ROLE_ADMIN"})
-	@PutMapping(value = "/usuarios")
-	public ResponseEntity<?> update(@Valid @RequestBody Usuario usuario, BindingResult result){
+	@PutMapping(value = "/usuarios/{id}")
+	public ResponseEntity<?> update(@Valid @RequestBody Usuario usuario, BindingResult result, @PathVariable("id") Integer idusuario){
+		
+		Usuario usuarioActual = serviceUsuario.findById(idusuario);
+		Usuario usuarioUpdated = null;
 		
 		Map<String, Object> response = new HashMap<>();
+		
+		if(usuarioActual == null) {
+			response.put("mensaje", "El usuario a actualizar no existe en la base de datos!");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
 		
 		if(result.hasErrors()) {
 			List<String> errors = result.getFieldErrors().stream()
@@ -121,21 +133,28 @@ public class UsuarioApiController {
 		}
 		
 		try {
-			usuario.setPassword(passwordEnconder.encode(usuario.getPassword()));
-			serviceUsuario.save(usuario);
+			
+			usuarioActual.setPrimerNombre(usuario.getPrimerNombre());
+			usuarioActual.setSegundoNombre(usuario.getSegundoNombre());
+			usuarioActual.setApellido(usuario.getApellido());
+			usuarioActual.setUsuario(usuario.getUsuario());
+			usuarioActual.setRoles(usuario.getRoles());
+			
+			if(!usuarioActual.getPassword().equals(usuario.getPassword())) {
+				usuarioActual.setPassword(passwordEncoder.encode(usuario.getPassword()));
+			} else {
+				usuarioActual.setPassword(usuario.getPassword());
+			}
+			
+			usuarioUpdated = serviceUsuario.save(usuarioActual);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error ocurrido en la base de datos!");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
-		if(usuario.getIdUsuario() == null) {
-			response.put("mensaje", "El usuario a actualizar no existe en la base de datos!");
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
-		}
-		
-		response.put("mensaje", "¡El usuario ".concat(usuario.getUsuario()).concat(" ha sido actualizado con éxito!"));
-		response.put("usuario", usuario);
+		response.put("mensaje", "¡El usuario ".concat(usuarioUpdated.getUsuario()).concat(" ha sido actualizado con éxito!"));
+		response.put("usuario", usuarioUpdated);
 		
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}

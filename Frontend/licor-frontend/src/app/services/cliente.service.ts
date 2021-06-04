@@ -50,6 +50,10 @@ export class ClienteService {
     );
   }
 
+  getClienteByNit(nit: string): Observable<Cliente>{
+    return this.http.get<Cliente>(`${this.url}/clientes/nit/${nit}`);
+  }
+
   create(cliente: Cliente): Observable<any> {
     return this.http.post<any>(`${this.url}/clientes`, cliente).pipe(
       catchError(e => {
@@ -71,7 +75,6 @@ export class ClienteService {
   delete(id: number): Observable<Cliente> {
     return this.http.delete<Cliente>(`${this.url}/clientes/${id}`).pipe(
       catchError(e => {
-        console.log(e.error.mensaje);
         swal.fire(e.error.mensaje, e.error.error, 'error');
         return throwError(e);
       })

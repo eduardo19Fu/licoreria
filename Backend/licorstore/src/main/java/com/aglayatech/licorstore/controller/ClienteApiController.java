@@ -46,6 +46,28 @@ public class ClienteApiController {
 	public List<Cliente> findByName(@PathVariable("name") String name) {
 		return serviceCliente.findByName(name);
 	}
+	
+	@GetMapping(value = "/clientes/nit/{nit}")
+	public ResponseEntity<?> findByNit(@PathVariable("nit") String nit){
+		
+		Cliente cliente = null;
+		Map<String, Object> response = new HashMap<>();
+		
+		try {
+			cliente = serviceCliente.findByNit(nit);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "¡Error en la base de datos!");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		if(cliente == null) {
+			response.put("mensaje", "¡El cliente no se encuentra registrado en la base de datos!");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<Cliente>(cliente, HttpStatus.OK);
+	}
 
 	// @Secured(value = {"ROLE_COBRADOR","ROLE_ADMIN"})
 	@GetMapping(value = "/clientes/{id}")

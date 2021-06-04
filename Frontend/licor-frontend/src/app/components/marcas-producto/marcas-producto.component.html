@@ -51,7 +51,7 @@
                     <td>{{marca.idMarcaProducto}}</td>
                     <td>{{marca.marca}}</td>
                     <td>{{marca.fechaRegistro | date: 'dd/MM/yyyy - hh:mm'}}</td>
-                    <td>{{marca.idUsuario}}</td>
+                    <td>{{marca.usuario.usuario}}</td>
                     <td *ngIf="auth.hasRole('ROLE_ADMIN') || auth.hasRole('ROLE_INVENTARIO')">
                         <button class="btn bg-gradient-info" type="button" name="edit"
                             [routerLink]="['/marcas-producto/create', marca.idMarcaProducto]">

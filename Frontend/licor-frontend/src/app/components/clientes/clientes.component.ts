@@ -34,7 +34,6 @@ export class ClientesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // tslint:disable-next-line: deprecation
     this.activatedRoute.paramMap.subscribe(params => {
       let page: number = +params.get('page');
 

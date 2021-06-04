@@ -20,7 +20,6 @@ export class DetailUsuarioComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.usuario.roles);
   }
 
   cerrarModal(): void{

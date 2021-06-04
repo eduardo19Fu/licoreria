@@ -24,6 +24,7 @@
     "@popperjs/core": "^2.9.1",
     "admin-lte": "^3.0.5",
     "angular-datatables": "^11.1.2",
+    "animate.css": "^4.1.1",
     "datatables.net": "^1.10.24",
     "datatables.net-dt": "^1.10.24",
     "jquery": "^3.6.0",

@@ -28,11 +28,7 @@ public class ProductoServiceImpl implements IProductoService {
 		return repoProducto.findAll(pageable);
 	}
 
-	@Override
-	public List<Producto> findByName(String name) {
-		return repoProducto.findByNombre(name);
-	}
-
+	
 	@Override
 	public Producto findById(Integer idproducto) {
 		return repoProducto.findById(idproducto).orElse(null);
@@ -47,5 +43,17 @@ public class ProductoServiceImpl implements IProductoService {
 	public void delete(Integer idproducto) {
 		repoProducto.deleteById(idproducto);
 	}
+
+	// Implementaciones para busqueda desde el frontend
+	@Override
+	public List<Producto> findByName(String name) {
+		return repoProducto.findByNombreContaining(name);
+	}
+
+	@Override
+	public Producto findByCodigo(String codigo) {
+		return repoProducto.findByCodigo(codigo).orElse(null);
+	}
+
 
 }

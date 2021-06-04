@@ -40,7 +40,7 @@ public class ClienteServiceImpl implements IClienteService {
 
 	@Override
 	public Cliente findByNit(String nit) {
-		return repoCliente.findByNit(nit);
+		return repoCliente.findByNit(nit).orElse(null);
 	}
 
 	@Override

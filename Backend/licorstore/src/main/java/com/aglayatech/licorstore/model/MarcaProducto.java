@@ -4,14 +4,19 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "marcas_producto")
@@ -20,19 +25,22 @@ public class MarcaProducto implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idMarcaProducto;
-	
+
 	@NotEmpty
 	private String marca;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaRegistro;
-	
-	private Integer idUsuario = null;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_usuario")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	private Usuario usuario;
 
 	public MarcaProducto() {
 		// Constructor;
 	}
-	
+
 	@PrePersist
 	public void configFechaRegistro() {
 		this.fechaRegistro = new Date();
@@ -62,18 +70,18 @@ public class MarcaProducto implements Serializable {
 		this.fechaRegistro = fechaRegistro;
 	}
 
-	public Integer getIdUsuario() {
-		return idUsuario;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setIdUsuario(Integer idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	@Override
 	public String toString() {
-		return "IMarcaProductoRepository [idMarcaProducto=" + idMarcaProducto + ", marca=" + marca + ", fechaRegistro="
-				+ fechaRegistro + ", idUsuario=" + idUsuario + "]";
+		return "MarcaProducto [idMarcaProducto=" + idMarcaProducto + ", marca=" + marca + ", fechaRegistro="
+				+ fechaRegistro + ", usuario=" + usuario + "]";
 	}
 
 	private static final long serialVersionUID = 1L;

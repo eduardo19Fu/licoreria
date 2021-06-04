@@ -60,6 +60,7 @@ export class AuthService {
 
     const payload = this.obtenerDatos(accessToken);
     this._usuario = new Usuario();
+    this._usuario.idUsuario = payload.id_usuario;
     this._usuario.primerNombre = payload.primerNombre;
     this._usuario.segundoNombre = payload.segundoNombre;
     this._usuario.apellido = payload.apellido;

@@ -3,6 +3,8 @@ import { TipoProducto } from '../../../models/tipo-producto';
 import { TipoProductoService } from '../../../services/tipo-producto.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
+import { AuthService } from '../../../services/auth.service';
+import { UsuarioService } from '../../../services/usuarios/usuario.service';
 
 @Component({
   selector: 'app-create-tipo',
@@ -16,6 +18,8 @@ export class CreateTipoComponent implements OnInit {
 
   constructor(
     private tipoService: TipoProductoService,
+    private usuarioService: UsuarioService,
+    private authService: AuthService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
@@ -41,11 +45,16 @@ export class CreateTipoComponent implements OnInit {
   }
 
   create(): void{
-    // tslint:disable-next-line: deprecation
-    this.tipoService.create(this.tipoProducto).subscribe(
-      response => {
-        this.router.navigate(['/tipos-producto']);
-        swal.fire('Tipo Creado', `${response.mensaje}: ${response.tipoProducto.tipoProducto}`, 'success');
+    this.usuarioService.getUsuario(this.authService.usuario.idUsuario).subscribe(
+      usuario => {
+        this.tipoProducto.usuario = usuario;
+
+        this.tipoService.create(this.tipoProducto).subscribe(
+          response => {
+            this.router.navigate(['/tipos-producto']);
+            swal.fire('Tipo Creado', `${response.mensaje}: ${response.tipoProducto.tipoProducto}`, 'success');
+          }
+        );
       }
     );
   }

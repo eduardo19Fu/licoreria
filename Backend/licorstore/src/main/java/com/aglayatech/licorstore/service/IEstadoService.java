@@ -10,6 +10,8 @@ public interface IEstadoService {
 	
 	public Estado findById(Integer idestado);
 	
+	public Estado findByEstado(String estado);
+	
 	public Estado save(Estado estado);
 	
 	public void delete(Integer idestado);

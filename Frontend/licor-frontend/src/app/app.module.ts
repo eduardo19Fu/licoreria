@@ -1,5 +1,5 @@
-import { LOCALE_ID, NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -39,6 +39,16 @@ import { CreateFacturaComponent } from './components/facturas/create-factura/cre
 import { FacturaPaginatorComponent } from './components/paginator/facturas/factura-paginator.component';
 import { DetailFacturaComponent } from './components/facturas/detail/detail-factura.component';
 import { DetailUsuarioComponent } from './components/usuarios/detail-usuario/detail-usuario.component';
+import { ModalCreateComponent } from './components/clientes/modal-create/modal-create.component';
+import { CorrelativosComponent } from './components/correlativos/correlativos.component';
+import { CreateCorrelativoComponent } from './components/correlativos/create-correlativo/create-correlativo.component';
+import { CorrelativoPaginatorComponent } from './components/paginator/correlativos/correlativo-paginator.component';
+
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+
+
 
 @NgModule({
   declarations: [
@@ -69,7 +79,11 @@ import { DetailUsuarioComponent } from './components/usuarios/detail-usuario/det
     CreateFacturaComponent,
     FacturaPaginatorComponent,
     DetailFacturaComponent,
-    DetailUsuarioComponent
+    DetailUsuarioComponent,
+    ModalCreateComponent,
+    CorrelativosComponent,
+    CreateCorrelativoComponent,
+    CorrelativoPaginatorComponent
   ],
   imports: [
     BrowserModule,
@@ -79,13 +93,18 @@ import { DetailUsuarioComponent } from './components/usuarios/detail-usuario/det
     DataTablesModule,
     NoopAnimationsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatFormFieldModule
   ],
   providers: [
     appRoutingProviders,
     { provide: LOCALE_ID, useValue: 'en-US' },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: DEFAULT_CURRENCY_CODE, useValue: 'GTQ'}
   ],
   bootstrap: [AppComponent]
 })

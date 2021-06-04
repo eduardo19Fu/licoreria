@@ -13,12 +13,15 @@ public interface IProductoService {
 	
 	public Page<Producto> findAll(Pageable pageable);
 	
-	public List<Producto> findByName(String name);
-	
 	public Producto findById(Integer idproducto);
 	
 	public Producto save(Producto producto);
 	
 	public void delete(Integer idproducto);
+	
+	// Busqueda de Productos desde el frontend
+	public List<Producto> findByName(String name);
+	
+	public Producto findByCodigo(String codigo);
 
 }

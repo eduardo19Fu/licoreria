@@ -1,6 +1,7 @@
 package com.aglayatech.licorstore.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -14,6 +15,6 @@ public interface IClienteRepository extends JpaRepository<Cliente, Integer> {
 	
 	// Búsqueda de cliente por nit
 	// Consulta = 'Select * from Cliente where nit = /*parametro dado*/
-	Cliente findByNit(String nit);
+	Optional<Cliente> findByNit(String nit);
 
 }

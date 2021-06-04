@@ -80,6 +80,7 @@
                                     [(ngModel)]="producto.precioVenta" required #precioVenta="ngModel"
                                     placeholder="Ingrese el precio de venta para el producto"
                                     (blur)="calcularPorcentajeGanancia()">
+
                                 <div *ngIf="precioVenta.invalid && (precioVenta.dirty || precioVenta.touched)">
                                     <span class="requerido" *ngIf="precioVenta.errors.required">
                                         El precio venta no puede estar vacío.
@@ -121,21 +122,23 @@
                         <div class="row">
                             <div class="col">
                                 <label for="fecha-ingreso">Fecha Ingreso</label>
-                                <input type="date" name="fecha-ingreso" class="form-control"
-                                    [(ngModel)]="producto.fechaIngreso">
-                                <!--<input matInput [matDatepicker]="fechaIngreso" class="form-control" [(ngModel)]="producto.fechaIngreso">
+                                <!--<input type="date" name="fecha-ingreso" class="form-control"
+                                    [(ngModel)]="producto.fechaIngreso">-->
+                                <input name="fecha-ingreso" matInput [matDatepicker]="fechaIngreso" class="form-control" 
+                                    style="width: 85%; display: inline;" [(ngModel)]="producto.fechaIngreso">
                                 <mat-datepicker-toggle matSuffix [for]="fechaIngreso"></mat-datepicker-toggle>
-                                <mat-datepicker #fechaIngreso></mat-datepicker>-->
+                                <mat-datepicker #fechaIngreso></mat-datepicker>
                             </div>
 
                             <div class="col">
                                 <label for="fecha-vencimiento">Fecha Vencimiento</label>
-                                <input type="date" name="fecha-vencimiento" class="form-control"
-                                    [(ngModel)]="producto.fechaVencimiento">
+                                <!--<input type="date" name="fecha-vencimiento" class="form-control"
+                                    [(ngModel)]="producto.fechaVencimiento">-->
                                 
-                                <!--<input matInput [matDatepicker]="fechaVencimiento" class="form-control" [(ngModel)]="producto.fechaVencimiento">
+                                <input name="fecha-vencimiento" matInput [matDatepicker]="fechaVencimiento" class="form-control" 
+                                    style="width: 85%; display: inline;" [(ngModel)]="producto.fechaVencimiento" required>
                                 <mat-datepicker-toggle matSuffix [for]="fechaVencimiento"></mat-datepicker-toggle>
-                                <mat-datepicker #fechaVencimiento></mat-datepicker>-->
+                                <mat-datepicker #fechaVencimiento></mat-datepicker>
                             </div>
                                 
                         </div>
