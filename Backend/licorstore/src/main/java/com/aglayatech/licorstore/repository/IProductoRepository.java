@@ -13,11 +13,9 @@ public interface IProductoRepository extends JpaRepository<Producto, Integer> {
 	
 	// Filtra los productos por nombre y devuelve un listado con las coincidencias
 	// select * from Producto where nombre = /*valor ingresado por usuario*/
-	@Query("select p from Producto p where p.nombre like ?1%")
-	List<Producto> findByNombre(String nombre);
+	List<Producto> findByNombreContaining(String nombre);
 	
 	@Query("select p from Producto p where p.codProducto = :codigo")
 	Optional<Producto> findByCodigo(@Param("codigo") String codigo);
-	
 
 }

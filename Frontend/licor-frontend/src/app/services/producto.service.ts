@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
-import { global } from './global';
+import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { Producto } from '../models/producto';
 import { catchError, map } from 'rxjs/operators';
 
+import { Producto } from '../models/producto';
+
+import { global } from './global';
 import swal from 'sweetalert2';
 
 
@@ -53,6 +54,11 @@ export class ProductoService {
         return throwError(e);
       })
     );
+  }
+
+
+  getProductosByNombre(nombre: string): Observable<Producto[]>{
+    return this.http.get<Producto[]>(`${this.url}/productos/name/${nombre}`);
   }
 
   create(producto: Producto): Observable<any> {

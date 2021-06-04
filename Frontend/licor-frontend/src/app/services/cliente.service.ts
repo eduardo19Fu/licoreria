@@ -75,7 +75,6 @@ export class ClienteService {
   delete(id: number): Observable<Cliente> {
     return this.http.delete<Cliente>(`${this.url}/clientes/${id}`).pipe(
       catchError(e => {
-        console.log(e.error.mensaje);
         swal.fire(e.error.mensaje, e.error.error, 'error');
         return throwError(e);
       })

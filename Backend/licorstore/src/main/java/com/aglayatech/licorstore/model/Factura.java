@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -28,7 +29,6 @@ public class Factura implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idFactura;
 	private Long noFactura;
-	private Long correlativo;
 	private String serie;
 	private Double total;
 
@@ -50,13 +50,13 @@ public class Factura implements Serializable {
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Cliente cliente;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_factura")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	private List<DetalleFactura> items;
+	private List<DetalleFactura> itemsFactura;
 
 	public Factura() {
-		items = new ArrayList<>();
+		itemsFactura = new ArrayList<>();
 	}
 
 	@PrePersist
@@ -78,14 +78,6 @@ public class Factura implements Serializable {
 
 	public void setNoFactura(Long noFactura) {
 		this.noFactura = noFactura;
-	}
-
-	public Long getCorrelativo() {
-		return correlativo;
-	}
-
-	public void setCorrelativo(Long correlativo) {
-		this.correlativo = correlativo;
 	}
 
 	public String getSerie() {
@@ -136,22 +128,29 @@ public class Factura implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public List<DetalleFactura> getItems() {
-		return items;
+	public List<DetalleFactura> getItemsFactura() {
+		return itemsFactura;
 	}
 
-	public void setItems(List<DetalleFactura> items) {
-		this.items = items;
+	public void setItemsFactura(List<DetalleFactura> itemsFactura) {
+		this.itemsFactura = itemsFactura;
 	}
 
 	public Double calcularTotal() {
 		Double total = 0.00;
 
-		for (DetalleFactura item : items) {
+		for (DetalleFactura item : itemsFactura) {
 			total += item.getSubTotal();
 		}
 
 		return total;
+	}
+
+	@Override
+	public String toString() {
+		return "Factura [idFactura=" + idFactura + ", noFactura=" + noFactura + ", serie=" + serie + ", total=" + total
+				+ ", fecha=" + fecha + ", estado=" + estado + ", usuario=" + usuario + ", cliente=" + cliente
+				+ ", items=" + itemsFactura + "]";
 	}
 
 	private static final long serialVersionUID = 1L;

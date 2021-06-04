@@ -26,6 +26,11 @@ public class EstadoServiceImpl implements IEstadoService {
 	public Estado findById(Integer idestado) {
 		return repoEstado.findById(idestado).orElse(null);
 	}
+	
+	@Override
+	public Estado findByEstado(String estado) {
+		return repoEstado.findByEstado(estado).orElse(null);
+	}
 
 	@Override
 	public Estado save(Estado estado) {

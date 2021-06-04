@@ -82,17 +82,6 @@ public class ProductoApiController {
 
 		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
 	}
-	
-	@GetMapping(value = "")
-	public ResponseEntity<?> findCodigo(){
-		return null;
-	}
-
-	@GetMapping(value = "/productos/codigo/{codigo}")
-	@ResponseStatus(HttpStatus.OK)
-	public Producto findByCodigo(@PathVariable("codigo") String codigo) {
-		return serviceProducto.findByCodigo(codigo);
-	}
 
 	@Secured(value = { "ROLE_ADMIN" })
 	@PostMapping(value = "/productos")
@@ -244,6 +233,35 @@ public class ProductoApiController {
 		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"");
 
 		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/productos/name/{name}")
+	@ResponseStatus(HttpStatus.OK)
+	public List<Producto> findByName(@PathVariable("name") String name){
+		return serviceProducto.findByName(name);
+	}
+
+	@Secured({ "ROLE_ADMIN", "ROLE_COBRADOR" })
+	@GetMapping(value = "/productos/codigo/{codigo}")
+	public ResponseEntity<?> findByCodigo(@PathVariable("codigo") String codigo) {
+		
+		Producto producto = null;
+		Map<String, Object> response = new HashMap<>();
+		
+		try {
+			producto = serviceProducto.findByCodigo(codigo);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "¡Ha ocurrido un error en la base de datos!");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		if(producto == null) {
+			response.put("mensaje", "¡Producto no se encuentra registrado en la base de datos!");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
 	}
 
 }

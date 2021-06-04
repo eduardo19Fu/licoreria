@@ -68,6 +68,12 @@ public class DetalleFactura implements Serializable {
 		return this.cantidad.doubleValue() * this.producto.getPrecioVenta();
 	}
 
+	@Override
+	public String toString() {
+		return "DetalleFactura [idDetalle=" + idDetalle + ", cantidad=" + cantidad + ", subTotal=" + subTotal
+				+ ", producto=" + producto + "]";
+	}
+
 	private static final long serialVersionUID = 1L;
 
 }
