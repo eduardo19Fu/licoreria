@@ -20,6 +20,7 @@ import { Correlativo } from '../../../models/correlativo';
 import { DetalleFactura } from '../../../models/detalle-factura';
 
 import swal from 'sweetalert2';
+import { Usuario } from 'src/app/models/usuario';
 
 @Component({
   selector: 'app-create-factura',
@@ -33,7 +34,7 @@ export class CreateFacturaComponent implements OnInit {
 
   producto: Producto;
   cliente: Cliente;
-  usuario: UsuarioAuxiliar;
+  usuario: Usuario;
   factura: Factura;
   correlativo: Correlativo;
 
@@ -53,19 +54,22 @@ export class CreateFacturaComponent implements OnInit {
   ) {
     this.title = 'Crear Factura';
     this.cliente = new Cliente();
-    this.usuario = new UsuarioAuxiliar();
+    this.usuario = new Usuario();
     this.factura = new Factura();
     this.correlativo = new Correlativo();
     this.producto = new Producto();
   }
 
   ngOnInit(): void {
-    this.usuarioService.getUsuario(this.authService.usuario.idUsuario).subscribe(
+    /*this.usuarioService.getUsuario(this.authService.usuario.idUsuario).subscribe(
       usuario => {
         this.usuario = usuario;
         this.cargarCorrelativo();
       }
-    );
+    );*/
+
+    this.usuario = this.authService.usuario;
+    this.cargarCorrelativo();
 
     this.productosFiltrados = this.autocompleteControl.valueChanges
       .pipe(
@@ -108,14 +112,16 @@ export class CreateFacturaComponent implements OnInit {
   }
 
   cargarCorrelativo(): void {
-    this.correlativoService.getCorrelativoPorUsuario(this.usuario.idUsuario).subscribe(
-      correlativo => {
-        this.correlativo = correlativo;
-      },
-      error => {
-        swal.fire('Error al cargar correlativo', error.error, 'error');
-      }
-    );
+    if (this.usuario) {
+      this.correlativoService.getCorrelativoPorUsuario(this.usuario.idUsuario).subscribe(
+        correlativo => {
+          this.correlativo = correlativo;
+        },
+        error => {
+          swal.fire('Error al cargar correlativo', error.error, 'error');
+        }
+      );
+    }
   }
 
   buscarProducto(): void {
@@ -184,7 +190,7 @@ export class CreateFacturaComponent implements OnInit {
 
     this.factura.itemsFactura = this.factura.itemsFactura.map((item: DetalleFactura) => {
       if (idProducto === item.producto.idProducto) {
-        if (cantidad > item.producto.stock){
+        if (cantidad > item.producto.stock) {
           swal.fire('Stock Insuficiente', 'No existen las suficientes existencias de este producto.', 'warning');
         } else {
           item.cantidad = cantidad;
@@ -223,7 +229,7 @@ export class CreateFacturaComponent implements OnInit {
     this.factura.noFactura = this.correlativo.correlativoActual;
     this.factura.serie = this.correlativo.serie;
     this.factura.cliente = this.cliente;
-    this.factura.usuario = this.usuario;
+    this.factura.usuario.idUsuario = this.usuario.idUsuario;
     this.factura.total = this.factura.calcularTotal();
 
     this.facturaService.create(this.factura).subscribe(
