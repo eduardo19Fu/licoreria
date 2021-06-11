@@ -14,13 +14,13 @@ import { FacturaService } from '../../../services/facturas/factura.service';
 
 import { Producto } from '../../../models/producto';
 import { Cliente } from '../../../models/cliente';
-import { UsuarioAuxiliar } from '../../../models/auxiliar/usuario-auxiliar';
 import { Factura } from '../../../models/factura';
 import { Correlativo } from '../../../models/correlativo';
 import { DetalleFactura } from '../../../models/detalle-factura';
+import { Usuario } from '../../../models/usuario';
+import { UsuarioAuxiliar } from '../../../models/auxiliar/usuario-auxiliar';
 
 import swal from 'sweetalert2';
-import { Usuario } from 'src/app/models/usuario';
 
 @Component({
   selector: 'app-create-factura',
@@ -34,13 +34,15 @@ export class CreateFacturaComponent implements OnInit {
 
   producto: Producto;
   cliente: Cliente;
-  usuario: Usuario;
+  usuario: UsuarioAuxiliar;
   factura: Factura;
   correlativo: Correlativo;
 
+  /* AutomComplete
   autocompleteControl = new FormControl();
   productos: string[] = ['One', 'Two', 'Three'];
   productosFiltrados: Observable<string[]>;
+  */
 
   constructor(
     private facturaService: FacturaService,
@@ -54,35 +56,37 @@ export class CreateFacturaComponent implements OnInit {
   ) {
     this.title = 'Crear Factura';
     this.cliente = new Cliente();
-    this.usuario = new Usuario();
+    this.usuario = new UsuarioAuxiliar();
     this.factura = new Factura();
     this.correlativo = new Correlativo();
     this.producto = new Producto();
   }
 
   ngOnInit(): void {
-    /*this.usuarioService.getUsuario(this.authService.usuario.idUsuario).subscribe(
+    this.usuarioService.getUsuario(this.authService.usuario.idUsuario).subscribe(
       usuario => {
         this.usuario = usuario;
         this.cargarCorrelativo();
       }
-    );*/
+    );
 
-    this.usuario = this.authService.usuario;
-    this.cargarCorrelativo();
+    // this.usuario = this.authService.usuario;
+    // this.cargarCorrelativo();
 
+    /* AutoComplete
     this.productosFiltrados = this.autocompleteControl.valueChanges
       .pipe(
         startWith(''),
         map(value => this._filter(value))
-      );
+      );*/
   }
 
+  /* AutoComplete
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
     return this.productos.filter(option => option.toLowerCase().includes(filterValue));
-  }
+  }*/
 
   buscarCliente(): void {
     const nit = ((document.getElementById('buscar') as HTMLInputElement)).value;
@@ -229,7 +233,7 @@ export class CreateFacturaComponent implements OnInit {
     this.factura.noFactura = this.correlativo.correlativoActual;
     this.factura.serie = this.correlativo.serie;
     this.factura.cliente = this.cliente;
-    this.factura.usuario.idUsuario = this.usuario.idUsuario;
+    this.factura.usuario = this.usuario;
     this.factura.total = this.factura.calcularTotal();
 
     this.facturaService.create(this.factura).subscribe(

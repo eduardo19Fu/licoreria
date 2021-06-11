@@ -1,22 +1,44 @@
 package com.aglayatech.licorstore.service.impl;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
 import com.aglayatech.licorstore.model.Producto;
 import com.aglayatech.licorstore.repository.IProductoRepository;
 import com.aglayatech.licorstore.service.IProductoService;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+
+@SuppressWarnings("unused")
 @Service
 public class ProductoServiceImpl implements IProductoService {
 
 	@Autowired
 	private IProductoRepository repoProducto;
+	
+	@Autowired
+	protected DataSource localDataSource;
 
 	@Override
 	public List<Producto> findAll() {
@@ -55,5 +77,25 @@ public class ProductoServiceImpl implements IProductoService {
 		return repoProducto.findByCodigo(codigo).orElse(null);
 	}
 
+	@Override
+	public List<Producto> findCaducados() {
+		return repoProducto.findCaducados(new Date());
+	}
+
+	// SERVICIOS REPORTES
+	@Override
+	public String reportExpired() throws JRException, FileNotFoundException, SQLException {
+		String path = "C:\\Users\\Edfu-pro\\desktop";
+		// List<Producto> productos = this.findCaducados();
+		Connection con = localDataSource.getConnection(); // Obtiene la conexión actual a la base de datos
+		File file = ResourceUtils.getFile("classpath:\\reports\\rpt_productos_caducados.jrxml");
+		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+		// Puebla EL REPORTE con un listado de productos obtenidos con una consulta jpa
+		// JRBeanCollectionDataSource datasource = new JRBeanCollectionDataSource(productos);
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, con);
+		con.close();
+		JasperExportManager.exportReportToPdfFile(jasperPrint, path+"\\productos_caducados.pdf");
+		return "Reporte Creado";
+	}
 
 }

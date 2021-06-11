@@ -1,7 +1,9 @@
 package com.aglayatech.licorstore.controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +37,8 @@ import com.aglayatech.licorstore.model.Producto;
 import com.aglayatech.licorstore.service.IEstadoService;
 import com.aglayatech.licorstore.service.IProductoService;
 import com.aglayatech.licorstore.service.IUploadFileService;
+
+import net.sf.jasperreports.engine.JRException;
 
 @CrossOrigin(origins = { "http://localhost:4200" })
 @RestController
@@ -262,6 +266,15 @@ public class ProductoApiController {
 		}
 		
 		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
+	}
+	
+	/*************** PDF REPORTS CONTROLLERS *****************/
+	
+	// REPORTE DE PRODUCTOS CADUCADOS
+	@GetMapping(value = "/productos/expired")
+	public String expired() throws FileNotFoundException, JRException, SQLException{
+		
+		return serviceProducto.reportExpired();
 	}
 
 }
