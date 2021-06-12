@@ -31,15 +31,15 @@ public class Cliente implements Serializable {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaRegistro;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
-	@JsonIgnoreProperties({"facturas" ,"hibernateLazyInitializer", "handler" })
+	@JsonIgnoreProperties({ "cliente", "hibernateLazyInitializer", "handler" })
 	private List<Factura> facturas;
 
 	public Cliente() {
 		facturas = new ArrayList<>();
 	}
-	
+
 	@PrePersist
 	public void configFechaRegistro() {
 		fechaRegistro = new Date();

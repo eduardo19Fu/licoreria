@@ -84,7 +84,7 @@ public class FacturaServiceImpl implements IFacturaService {
 	
 	
 
-	/* GENERADOR DE REPORTE DE FACTURA */
+	// GENERADOR DE REPORTE DE FACTURA
 	@Override
 	public byte[] showBill(Long idfactura) 
 			throws JRException, FileNotFoundException, SQLException {

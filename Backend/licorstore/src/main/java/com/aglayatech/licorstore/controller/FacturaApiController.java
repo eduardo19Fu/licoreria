@@ -210,7 +210,8 @@ public class FacturaApiController {
 	        os.flush();
 	        os.close();
 	    } catch (IOException e) {
-	        new ServletException(e);
+	        // new ServletException(e);
+	    	e.printStackTrace();
 	    }
 	}
 	

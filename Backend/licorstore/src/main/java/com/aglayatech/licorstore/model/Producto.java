@@ -1,7 +1,9 @@
 package com.aglayatech.licorstore.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -61,10 +64,14 @@ public class Producto implements Serializable {
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Estado estado;
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "producto")
+	@JsonIgnoreProperties({ "producto", "hibernateLazyInitializer", "handler" })
+	private List<MovimientoProducto> movimientos;
+
 	public Producto() {
-		// this.imagen = "no-image.jpg";
+		this.movimientos = new ArrayList<>();
 	}
-	
+
 	@PrePersist
 	public void configFechaRegistro() {
 		this.fechaRegistro = new Date();
@@ -180,6 +187,14 @@ public class Producto implements Serializable {
 
 	public void setFechaRegistro(Date fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
+	}
+
+	public List<MovimientoProducto> getMovimientos() {
+		return movimientos;
+	}
+
+	public void setMovimientos(List<MovimientoProducto> movimientos) {
+		this.movimientos = movimientos;
 	}
 
 	@Override
