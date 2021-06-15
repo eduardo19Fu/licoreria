@@ -70,7 +70,7 @@ public class MarcaProductoApiController {
 		return new ResponseEntity<MarcaProducto>(marca, HttpStatus.OK);
 	}
 
-	@Secured(value = {"ROLE_ADMIN"})
+	@Secured(value = {"ROLE_ADMIN", "ROLE_INVENTARIO"})
 	@PostMapping(value = "/marcas")
 	public ResponseEntity<?> create(@Valid @RequestBody MarcaProducto marca, BindingResult result) {
 

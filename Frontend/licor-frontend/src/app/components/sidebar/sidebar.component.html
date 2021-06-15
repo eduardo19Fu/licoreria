@@ -12,7 +12,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div *ngIf="usuario != null" class="info">
-                <span class="username">Bienvenido {{usuario.primerNombre}}</span>
+                <span class="username d-block">Bienvenido {{usuario.primerNombre}}</span>
             </div>
         </div>
 
@@ -20,30 +20,30 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 
-                <li class="nav-header">Productos</li>
-                <li class="nav-item">
+                <li class="nav-header" *ngIf="authService.hasRole('ROLE_ADMIN') || authService.hasRole('ROLE_INVENTARIO')">Productos</li>
+                <li class="nav-item" *ngIf="authService.hasRole('ROLE_ADMIN') || authService.hasRole('ROLE_INVENTARIO')">
                     <a [routerLink]="['/productos']" [routerLinkActive]="['active']" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Productos</p>
                     </a>
                 </li>
                 
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="authService.hasRole('ROLE_ADMIN') || authService.hasRole('ROLE_INVENTARIO')">
                     <a [routerLink]="['/marcas-producto']" [routerLinkActive]="['active']" class="nav-link">
                         <i class="fas fa-map-pin nav-icon"></i>
                         <p>Marcas</p>
                     </a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item" *ngIf="authService.hasRole('ROLE_ADMIN') || authService.hasRole('ROLE_INVENTARIO')">
                     <a [routerLink]="['/tipos-producto']" [routerLinkActive]="['active']" class="nav-link">
                         <i class="fas fa-stamp nav-icon"></i>
                         <p>Tipos</p>
                     </a>
                 </li>
                 
-                <li class="nav-header">Clientes</li>
-                <li class="nav-item">
+                <li class="nav-header" *ngIf="authService.hasRole('ROLE_ADMIN') || authService.hasRole('ROLE_COBRADOR')">Clientes</li>
+                <li class="nav-item" *ngIf="authService.hasRole('ROLE_ADMIN') || authService.hasRole('ROLE_COBRADOR')">
                     <a [routerLink]="['/clientes']" [routerLinkActive]="['active']" class="nav-link">
                         <i class="nav-icon fas fa-street-view"></i>
                         <p>Clientes</p>
@@ -58,7 +58,7 @@
                     </a>
                 </li>
 
-                <li *ngIf="authService.hasRole('ROLE_ADMIN') || authService.hasRole('ROLE_COBRADOR')" class="nav-item">
+                <li *ngIf="authService.hasRole('ROLE_ADMIN')" class="nav-item">
                     <a [routerLink]="['/correlativos']" [routerLinkActive]="['active']" class="nav-link">
                         <i class="fas fa-id-card-alt nav-icon"></i>
                         <p>Correlativos</p>

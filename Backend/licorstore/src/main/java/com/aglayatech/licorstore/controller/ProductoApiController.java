@@ -1,7 +1,9 @@
 package com.aglayatech.licorstore.controller;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +38,8 @@ import com.aglayatech.licorstore.service.IEstadoService;
 import com.aglayatech.licorstore.service.IProductoService;
 import com.aglayatech.licorstore.service.IUploadFileService;
 
+import net.sf.jasperreports.engine.JRException;
+
 @CrossOrigin(origins = { "http://localhost:4200" })
 @RestController
 @RequestMapping(value = "/api")
@@ -58,6 +62,12 @@ public class ProductoApiController {
 	@GetMapping(value = "/productos/page/{page}")
 	public Page<Producto> index(@PathVariable("page") Integer page) {
 		return serviceProducto.findAll(PageRequest.of(page, 5));
+	}
+	
+	@GetMapping(value = "/productos-activos")
+	public List<Producto> findAll(){
+		Estado estado = serviceEstado.findById(1);
+		return serviceProducto.findAllByEstado(estado);
 	}
 
 	@Secured({ "ROLE_ADMIN", "ROLE_COBRADOR" })
@@ -262,6 +272,14 @@ public class ProductoApiController {
 		}
 		
 		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
+	}
+	
+	/*************** PDF REPORTS CONTROLLERS *****************/
+	
+	@GetMapping(value = "/productos/expired")	// REPORTE DE PRODUCTOS CADUCADOS
+	public String expired() throws FileNotFoundException, JRException, SQLException{
+		
+		return serviceProducto.reportExpired();
 	}
 
 }

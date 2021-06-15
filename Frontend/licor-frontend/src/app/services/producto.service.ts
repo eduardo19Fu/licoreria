@@ -7,6 +7,7 @@ import { Producto } from '../models/producto';
 
 import { global } from './global';
 import swal from 'sweetalert2';
+import { MovimientoProducto } from '../models/movimiento-producto';
 
 
 @Injectable({
@@ -92,6 +93,21 @@ export class ProductoService {
 
     return this.http.request(req);
   }
+
+  /********* SERVICIO DE MOVIMIENTOS PRODUCTO **********/
+
+  getMovimientos(idproducto: number, page: number): Observable<MovimientoProducto>{
+    return this.http.get<MovimientoProducto>(`${this.url}/productos/movimientos/${idproducto}/${page}`).pipe(
+      map((response: any) => {
+        (response.content as MovimientoProducto[]).map(movimientoProducto => {
+          return movimientoProducto;
+        });
+        return response;
+      })
+    );
+  }
+
+  /******** SERVICIO DE REPORTES **********/
 
 
   // Código original de subida de imagenes para productos

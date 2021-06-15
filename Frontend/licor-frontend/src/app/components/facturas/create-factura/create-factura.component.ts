@@ -14,10 +14,11 @@ import { FacturaService } from '../../../services/facturas/factura.service';
 
 import { Producto } from '../../../models/producto';
 import { Cliente } from '../../../models/cliente';
-import { UsuarioAuxiliar } from '../../../models/auxiliar/usuario-auxiliar';
 import { Factura } from '../../../models/factura';
 import { Correlativo } from '../../../models/correlativo';
 import { DetalleFactura } from '../../../models/detalle-factura';
+import { Usuario } from '../../../models/usuario';
+import { UsuarioAuxiliar } from '../../../models/auxiliar/usuario-auxiliar';
 
 import swal from 'sweetalert2';
 
@@ -37,9 +38,11 @@ export class CreateFacturaComponent implements OnInit {
   factura: Factura;
   correlativo: Correlativo;
 
+  /* AutomComplete
   autocompleteControl = new FormControl();
   productos: string[] = ['One', 'Two', 'Three'];
   productosFiltrados: Observable<string[]>;
+  */
 
   constructor(
     private facturaService: FacturaService,
@@ -67,18 +70,23 @@ export class CreateFacturaComponent implements OnInit {
       }
     );
 
+    // this.usuario = this.authService.usuario;
+    // this.cargarCorrelativo();
+
+    /* AutoComplete
     this.productosFiltrados = this.autocompleteControl.valueChanges
       .pipe(
         startWith(''),
         map(value => this._filter(value))
-      );
+      );*/
   }
 
+  /* AutoComplete
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
     return this.productos.filter(option => option.toLowerCase().includes(filterValue));
-  }
+  }*/
 
   buscarCliente(): void {
     const nit = ((document.getElementById('buscar') as HTMLInputElement)).value;
@@ -108,14 +116,16 @@ export class CreateFacturaComponent implements OnInit {
   }
 
   cargarCorrelativo(): void {
-    this.correlativoService.getCorrelativoPorUsuario(this.usuario.idUsuario).subscribe(
-      correlativo => {
-        this.correlativo = correlativo;
-      },
-      error => {
-        swal.fire('Error al cargar correlativo', error.error, 'error');
-      }
-    );
+    if (this.usuario) {
+      this.correlativoService.getCorrelativoPorUsuario(this.usuario.idUsuario).subscribe(
+        correlativo => {
+          this.correlativo = correlativo;
+        },
+        error => {
+          swal.fire('Error al cargar correlativo', error.error, 'error');
+        }
+      );
+    }
   }
 
   buscarProducto(): void {
@@ -184,7 +194,7 @@ export class CreateFacturaComponent implements OnInit {
 
     this.factura.itemsFactura = this.factura.itemsFactura.map((item: DetalleFactura) => {
       if (idProducto === item.producto.idProducto) {
-        if (cantidad > item.producto.stock){
+        if (cantidad > item.producto.stock) {
           swal.fire('Stock Insuficiente', 'No existen las suficientes existencias de este producto.', 'warning');
         } else {
           item.cantidad = cantidad;

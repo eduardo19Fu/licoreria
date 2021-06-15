@@ -13,7 +13,7 @@ import swal from 'sweetalert2';
 
 export class SidebarComponent implements OnInit {
 
-  public usuario: Usuario;
+  usuario: Usuario;
 
   swalWithBootstrapButtons = swal.mixin({
     customClass: {
