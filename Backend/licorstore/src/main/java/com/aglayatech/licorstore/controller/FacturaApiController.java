@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +37,15 @@ import com.aglayatech.licorstore.model.Correlativo;
 import com.aglayatech.licorstore.model.DetalleFactura;
 import com.aglayatech.licorstore.model.Estado;
 import com.aglayatech.licorstore.model.Factura;
+import com.aglayatech.licorstore.model.MovimientoProducto;
 import com.aglayatech.licorstore.model.Producto;
+import com.aglayatech.licorstore.model.Usuario;
 import com.aglayatech.licorstore.service.ICorrelativoService;
 import com.aglayatech.licorstore.service.IEstadoService;
 import com.aglayatech.licorstore.service.IFacturaService;
+import com.aglayatech.licorstore.service.IMovimientoProductoService;
 import com.aglayatech.licorstore.service.IProductoService;
+import com.aglayatech.licorstore.service.IUsuarioService;
 
 import net.sf.jasperreports.engine.JRException;
 
@@ -62,6 +65,12 @@ public class FacturaApiController {
 	
 	@Autowired
 	private ICorrelativoService serviceCorrelativo;
+	
+	@Autowired
+	private IMovimientoProductoService serviceMovimiento;
+	
+	@Autowired
+	private IUsuarioService serviceUsuario;
 	
 	@GetMapping(value = "/facturas")
 	public List<Factura> index(){
@@ -101,6 +110,7 @@ public class FacturaApiController {
 		Factura newFactura = null;
 		Estado estado = serviceEstado.findByEstado("PAGADO");
 		Estado estadoCorr = serviceEstado.findByEstado("ACTIVO");
+		MovimientoProducto movimientoProducto = new MovimientoProducto();
 		Correlativo correlativo = serviceCorrelativo.findByUsuario(factura.getUsuario(), estadoCorr);
 		
 		Map<String, Object> response = new HashMap<>();
@@ -118,6 +128,8 @@ public class FacturaApiController {
 		try {
 			factura.setEstado(estado);
 			newFactura = serviceFactura.save(factura);
+			movimientoProducto.setTipoMovimiento("VENTA");
+			movimientoProducto.setUsuario(factura.getUsuario());
 			
 			if(newFactura != null) {
 				correlativo.setCorrelativoActual(correlativo.getCorrelativoActual() + 1);
@@ -126,8 +138,13 @@ public class FacturaApiController {
 				// Actualiza el stock de los productos que forman parte de cada una de las lineas de la factura
 				for(DetalleFactura item : newFactura.getItemsFactura()) {
 					Producto producto = item.getProducto();
-
-					producto.setStock(producto.getStock() - item.getCantidad() );
+					
+					movimientoProducto.setStockInicial(producto.getStock());
+					movimientoProducto.setProducto(producto);
+					movimientoProducto.setCantidad(item.getCantidad());
+					movimientoProducto.calcularStock();
+					
+					serviceMovimiento.save(movimientoProducto);
 					serviceProducto.save(producto);
 				}
 			}
@@ -144,16 +161,22 @@ public class FacturaApiController {
 	}
 	
 	@Secured(value = {"ROLE_COBRADOR", "ROLE_ADMIN"})
-	@DeleteMapping(value = "/facturas/cancel/{id}")
-	public ResponseEntity<?> cancel(@PathVariable("id") Long idfactura){
+	@DeleteMapping(value = "/facturas/cancel/{id}/{idusuario}")
+	public ResponseEntity<?> cancel(@PathVariable("id") Long idfactura, @PathVariable("idusuario") Integer idusuario){
 		
 		Factura cancelFactura = null;
 		Estado estado = null;
+		Usuario usuario = null;
+		MovimientoProducto movimientoProducto = new MovimientoProducto();
 		Map<String, Object> response = new HashMap<>();
 		
 		try {
 			cancelFactura = serviceFactura.findFactura(idfactura);
 			estado = serviceEstado.findByEstado("ANULADO");
+			usuario = serviceUsuario.findById(idusuario);
+			
+			movimientoProducto.setTipoMovimiento("ANULACION FACTURA");
+			movimientoProducto.setUsuario(usuario);
 			
 			if(estado != null) {
 				cancelFactura.setEstado(estado);
@@ -162,8 +185,13 @@ public class FacturaApiController {
 				for(DetalleFactura linea : cancelFactura.getItemsFactura()) {
 					
 					Producto producto = linea.getProducto();
-
+					
+					movimientoProducto.setProducto(producto);
+					movimientoProducto.setCantidad(linea.getCantidad());
+					movimientoProducto.calcularStock();
 					producto.setStock(linea.getCantidad() + producto.getStock());
+					
+					serviceMovimiento.save(movimientoProducto);
 					serviceProducto.save(producto);
 					
 				}

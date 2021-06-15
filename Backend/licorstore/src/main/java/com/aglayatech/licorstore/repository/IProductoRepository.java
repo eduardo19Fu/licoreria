@@ -8,9 +8,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.aglayatech.licorstore.model.Estado;
 import com.aglayatech.licorstore.model.Producto;
 
 public interface IProductoRepository extends JpaRepository<Producto, Integer> {
+	
+	// Buscar listado de productos por estado
+	List<Producto> findByEstado(Estado estado);
 	
 	// Filtra los productos por nombre y devuelve un listado con las coincidencias
 	// select * from Producto where nombre = /*valor ingresado por usuario*/

@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
+import com.aglayatech.licorstore.model.Estado;
 import com.aglayatech.licorstore.model.Producto;
 import com.aglayatech.licorstore.repository.IProductoRepository;
 import com.aglayatech.licorstore.service.IProductoService;
@@ -81,10 +82,17 @@ public class ProductoServiceImpl implements IProductoService {
 	public List<Producto> findCaducados() {
 		return repoProducto.findCaducados(new Date());
 	}
-
-	// SERVICIOS REPORTES
+	
 	@Override
-	public String reportExpired() throws JRException, FileNotFoundException, SQLException {
+	public List<Producto> findAllByEstado(Estado estado) {
+		return repoProducto.findByEstado(estado);
+	}
+
+
+	/************** SERVICIOS PARA REPORTES **************/
+	
+	@Override
+	public String reportExpired() throws JRException, FileNotFoundException, SQLException { // REPORTE DE PRODUCTOS CADUCADOS
 		String path = "C:\\Users\\Edfu-pro\\desktop";
 		// List<Producto> productos = this.findCaducados();
 		Connection con = localDataSource.getConnection(); // Obtiene la conexión actual a la base de datos

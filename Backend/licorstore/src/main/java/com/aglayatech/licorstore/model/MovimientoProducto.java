@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,19 +26,25 @@ public class MovimientoProducto implements Serializable {
 	private Long idMovimiento;
 	private String tipoMovimiento;
 	private Integer cantidad;
+	private Integer stockInicial;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaMovimiento;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_producto")
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@JsonIgnoreProperties({ "movimientos", "hibernateLazyInitializer", "handler" })
 	private Producto producto;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_usuario")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Usuario usuario;
+	
+	@PrePersist
+	public void configFecha() {
+		this.fechaMovimiento = new Date();
+	}
 
 	public Long getIdMovimiento() {
 		return idMovimiento;
@@ -85,6 +92,25 @@ public class MovimientoProducto implements Serializable {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public Integer getStockInicial() {
+		return stockInicial;
+	}
+
+	public void setStockInicial(Integer stockInicial) {
+		this.stockInicial = stockInicial;
+	}
+	
+	public void calcularStock() {
+		if(this.getTipoMovimiento().equals("ENTRADA")) {
+			int tempStock = this.producto.getStock();
+			this.setStockInicial(tempStock);
+			this.producto.setStock((tempStock + this.getCantidad()));
+		} else if(this.getTipoMovimiento().equals("SALIDA")){
+			int tempStock = this.producto.getStock();
+			this.producto.setStock((tempStock - this.getCantidad()));
+		}
 	}
 
 	private static final long serialVersionUID = 1L;

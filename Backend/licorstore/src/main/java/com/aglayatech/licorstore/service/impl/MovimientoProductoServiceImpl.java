@@ -1,5 +1,6 @@
 package com.aglayatech.licorstore.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,11 @@ public class MovimientoProductoServiceImpl implements IMovimientoProductoService
 	@Override
 	public MovimientoProducto save(MovimientoProducto movimientoProducto) {
 		return repoMovimiento.save(movimientoProducto);
+	}
+
+	@Override
+	public List<MovimientoProducto> findByFecha(Date fechaIni, Date fechaFin) {
+		return repoMovimiento.findByFechaMovimientoBetween(fechaIni, fechaFin);
 	}
 
 }

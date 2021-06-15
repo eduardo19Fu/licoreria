@@ -33,10 +33,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.aglayatech.licorstore.model.Estado;
-import com.aglayatech.licorstore.model.MovimientoProducto;
 import com.aglayatech.licorstore.model.Producto;
 import com.aglayatech.licorstore.service.IEstadoService;
-import com.aglayatech.licorstore.service.IMovimientoProductoService;
 import com.aglayatech.licorstore.service.IProductoService;
 import com.aglayatech.licorstore.service.IUploadFileService;
 
@@ -55,9 +53,6 @@ public class ProductoApiController {
 
 	@Autowired
 	private IUploadFileService serviceUpload;
-	
-	@Autowired
-	private IMovimientoProductoService serviceMovimiento;
 
 	@GetMapping(value = "/productos")
 	public List<Producto> index() {
@@ -67,6 +62,12 @@ public class ProductoApiController {
 	@GetMapping(value = "/productos/page/{page}")
 	public Page<Producto> index(@PathVariable("page") Integer page) {
 		return serviceProducto.findAll(PageRequest.of(page, 5));
+	}
+	
+	@GetMapping(value = "/productos-activos")
+	public List<Producto> findAll(){
+		Estado estado = serviceEstado.findById(1);
+		return serviceProducto.findAllByEstado(estado);
 	}
 
 	@Secured({ "ROLE_ADMIN", "ROLE_COBRADOR" })
@@ -273,25 +274,9 @@ public class ProductoApiController {
 		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
 	}
 	
-	/*************** ENTRADAS Y SALIDAS DE PRODUCTOS ****************/
-	
-	@GetMapping(value = "/productos/movimientos/{page}")
-	public Page<MovimientoProducto> findMovimientos(@PathVariable("page") Integer page){
-		return serviceMovimiento.findAll(PageRequest.of(page, 5));
-	}
-	
-	@GetMapping(value = "/productos/movimientos/{id}/{page}")
-	@ResponseStatus(HttpStatus.OK)
-	public Page<MovimientoProducto> findProductosMoves(@PathVariable("id") Integer idproducto, @PathVariable("page") Integer page){
-		Producto producto = serviceProducto.findById(idproducto);
-		
-		return serviceMovimiento.findProductoMoves(producto, PageRequest.of(page, 5));
-	}
-	
 	/*************** PDF REPORTS CONTROLLERS *****************/
 	
-	// REPORTE DE PRODUCTOS CADUCADOS
-	@GetMapping(value = "/productos/expired")
+	@GetMapping(value = "/productos/expired")	// REPORTE DE PRODUCTOS CADUCADOS
 	public String expired() throws FileNotFoundException, JRException, SQLException{
 		
 		return serviceProducto.reportExpired();
