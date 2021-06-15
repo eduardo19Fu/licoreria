@@ -189,7 +189,7 @@ public class FacturaApiController {
 					movimientoProducto.setProducto(producto);
 					movimientoProducto.setCantidad(linea.getCantidad());
 					movimientoProducto.calcularStock();
-					producto.setStock(linea.getCantidad() + producto.getStock());
+					// producto.setStock(linea.getCantidad() + producto.getStock());
 					
 					serviceMovimiento.save(movimientoProducto);
 					serviceProducto.save(producto);
