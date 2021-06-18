@@ -182,10 +182,15 @@ public class CorrelativoApiController {
 	@DeleteMapping(value = "/correlativos/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Long id) {
 		
+		Correlativo correlativoAnulado = null, correlativo = null;
+		Estado estado = serviceEstado.findByEstado("ANULADO");
 		Map<String, Object> response = new HashMap<>();
 
 		try {
-			serviceCorrelativo.delete(id);
+			correlativo = serviceCorrelativo.findById(id);
+			correlativo.setEstado(estado);
+			correlativoAnulado = serviceCorrelativo.save(correlativo);
+			// serviceCorrelativo.delete(id);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "¡Ha ocurrido un error en la base de datos!");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -193,7 +198,7 @@ public class CorrelativoApiController {
 		}
 
 		response.put("mensaje", "¡El correlativo ha sido eliminado con éxito!");
-
+		response.put("correlativo", correlativoAnulado);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 

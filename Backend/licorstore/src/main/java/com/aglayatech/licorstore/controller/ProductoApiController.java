@@ -70,7 +70,7 @@ public class ProductoApiController {
 		return serviceProducto.findAllByEstado(estado);
 	}
 
-	@Secured({ "ROLE_ADMIN", "ROLE_COBRADOR" })
+	@Secured({ "ROLE_ADMIN", "ROLE_COBRADOR", "ROLE_INVENTARIO" })
 	@GetMapping(value = "/productos/{id}")
 	public ResponseEntity<?> findById(@PathVariable("id") int idproducto) {
 
@@ -251,7 +251,7 @@ public class ProductoApiController {
 		return serviceProducto.findByName(name);
 	}
 
-	@Secured({ "ROLE_ADMIN", "ROLE_COBRADOR" })
+	@Secured({ "ROLE_ADMIN", "ROLE_COBRADOR", "ROLE_INVENTARIO" })
 	@GetMapping(value = "/productos/codigo/{codigo}")
 	public ResponseEntity<?> findByCodigo(@PathVariable("codigo") String codigo) {
 		

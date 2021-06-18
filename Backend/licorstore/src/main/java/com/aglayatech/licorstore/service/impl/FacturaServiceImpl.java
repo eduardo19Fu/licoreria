@@ -42,7 +42,7 @@ public class FacturaServiceImpl implements IFacturaService {
 	
 	@Override
 	public List<Factura> findAll() {
-		return repoFactura.findAll(Sort.by(Direction.ASC, "fecha"));
+		return repoFactura.findAll(Sort.by(Direction.DESC, "fecha"));
 	}
 
 	@Override

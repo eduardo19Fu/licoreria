@@ -55,7 +55,7 @@ public class UsuarioApiController {
 		return this.serviceUsuario.findAll(PageRequest.of(page, 5));
 	}
 	
-	@Secured(value = {"ROLE_ADMIN", "ROLE_COBRADOR"})
+	@Secured(value = {"ROLE_ADMIN", "ROLE_COBRADOR", "ROLE_INVENTARIO"})
 	@GetMapping(value = "/usuarios/{id}")
 	public ResponseEntity<?> findById(@PathVariable("id") Integer idusuario){
 		

@@ -110,7 +110,7 @@ public class FacturaApiController {
 		Factura newFactura = null;
 		Estado estado = serviceEstado.findByEstado("PAGADO");
 		Estado estadoCorr = serviceEstado.findByEstado("ACTIVO");
-		MovimientoProducto movimientoProducto = new MovimientoProducto();
+		MovimientoProducto movimientoProducto = null;
 		Correlativo correlativo = serviceCorrelativo.findByUsuario(factura.getUsuario(), estadoCorr);
 		
 		Map<String, Object> response = new HashMap<>();
@@ -128,8 +128,6 @@ public class FacturaApiController {
 		try {
 			factura.setEstado(estado);
 			newFactura = serviceFactura.save(factura);
-			movimientoProducto.setTipoMovimiento("VENTA");
-			movimientoProducto.setUsuario(factura.getUsuario());
 			
 			if(newFactura != null) {
 				correlativo.setCorrelativoActual(correlativo.getCorrelativoActual() + 1);
@@ -138,9 +136,12 @@ public class FacturaApiController {
 				// Actualiza el stock de los productos que forman parte de cada una de las lineas de la factura
 				for(DetalleFactura item : newFactura.getItemsFactura()) {
 					Producto producto = item.getProducto();
+					movimientoProducto = new MovimientoProducto();
 					
-					movimientoProducto.setStockInicial(producto.getStock());
+					movimientoProducto.setTipoMovimiento("VENTA");
+					movimientoProducto.setUsuario(factura.getUsuario());
 					movimientoProducto.setProducto(producto);
+					movimientoProducto.setStockInicial(producto.getStock());
 					movimientoProducto.setCantidad(item.getCantidad());
 					movimientoProducto.calcularStock();
 					
@@ -167,7 +168,7 @@ public class FacturaApiController {
 		Factura cancelFactura = null;
 		Estado estado = null;
 		Usuario usuario = null;
-		MovimientoProducto movimientoProducto = new MovimientoProducto();
+		MovimientoProducto movimientoProducto = null;
 		Map<String, Object> response = new HashMap<>();
 		
 		try {
@@ -175,8 +176,6 @@ public class FacturaApiController {
 			estado = serviceEstado.findByEstado("ANULADO");
 			usuario = serviceUsuario.findById(idusuario);
 			
-			movimientoProducto.setTipoMovimiento("ANULACION FACTURA");
-			movimientoProducto.setUsuario(usuario);
 			
 			if(estado != null) {
 				cancelFactura.setEstado(estado);
@@ -185,11 +184,14 @@ public class FacturaApiController {
 				for(DetalleFactura linea : cancelFactura.getItemsFactura()) {
 					
 					Producto producto = linea.getProducto();
+					movimientoProducto = new MovimientoProducto();
+					
+					movimientoProducto.setTipoMovimiento("ANULACION FACTURA");
+					movimientoProducto.setUsuario(usuario);
 					
 					movimientoProducto.setProducto(producto);
 					movimientoProducto.setCantidad(linea.getCantidad());
 					movimientoProducto.calcularStock();
-					// producto.setStock(linea.getCantidad() + producto.getStock());
 					
 					serviceMovimiento.save(movimientoProducto);
 					serviceProducto.save(producto);
@@ -245,14 +247,15 @@ public class FacturaApiController {
 	
 	// CONTROLADOR VENTAS DIARIAS
 	@GetMapping(value = "/facturas/daily-sales")
-	public void dailySales(@RequestParam("usuario") Integer usuario, @RequestParam("fecha") String fecha, HttpServletResponse httpServletResponse) 
+	public void dailySales(@RequestParam("usuario") String usuario, @RequestParam("fecha") String fecha, HttpServletResponse httpServletResponse) 
 			throws FileNotFoundException, JRException, SQLException, ParseException {
 		
 		Date fechaBusqueda;
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd"); 
 		fechaBusqueda = format.parse(fecha);
+		Integer idusuario = Integer.parseInt(usuario);
 		
-		byte[] bytesDailySalesReport = serviceFactura.resportDailySales(usuario, fechaBusqueda);
+		byte[] bytesDailySalesReport = serviceFactura.resportDailySales(idusuario, fechaBusqueda);
 		ByteArrayOutputStream out = new ByteArrayOutputStream(bytesDailySalesReport.length);
 		out.write(bytesDailySalesReport, 0, bytesDailySalesReport.length);
 		

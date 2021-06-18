@@ -339,12 +339,12 @@ GROUP BY p.id_producto]]>
 				<textFieldExpression><![CDATA[$V{gTotal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="89" width="100" height="30" uuid="d086a0c0-9bd6-4f98-b23a-b9e54f5e1024"/>
+				<reportElement x="0" y="89" width="80" height="30" uuid="d086a0c0-9bd6-4f98-b23a-b9e54f5e1024"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="100" y="89" width="100" height="30" uuid="1123a432-485f-4bf9-a46f-e47a64d42774"/>
+				<reportElement x="80" y="89" width="100" height="30" uuid="1123a432-485f-4bf9-a46f-e47a64d42774"/>
 				<textElement textAlignment="Left"/>
 				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
