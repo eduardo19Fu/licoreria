@@ -49,7 +49,7 @@ import com.aglayatech.licorstore.service.IUsuarioService;
 
 import net.sf.jasperreports.engine.JRException;
 
-@CrossOrigin(origins = {"http://localhost:4200"})
+@CrossOrigin(origins = {"http://localhost:4200", "*"})
 @RestController
 @RequestMapping(value = {"/api"})
 public class FacturaApiController {

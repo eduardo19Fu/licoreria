@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aglayatech.licorstore.model.Usuario;
 import com.aglayatech.licorstore.service.IUsuarioService;
 
-@CrossOrigin(origins = { "http://localhost:4200" })
+@CrossOrigin(origins = { "http://localhost:4200", "*" })
 @RestController
 @RequestMapping(value = "/api")
 public class UsuarioApiController {
