@@ -39,7 +39,7 @@ import com.aglayatech.licorstore.service.IProductoService;
 
 import net.sf.jasperreports.engine.JRException;
 
-@CrossOrigin({ "http://localhost:4200", "*" })
+@CrossOrigin({ "http://localhost:4200", "https://dimsa.web.app" })
 @RestController
 @RequestMapping(value = "/api")
 public class MovimientoProductoApiController {

@@ -42,7 +42,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		
 		clients.inMemory().withClient("angularapp")
-		.secret(passwordEnconder.encode("12345"))
+		.secret(passwordEnconder.encode("pangosoftpuntodeventastore2021"))
 		.scopes("read","write")
 		.authorizedGrantTypes("password", "refresh_token")
 		.accessTokenValiditySeconds(7200) //  Tiempo de expiracion del token

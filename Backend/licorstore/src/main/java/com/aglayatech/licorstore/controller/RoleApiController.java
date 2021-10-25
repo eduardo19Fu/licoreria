@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aglayatech.licorstore.model.Role;
 import com.aglayatech.licorstore.service.IRoleService;
 
-@CrossOrigin(origins = { "http://localhost:4200", "*" })
+@CrossOrigin(origins = { "http://localhost:4200", "https://dimsa.web.app" })
 @RestController
 @RequestMapping(value = "/api")
 public class RoleApiController {

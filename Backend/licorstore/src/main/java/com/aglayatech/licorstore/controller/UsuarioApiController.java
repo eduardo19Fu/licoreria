@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aglayatech.licorstore.model.Usuario;
 import com.aglayatech.licorstore.service.IUsuarioService;
 
-@CrossOrigin(origins = { "http://localhost:4200", "*" })
+@CrossOrigin(origins = { "http://localhost:4200", "https://dimsa.web.app" })
 @RestController
 @RequestMapping(value = "/api")
 public class UsuarioApiController {
@@ -61,6 +61,8 @@ public class UsuarioApiController {
 		
 		Usuario usuario = null;
 		Map<String, Object> response = new HashMap<>();
+		int a = 0;
+		System.out.println(a);
 		
 		try {
 			usuario = serviceUsuario.findById(idusuario);

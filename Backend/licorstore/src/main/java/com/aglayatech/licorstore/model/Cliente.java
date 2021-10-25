@@ -28,6 +28,7 @@ public class Cliente implements Serializable {
 	private String nombre;
 	private String nit;
 	private String direccion;
+	private String telefono;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaRegistro;
@@ -83,6 +84,14 @@ public class Cliente implements Serializable {
 
 	public void setFechaRegistro(Date fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
+	}
+
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
 	}
 
 	@Override
