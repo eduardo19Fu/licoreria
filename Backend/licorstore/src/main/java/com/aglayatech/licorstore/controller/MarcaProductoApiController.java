@@ -111,7 +111,7 @@ public class MarcaProductoApiController {
 	}
 
 	// Controlador que permite actualizar el registro enviado por protocolo Http PUT
-	@Secured(value = {"ROLE_ADMIN"})
+	@Secured(value = {"ROLE_ADMIN", "ROLE_INVENTARIO"})
 	@PutMapping(value = "/marcas")
 	public ResponseEntity<?> update(@Valid @RequestBody MarcaProducto marca, BindingResult result) {
 
