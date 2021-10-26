@@ -47,7 +47,7 @@ public class MarcaProductoApiController {
 		return serviceMarca.findAll(PageRequest.of(page, 5));
 	}
 
-	@Secured(value = {"ROLE_COBRADOR","ROLE_ADMIN"})
+	@Secured(value = {"ROLE_COBRADOR","ROLE_ADMIN", "ROLE_INVENTARIO"})
 	@GetMapping(value = "/marcas/{id}")
 	public ResponseEntity<?> getById(@PathVariable("id") Integer id) {
 
