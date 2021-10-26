@@ -60,7 +60,7 @@ GROUP BY p.id_producto]]>
 			</staticText>
 			<image>
 				<reportElement x="0" y="10" width="230" height="101" uuid="130fce4c-81ba-408b-9514-5b122af1a1e8"/>
-				<imageExpression><![CDATA["static/images/reports-image/logo-quitapenas.png"]]></imageExpression>
+				<imageExpression><![CDATA["static/images/reports-image/dimsa-logo.jpeg"]]></imageExpression>
 			</image>
 		</band>
 	</title>

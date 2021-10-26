@@ -71,7 +71,7 @@ WHERE fecha_vencimiento >= curdate()]]>
 			</staticText>
 			<image>
 				<reportElement x="0" y="10" width="230" height="101" uuid="b8140acc-6d0e-4a60-a8d2-2903c46aed5d"/>
-				<imageExpression><![CDATA["static/images/reports-image/logo-quitapenas.png"]]></imageExpression>
+				<imageExpression><![CDATA["static/images/reports-image/dimsa-logo.jpeg"]]></imageExpression>
 			</image>
 		</band>
 	</title>

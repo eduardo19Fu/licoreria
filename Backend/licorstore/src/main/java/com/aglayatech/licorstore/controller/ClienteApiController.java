@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.aglayatech.licorstore.model.Cliente;
 import com.aglayatech.licorstore.service.IClienteService;
 
-@CrossOrigin(origins = {"http://localhost:4200","https://dimsa.web.app"})
+@CrossOrigin(origins = {"http://localhost:4200","https://dimsa-c60bf.web.app"})
 @RestController
 @RequestMapping(value = "/api")
 public class ClienteApiController {
