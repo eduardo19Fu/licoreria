@@ -93,7 +93,7 @@ public class ProductoApiController {
 		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
 	}
 
-	@Secured(value = { "ROLE_ADMIN" })
+	@Secured(value = { "ROLE_ADMIN", "ROLE_INVENTARIO"})
 	@PostMapping(value = "/productos")
 	public ResponseEntity<?> create(@RequestBody Producto producto, BindingResult result) {
 
@@ -130,7 +130,7 @@ public class ProductoApiController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 
-	@Secured(value = { "ROLE_ADMIN" })
+	@Secured(value = { "ROLE_ADMIN", "ROLE_INVENTARIO" })
 	@PutMapping(value = "/productos")
 	public ResponseEntity<?> update(@RequestBody Producto producto, BindingResult result) {
 
@@ -229,14 +229,18 @@ public class ProductoApiController {
 	}
 
 	@GetMapping(value = "/uploads/img/{nombreImagen:.+}")
-	public ResponseEntity<Resource> verImagen(@PathVariable String nombreImagen) {
+	public ResponseEntity<?> verImagen(@PathVariable String nombreImagen) {
 
 		Resource recurso = null;
+		Map<String, Object> response = new HashMap<>();
 
 		try {
 			recurso = serviceUpload.cargar(nombreImagen);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
+			response.put("message", "¡Error al subir imagen!");
+			response.put("error", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 		HttpHeaders cabecera = new HttpHeaders();
@@ -275,7 +279,7 @@ public class ProductoApiController {
 	}
 	
 	/*************** PDF REPORTS CONTROLLERS *****************/
-	
+
 	@GetMapping(value = "/productos/expired")	// REPORTE DE PRODUCTOS CADUCADOS
 	public String expired() throws FileNotFoundException, JRException, SQLException{
 		

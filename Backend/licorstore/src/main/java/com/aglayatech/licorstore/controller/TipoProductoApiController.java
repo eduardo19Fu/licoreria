@@ -42,7 +42,7 @@ public class TipoProductoApiController {
 		return serviceTipo.findAll(PageRequest.of(page, 5));
 	}
 	
-	@Secured(value = {"ROLE_COBRADOR","ROLE_ADMIN"})
+	@Secured(value = {"ROLE_COBRADOR","ROLE_ADMIN", "ROLE_INVENTARIO"})
 	@GetMapping(value = "/tipos-producto/{id}")
 	public ResponseEntity<?> findById(@PathVariable("id") int id){
 		
@@ -65,7 +65,7 @@ public class TipoProductoApiController {
 		return new ResponseEntity<TipoProducto>(tipo, HttpStatus.OK);
 	}
 	
-	@Secured(value = {"ROLE_ADMIN"})
+	@Secured(value = {"ROLE_ADMIN", "ROLE_INVENTARIO"})
 	@PostMapping(value = "/tipos-producto")
 	public ResponseEntity<?> create(@RequestBody TipoProducto tipoProducto){
 		
@@ -91,7 +91,7 @@ public class TipoProductoApiController {
 	}
 	
 	@SuppressWarnings("null")
-	@Secured(value = {"ROLE_ADMIN"})
+	@Secured(value = {"ROLE_ADMIN", "ROLE_INVENTARIO"})
 	@PutMapping(value = "/tipos-producto")
 	public ResponseEntity<?> update(@RequestBody TipoProducto tipoProducto){
 		
@@ -122,7 +122,7 @@ public class TipoProductoApiController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
-	@Secured(value = {"ROLE_ADMIN"})
+	@Secured(value = {"ROLE_ADMIN", "ROLE_INVENTARIO"})
 	@DeleteMapping(value = "/tipos-producto/{id}")
 	public ResponseEntity<?> delete(@PathVariable("id") Integer idtipo) {
 		

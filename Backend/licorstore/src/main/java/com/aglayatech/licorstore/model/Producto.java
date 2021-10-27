@@ -35,6 +35,7 @@ public class Producto implements Serializable {
 	private Double precioVenta;
 	private float porcentajeGanancia;
 	private String imagen;
+	private String descripcion;
 
 	@Temporal(TemporalType.DATE)
 	private Date fechaVencimiento;
@@ -195,6 +196,14 @@ public class Producto implements Serializable {
 
 	public void setMovimientos(List<MovimientoProducto> movimientos) {
 		this.movimientos = movimientos;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 	@Override
