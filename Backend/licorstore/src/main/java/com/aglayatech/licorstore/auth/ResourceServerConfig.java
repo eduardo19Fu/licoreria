@@ -48,7 +48,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration config = new CorsConfiguration();
-		config.setAllowedOrigins(Arrays.asList("http://localhost:4200", "https://dimsa-c60bf.web.app"));
+		config.setAllowedOrigins(Arrays.asList("http://localhost:4200", "https://dimsa-c60bf.web.app", "http://dimsa.pangosoft.xyz"));
 		config.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
 		config.setAllowCredentials(true);
 		config.setAllowedHeaders(Arrays.asList("Content-Type","Authorization"));
