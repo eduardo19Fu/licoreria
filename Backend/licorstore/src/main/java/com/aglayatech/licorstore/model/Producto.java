@@ -36,6 +36,7 @@ public class Producto implements Serializable {
 	private float porcentajeGanancia;
 	private String imagen;
 	private String descripcion;
+	private String link;
 
 	@Temporal(TemporalType.DATE)
 	private Date fechaVencimiento;
@@ -204,6 +205,14 @@ public class Producto implements Serializable {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
 	}
 
 	@Override

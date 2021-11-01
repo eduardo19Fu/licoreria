@@ -24,6 +24,7 @@ public class UploadFileServiceImpl implements IUploadFileService {
 	
 	private final static String DIRECTORIO_UPLOAD = "uploads";
 
+
 	@Override
 	public Resource cargar(String nombreImagen) throws MalformedURLException {
 		
