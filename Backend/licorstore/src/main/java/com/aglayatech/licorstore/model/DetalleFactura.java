@@ -22,6 +22,9 @@ public class DetalleFactura implements Serializable {
 	private Long idDetalle;
 	private Integer cantidad;
 	private Double subTotal;
+	private Float descuento;
+	private Float subTotalDescuento;
+
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_producto")
@@ -64,8 +67,30 @@ public class DetalleFactura implements Serializable {
 		this.producto = producto;
 	}
 
+	public Float getDescuento() {
+		return descuento;
+	}
+
+	public void setDescuento(Float descuento) {
+		this.descuento = descuento;
+	}
+
+	public Float getSubTotalDescuento() {
+		return subTotalDescuento;
+	}
+
+	public void setSubTotalDescuento(Float subTotalDescuento) {
+		this.subTotalDescuento = subTotalDescuento;
+	}
+
 	public Double calcularImporte() {
-		return this.cantidad.doubleValue() * this.producto.getPrecioVenta();
+		/*if(this.descuento == 0)
+			return this.cantidad.doubleValue() * this.producto.getPrecioVenta();
+		else
+			return (this.descuento/100) * (this.cantidad.doubleValue() * this.producto.getPrecioVenta());*/
+
+		return this.descuento <= 0 ? this.cantidad.doubleValue() * this.producto.getPrecioVenta() :
+				(this.cantidad.doubleValue() * this.producto.getPrecioVenta()) - ((this.descuento / 100) * (this.cantidad.doubleValue() * this.producto.getPrecioVenta()));
 	}
 
 	@Override
