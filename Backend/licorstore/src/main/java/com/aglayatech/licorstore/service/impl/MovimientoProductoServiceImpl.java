@@ -3,6 +3,7 @@ package com.aglayatech.licorstore.service.impl;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
@@ -72,12 +73,12 @@ public class MovimientoProductoServiceImpl implements IMovimientoProductoService
 		
 		Connection con = localDateSource.getConnection();
 		Map<String, Object> params = new HashMap<>();
-		File file = ResourceUtils.getFile("classpath:\\reports\\rpt_inventario.jrxml");
-		
+		InputStream file = getClass().getResourceAsStream("/reports/rpt_inventario.jrxml");
+
 		params.put("fechaIni", fechaIni);
 		params.put("fechaFin", fechaFin);
 		
-		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+		JasperReport jasperReport = JasperCompileManager.compileReport(file);
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, con);
 		
 		ByteArrayOutputStream byteArrayOutputStream = getByteArrayOutputStream(jasperPrint);

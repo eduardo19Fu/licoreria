@@ -3,6 +3,7 @@ package com.aglayatech.licorstore.service.impl;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
@@ -69,11 +70,11 @@ public class FacturaServiceImpl implements IFacturaService {
 		
 		Connection con = localDataSource.getConnection(); // Obtiene la conexión actual a la base de datos
 		Map<String, Object> params = new HashMap<>();
-		File file = ResourceUtils.getFile("classpath:\\reports\\rpt_ventas_diarias.jrxml");
+		InputStream file = getClass().getResourceAsStream("/reports/rpt_ventas_diarias.jrxml");
 		params.put("usuario", usuario);
 		params.put("fecha", fecha);
 		
-		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+		JasperReport jasperReport = JasperCompileManager.compileReport(file);
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, con);
 		
 		ByteArrayOutputStream byteArrayOutputStream = getByteArrayOutputStream(jasperPrint);
@@ -92,9 +93,9 @@ public class FacturaServiceImpl implements IFacturaService {
 		Connection con = localDataSource.getConnection();
 		Map<String, Object> params = new HashMap<>();
 		params.put("idfactura", idfactura);
-		File file = ResourceUtils.getFile("classpath:\\reports\\rpt_factura.jrxml");
+		InputStream file = getClass().getResourceAsStream("/reports/rpt_factura.jrxml");
 		
-		JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+		JasperReport jasperReport = JasperCompileManager.compileReport(file);
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, con);
 		
 		ByteArrayOutputStream byteArrayOutputStream = getByteArrayOutputStream(jasperPrint);
