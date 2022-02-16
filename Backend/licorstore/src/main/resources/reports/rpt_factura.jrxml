@@ -228,7 +228,7 @@ WHERE f.id_factura =  $P{idfactura}]]>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="79bab135-c814-4f86-aff0-d182132c1512"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textElement>
+				<textElement verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
@@ -237,7 +237,7 @@ WHERE f.id_factura =  $P{idfactura}]]>
 				<reportElement x="300" y="0" width="50" height="14" uuid="8277e17d-0d63-4e43-abf6-ef2db989ebd4">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9fb8d4fc-5c69-40e5-98e4-a38a9210fb11"/>
 				</reportElement>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
@@ -247,7 +247,7 @@ WHERE f.id_factura =  $P{idfactura}]]>
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bf63740f-5d57-4884-b174-4a1361e2bcd7"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Right">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{precio_venta}]]></textFieldExpression>
@@ -285,17 +285,18 @@ WHERE f.id_factura =  $P{idfactura}]]>
 				<text><![CDATA[Q.]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true" pattern="#,##0.00#">
-				<reportElement x="444" y="0" width="48" height="14" uuid="56e7dea9-68ef-4b85-9e63-dc42c2de2807">
+				<reportElement x="428" y="0" width="48" height="14" uuid="56e7dea9-68ef-4b85-9e63-dc42c2de2807">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="02539208-00d8-4d24-b78a-da3ede9344d7"/>
 				</reportElement>
-				<textElement textAlignment="Right">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{descuento}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="427" y="0" width="17" height="15" uuid="f2bf0b54-d51c-403c-bcbf-5b9a3b059b69"/>
-				<text><![CDATA[Q.]]></text>
+				<reportElement x="476" y="0" width="17" height="14" uuid="f2bf0b54-d51c-403c-bcbf-5b9a3b059b69"/>
+				<textElement verticalAlignment="Top"/>
+				<text><![CDATA[%]]></text>
 			</staticText>
 			<line>
 				<reportElement x="426" y="0" width="1" height="15" uuid="088f387d-535d-43bf-9cfd-f8cb3d6b8b08"/>
@@ -307,7 +308,7 @@ WHERE f.id_factura =  $P{idfactura}]]>
 				<reportElement x="510" y="0" width="60" height="14" uuid="cb45e680-a589-4834-ab83-d9a8d81ec44c">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="70f8fad8-37e5-455f-a0cb-15ac2ec3f69f"/>
 				</reportElement>
-				<textElement textAlignment="Right">
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{sub_total_descuento}]]></textFieldExpression>
