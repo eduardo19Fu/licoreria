@@ -12,7 +12,9 @@
 	<queryString language="SQL">
 		<![CDATA[SELECT 	p.nombre, p.precio_venta, fd.cantidad, fd.sub_total, 
 		f.no_factura, cl.nombre AS nombre_cliente, cl.direccion, cl.nit,ifnull(cl.telefono, '') AS telefono,
-		f.total, f.fecha, get_numero_letras(f.total) AS total_letras
+		f.total, f.fecha, get_numero_letras(f.total) AS total_letras,
+		fd.descuento,
+		fd.sub_total_descuento
 FROM facturas AS f
 INNER JOIN facturas_detalle AS fd ON f.id_factura = fd.id_factura
 INNER JOIN productos AS p ON p.id_producto = fd.id_producto
@@ -65,8 +67,16 @@ WHERE f.id_factura =  $P{idfactura}]]>
 	<field name="total_letras" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="total_letras"/>
 	</field>
+	<field name="descuento" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.label" value="descuento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="facturas_detalle"/>
+	</field>
+	<field name="sub_total_descuento" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="sub_total_descuento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="facturas_detalle"/>
+	</field>
 	<variable name="v_total" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$F{sub_total}]]></variableExpression>
+		<variableExpression><![CDATA[$F{sub_total_descuento}]]></variableExpression>
 	</variable>
 	<title>
 		<band height="200" splitType="Stretch">
@@ -183,7 +193,7 @@ WHERE f.id_factura =  $P{idfactura}]]>
 				<text><![CDATA[CANT.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="450" y="0" width="120" height="14" forecolor="#FFFFFF" backcolor="#4485A6" uuid="57046091-a8d1-4481-aaec-0bd79070495c">
+				<reportElement mode="Opaque" x="493" y="0" width="77" height="14" forecolor="#FFFFFF" backcolor="#4485A6" uuid="57046091-a8d1-4481-aaec-0bd79070495c">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="148a8819-3f7c-4c27-a537-9c70f225ad14"/>
 				</reportElement>
 				<textElement textAlignment="Center">
@@ -192,18 +202,27 @@ WHERE f.id_factura =  $P{idfactura}]]>
 				<text><![CDATA[IMPORTE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="350" y="0" width="101" height="14" forecolor="#FFFFFF" backcolor="#4485A6" uuid="e2b3039e-b0f3-474a-b36d-8b452b3576a4">
+				<reportElement mode="Opaque" x="351" y="0" width="75" height="14" forecolor="#FFFFFF" backcolor="#4485A6" uuid="e2b3039e-b0f3-474a-b36d-8b452b3576a4">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bf63740f-5d57-4884-b174-4a1361e2bcd7"/>
 				</reportElement>
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
-				<text><![CDATA[PRECIO UNITARIO]]></text>
+				<text><![CDATA[P. UNIDAD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="426" y="0" width="67" height="14" forecolor="#FFFFFF" backcolor="#4485A6" uuid="8cd8321f-4e66-4e89-bad5-9f38b359437b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="02539208-00d8-4d24-b78a-da3ede9344d7"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<text><![CDATA[DESCUENTO]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="15" splitType="Stretch">
+		<band height="16" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
 				<reportElement x="0" y="0" width="300" height="14" uuid="a18b60e6-9310-4285-9fba-4116169a1da1">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="79bab135-c814-4f86-aff0-d182132c1512"/>
@@ -223,17 +242,8 @@ WHERE f.id_factura =  $P{idfactura}]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cantidad}]]></textFieldExpression>
 			</textField>
-			<textField pattern="¤#,##0.00;¤-#,##0.00">
-				<reportElement x="450" y="0" width="120" height="14" uuid="cb6f9c46-379b-47d2-b160-84d22ba71d3d">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="148a8819-3f7c-4c27-a537-9c70f225ad14"/>
-				</reportElement>
-				<textElement textAlignment="Right">
-					<font size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{sub_total}]]></textFieldExpression>
-			</textField>
-			<textField pattern="¤#,##0.00;¤-#,##0.00">
-				<reportElement x="351" y="0" width="97" height="14" uuid="55fb1ba1-a856-4243-bf43-c66f0b121fdc">
+			<textField pattern="#,##0.00#">
+				<reportElement x="368" y="0" width="58" height="14" uuid="55fb1ba1-a856-4243-bf43-c66f0b121fdc">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bf63740f-5d57-4884-b174-4a1361e2bcd7"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
@@ -249,7 +259,7 @@ WHERE f.id_factura =  $P{idfactura}]]>
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement x="450" y="0" width="1" height="15" uuid="b3e06a43-05e6-44ed-9f11-864569bca2fa"/>
+				<reportElement x="492" y="0" width="1" height="15" uuid="b3e06a43-05e6-44ed-9f11-864569bca2fa"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineStyle="Dotted"/>
 				</graphicElement>
@@ -266,10 +276,46 @@ WHERE f.id_factura =  $P{idfactura}]]>
 					<pen lineWidth="0.5" lineStyle="Dotted"/>
 				</graphicElement>
 			</line>
+			<staticText>
+				<reportElement x="493" y="0" width="17" height="15" uuid="072bb8b6-a57a-4835-8575-ae29bccdc6f1"/>
+				<text><![CDATA[Q.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="351" y="0" width="17" height="15" uuid="829fdf3f-5e8c-41b0-9d93-98901b086865"/>
+				<text><![CDATA[Q.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00#">
+				<reportElement x="444" y="0" width="48" height="14" uuid="56e7dea9-68ef-4b85-9e63-dc42c2de2807">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="02539208-00d8-4d24-b78a-da3ede9344d7"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descuento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="427" y="0" width="17" height="15" uuid="f2bf0b54-d51c-403c-bcbf-5b9a3b059b69"/>
+				<text><![CDATA[Q.]]></text>
+			</staticText>
+			<line>
+				<reportElement x="426" y="0" width="1" height="15" uuid="088f387d-535d-43bf-9cfd-f8cb3d6b8b08"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineStyle="Dotted"/>
+				</graphicElement>
+			</line>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00#">
+				<reportElement x="510" y="0" width="60" height="14" uuid="cb45e680-a589-4834-ab83-d9a8d81ec44c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="70f8fad8-37e5-455f-a0cb-15ac2ec3f69f"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sub_total_descuento}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<lastPageFooter>
-		<band height="22">
+		<band height="27">
 			<rectangle radius="5">
 				<reportElement x="0" y="0" width="571" height="22" uuid="5feae1eb-eb91-4050-acc7-886eac6504b8"/>
 			</rectangle>
@@ -287,8 +333,8 @@ WHERE f.id_factura =  $P{idfactura}]]>
 				</textElement>
 				<text><![CDATA[TOTAL]]></text>
 			</staticText>
-			<textField isStretchWithOverflow="true" pattern="¤#,##0.00#;¤-#,##0.00#">
-				<reportElement mode="Transparent" x="448" y="0" width="119" height="22" backcolor="#A4E6ED" uuid="08be1a4a-4699-4314-b996-5133cf29afb7"/>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00#">
+				<reportElement mode="Transparent" x="467" y="0" width="100" height="22" backcolor="#A4E6ED" uuid="08be1a4a-4699-4314-b996-5133cf29afb7"/>
 				<textElement textAlignment="Right">
 					<font isBold="true"/>
 				</textElement>
@@ -297,6 +343,13 @@ WHERE f.id_factura =  $P{idfactura}]]>
 			<line>
 				<reportElement x="344" y="0" width="1" height="22" uuid="c9aa8303-b5c8-4781-ac63-a6fd2431fc79"/>
 			</line>
+			<staticText>
+				<reportElement mode="Transparent" x="451" y="0" width="16" height="22" backcolor="#6AD4DE" uuid="c078e781-dc21-4804-a4f3-1556919f6945"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Q.]]></text>
+			</staticText>
 		</band>
 	</lastPageFooter>
 </jasperReport>
